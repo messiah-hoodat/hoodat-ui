@@ -5,8 +5,8 @@ orbs:
 
 publish: &publish
   working_directory: ~/hoodat-ui
-  executor:
-    name: node/default
+  docker:
+    - image: circleci/node:12.16.3
   steps:
     - checkout
 
