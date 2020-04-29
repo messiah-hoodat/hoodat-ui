@@ -1,6 +1,25 @@
 version: 2.1
+
 orbs:
   node: circleci/node@1.1.6
+
+publish: &publish
+  working_directory: ~/hoodat-ui
+  steps:
+    - checkout
+
+    - run:
+        name: Installing dependencies
+        command: npm ci
+
+    - run:
+        name: Login into Expo
+        command: npx expo-cli login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+
+    - run:
+        name: Publish to Expo
+        command: npx expo-cli publish --non-interactive --max-workers 1 --release-channel $EXPO_RELEASE_CHANNEL
+
 jobs:
   build-and-test:
     executor:
@@ -11,7 +30,26 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+
+  publish_to_expo_dev:
+    environment:
+      EXPO_RELEASE_CHANNEL: dev
+    <<: *publish
+
+  publish_to_expo_prod:
+    environment:
+      EXPO_RELEASE_CHANNEL: default
+    <<: *publish
+
 workflows:
     build-and-test:
       jobs:
         - build-and-test
+        - publish_to_expo_dev:
+            filters:
+              branches:
+                only: development
+        - publish_to_expo_prod:
+            filters:
+              branches:
+                only: master
