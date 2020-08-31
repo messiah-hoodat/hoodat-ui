@@ -1,4 +1,5 @@
 # Hoodat #
+Mobile app used for remembering people's names
 
 ## Running Locally ##
 1. Install [NodeJS](https://nodejs.org/en/)
