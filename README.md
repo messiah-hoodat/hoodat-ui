@@ -1,6 +1,6 @@
-# HooDat #
+# Hoodat #
 
-## Installation ##
+## Running Locally ##
 1. Install [NodeJS](https://nodejs.org/en/)
 2. Install [Expo CLI](https://docs.expo.io/versions/latest/workflow/expo-cli/)
 ```
