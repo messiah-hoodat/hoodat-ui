@@ -44,7 +44,7 @@ export default function App() {
     <TouchableOpacity>
       <Image
         source={require('./assets/facebookIcon.png')}
-        style ={{width:40, height:40, marginTop:10,borderWidth:1.5, borderRadius: 5}}
+        style ={{width: 40, height: 40, marginTop: 10, borderWidth: 1.5, borderRadius: 5}}
         resizeMode="contain"
       />
     </TouchableOpacity>
