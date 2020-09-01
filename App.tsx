@@ -18,7 +18,7 @@ export default function App() {
     
     <TextInput 
       style={styles.inputUsernamePassword}
-      placeholder = "email/username"
+      placeholder="email/username"
     />
 
     <TextInput 
