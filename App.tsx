@@ -11,7 +11,7 @@ export default function App() {
   <View style={styles.container}>
 
     <Image
-      style ={styles.hoodatIcon}
+      style={styles.hoodatIcon}
       source={require('./assets/HoodatIcon.png')}
       resizeMode="contain"
     />
