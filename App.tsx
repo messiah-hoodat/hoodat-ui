@@ -24,7 +24,7 @@ export default function App() {
     <TextInput 
       secureTextEntry={true}
       style={styles.inputUsernamePassword}
-      placeholder = "password"
+      placeholder="password"
     />
     
     <TouchableOpacity>
