@@ -5,11 +5,41 @@ import {
   View,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
+import { API_ROOT } from '../lib/constants';
 
 class SignInScreen extends React.Component {
+
+  async handleLogin() {
+    const email = 'ew1309@messiah.edu';
+    const password = 'password';
+
+    const response = await fetch(`${API_ROOT}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+
+    const body = await response.json();
+
+    Alert.alert(
+      `Status code: ${body.statusCode}`,
+      body.message,
+      [
+        { text: "OK" }
+      ],
+      { cancelable: false }
+    );
+  }
+
   render(){
     return (
       <View style={styles.container}>
@@ -36,7 +66,7 @@ class SignInScreen extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.loginButton}>Sign In</Text>
+          <Text style={styles.loginButton} onPress={this.handleLogin}>Sign In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
