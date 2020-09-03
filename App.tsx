@@ -9,12 +9,7 @@ import { Text, } from 'react-native';
 
 const Stack = createStackNavigator();
 
-function LogoTitle() {
-  return (
-<<<<<<< HEAD
-    <Text>Hello</Text>
-  );
-}
+
 
 class App extends React.Component {
   render() {
