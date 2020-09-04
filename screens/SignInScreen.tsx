@@ -87,8 +87,8 @@ class SignInScreen extends React.Component<Props, State> {
           <Text style={styles.forgotPasswordButton}>Forgot Password?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.loginButton} onPress={() => this.handleLogin()}>Sign In</Text>
+        <TouchableOpacity onPress={() => this.handleLogin()}>
+          <Text style={styles.loginButton}>Sign In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
