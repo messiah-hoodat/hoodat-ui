@@ -50,6 +50,9 @@ class SignInScreen extends React.Component<Props, State> {
         'Hurray!',
         body.message
       );
+
+      // TODO: navigate to the home screen
+
     } else {
       Alert.alert(
         'Uh oh!',
