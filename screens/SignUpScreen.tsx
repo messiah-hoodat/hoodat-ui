@@ -26,6 +26,8 @@ class SignUpScreen extends React.Component<Props, State> {
     const email = this.state.email;
     const password = this.state.password;
 
+    // TODO: input validation
+
     const response = await fetch(`${API_ROOT}/auth/sign-up`, {
       method: 'POST',
       headers: {
