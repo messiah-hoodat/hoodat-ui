@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 import { API_ROOT } from '../lib/constants';
-import { resolvePlugin } from '@babel/core';
 
 interface Props {
   navigation: any
