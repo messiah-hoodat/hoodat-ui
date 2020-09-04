@@ -1,7 +1,59 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, Alert } from 'react-native';
 
-class SignUpScreen extends React.Component {
+import { API_ROOT } from '../lib/constants';
+
+interface Props {
+  navigation: any
+}
+
+interface State {
+  name: string,
+  email: string,
+  password: string
+}
+
+class SignUpScreen extends React.Component<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { name: '', email: '', password: '' }
+  }
+
+  async handleSignUp(): Promise<void> {
+    const name = this.state.name;
+    const email = this.state.email;
+    const password = this.state.password;
+
+    const response = await fetch(`${API_ROOT}/auth/sign-up`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password
+      })
+    });
+
+    const body = await response.json();
+
+    if (body.statusCode == 200 && !body.error) {
+      Alert.alert(
+        'Hurray!',
+        body.message
+      );
+    } else {
+      Alert.alert(
+        'Uh oh!',
+        `${body.error}: ${body.message}`,
+      )
+    }
+    return Promise.resolve();
+  }
+
   render(){
     return (
       <View style={styles.container}>
@@ -15,15 +67,18 @@ class SignUpScreen extends React.Component {
         <TextInput
           style={styles.inputUsernamePassword}
           placeholder='full name'
+          onChangeText={(name) => this.setState({ name })}
         />
         <TextInput
           style={styles.inputUsernamePassword}
           placeholder='email'
+          onChangeText={(email) => this.setState({ email })}
         />
         <TextInput
           secureTextEntry={true}
           style={styles.inputUsernamePassword}
           placeholder='password'
+          onChangeText={(password) => this.setState({ password })}
         />
         <TextInput
           secureTextEntry={true}
@@ -31,7 +86,7 @@ class SignUpScreen extends React.Component {
           placeholder='confirm password'
         />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.handleSignUp()}>
           <Text style={styles.signUpButton}>Sign Up</Text>
         </TouchableOpacity>
 
