@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { API_ROOT } from '../lib/constants';
+import { resolvePlugin } from '@babel/core';
 
 interface Props {
   navigation: any
@@ -25,18 +26,21 @@ class SignInScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { email: 'n', password: 'n' }
+    this.state = { email: '', password: '' }
   }
 
-  async handleLogin() {
+  async handleLogin(): Promise<void> {
+    const email = this.state.email;
+    const password = this.state.password;
+
     const response = await fetch(`${API_ROOT}/auth/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
+        email,
+        password
       })
     });
 
@@ -46,13 +50,14 @@ class SignInScreen extends React.Component<Props, State> {
       Alert.alert(
         'Hurray!',
         body.message
-      )
+      );
     } else {
       Alert.alert(
         'Uh oh!',
         `${body.error}: ${body.message}`,
       )
     }
+    return Promise.resolve();
   }
 
   render(){
@@ -64,9 +69,6 @@ class SignInScreen extends React.Component<Props, State> {
           source={require('../assets/HoodatIcon.png')}
           resizeMode='contain'
         />
-
-        <Text>{this.state.password}</Text>
-        <Text>{this.state.email}</Text>
 
         <TextInput
           style={styles.inputUsernamePassword}
@@ -86,7 +88,7 @@ class SignInScreen extends React.Component<Props, State> {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.loginButton} onPress={this.handleLogin}>Sign In</Text>
+          <Text style={styles.loginButton} onPress={() => this.handleLogin()}>Sign In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
