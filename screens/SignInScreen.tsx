@@ -11,33 +11,48 @@ import {
 
 import { API_ROOT } from '../lib/constants';
 
-class SignInScreen extends React.Component {
+interface Props {
+  navigation: any
+}
+
+interface State {
+  email: string,
+  password: string
+}
+
+class SignInScreen extends React.Component<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { email: 'n', password: 'n' }
+  }
 
   async handleLogin() {
-    const email = 'ew1309@messiah.edu';
-    const password = 'password';
-
     const response = await fetch(`${API_ROOT}/auth/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email,
-        password
+        email: this.state.email,
+        password: this.state.password
       })
     });
 
     const body = await response.json();
 
-    Alert.alert(
-      `Status code: ${body.statusCode}`,
-      body.message,
-      [
-        { text: "OK" }
-      ],
-      { cancelable: false }
-    );
+    if (body.statusCode == 200 && !body.error) {
+      Alert.alert(
+        'Hurray!',
+        body.message
+      )
+    } else {
+      Alert.alert(
+        'Uh oh!',
+        `${body.error}: ${body.message}`,
+      )
+    }
   }
 
   render(){
@@ -50,15 +65,20 @@ class SignInScreen extends React.Component {
           resizeMode='contain'
         />
 
+        <Text>{this.state.password}</Text>
+        <Text>{this.state.email}</Text>
+
         <TextInput
           style={styles.inputUsernamePassword}
           placeholder='email'
+          onChangeText={(email) => this.setState({ email })}
         />
 
         <TextInput
           secureTextEntry={true}
           style={styles.inputUsernamePassword}
           placeholder='password'
+          onChangeText={(password) => this.setState({ password })}
         />
 
         <TouchableOpacity>
