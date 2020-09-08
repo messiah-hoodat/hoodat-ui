@@ -5,11 +5,63 @@ import {
   View,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
+import { API_ROOT } from '../lib/constants';
 
-class SignInScreen extends React.Component {
+interface Props {
+  navigation: any
+}
+
+interface State {
+  email: string,
+  password: string
+}
+
+class SignInScreen extends React.Component<Props, State> {
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { email: '', password: '' }
+  }
+
+  async handleLogin(): Promise<void> {
+    const email = this.state.email;
+    const password = this.state.password;
+
+    const response = await fetch(`${API_ROOT}/auth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+
+    const body = await response.json();
+
+    if (body.statusCode == 200 && !body.error) {
+      Alert.alert(
+        'Hurray!',
+        body.message
+      );
+
+      // TODO: navigate to the home screen
+
+    } else {
+      Alert.alert(
+        'Uh oh!',
+        `${body.error}: ${body.message}`,
+      )
+    }
+    return Promise.resolve();
+  }
+
   render(){
     return (
       <View style={styles.container}>
@@ -23,19 +75,21 @@ class SignInScreen extends React.Component {
         <TextInput
           style={styles.inputUsernamePassword}
           placeholder='email'
+          onChangeText={(email) => this.setState({ email })}
         />
 
         <TextInput
           secureTextEntry={true}
           style={styles.inputUsernamePassword}
           placeholder='password'
+          onChangeText={(password) => this.setState({ password })}
         />
 
         <TouchableOpacity>
           <Text style={styles.forgotPasswordButton}>Forgot Password?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.handleLogin()}>
           <Text style={styles.loginButton}>Sign In</Text>
         </TouchableOpacity>
 
