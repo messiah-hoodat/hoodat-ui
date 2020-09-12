@@ -54,7 +54,6 @@ class SignInScreen extends React.Component<Props, State> {
       ;
       this.props.navigation.navigate('My Lists')
 
-      // TODO: navigate to the home screen
 
     } else {
       Alert.alert(
