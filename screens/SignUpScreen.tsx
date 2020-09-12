@@ -10,7 +10,8 @@ interface Props {
 interface State {
   name: string,
   email: string,
-  password: string
+  password: string,
+  nameValidate: boolean
 }
 
 class SignUpScreen extends React.Component<Props, State> {
@@ -18,7 +19,7 @@ class SignUpScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { name: '', email: '', password: '' }
+    this.state = { name: '', email: '', password: '', nameValidate:true }
   }
 
   async handleSignUp(): Promise<void> {
@@ -56,55 +57,85 @@ class SignUpScreen extends React.Component<Props, State> {
     return Promise.resolve();
   }
 
+  validate(text:any, type:any)
+  {
+    if (type=="password")
+    {
+      if(text.length<7)
+      {
+        this.setState({nameValidate:false})
+      }
+      else
+      {
+        this.setState({nameValidate:true})
+      }
+    }
+    
+    // else if (type == "confirmPassword")
+    // {
+    //   if(text==this.state.password)
+    //   {
+    //     this.setState({nameValidate:true})
+    //   }
+    //   else
+    //   {
+    //     this.setState({nameValidate:false})
+    //   }
+    // }
+    
+  }
+
   render(){
     return (
       <View style={styles.container}>
 
-        <Image
-          style ={styles.hoodatIcon}
-          source={require('../assets/HoodatIcon.png')}
-          resizeMode='contain'
-        />
+        <Text style ={styles.SignUpText}>Sign Up</Text>
 
+        <Text style ={[styles.InputLabels, {marginRight:213}]}>Name</Text>
         <TextInput
-          style={styles.inputUsernamePassword}
-          placeholder='full name'
+          style={styles.signUpInputs}
+          placeholder='John Doe'
           onChangeText={(name) => this.setState({ name })}
         />
+
+        <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>     
         <TextInput
-          style={styles.inputUsernamePassword}
-          placeholder='email'
+          style={styles.signUpInputs}
+          placeholder='john.doe@gmail.com'
           onChangeText={(email) => this.setState({ email })}
         />
+
+        <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
-          style={styles.inputUsernamePassword}
-          placeholder='password'
-          onChangeText={(password) => this.setState({ password })}
+          style={[styles.signUpInputs, !this.state.nameValidate? styles.inputError:null]}
+          placeholder='• • • • • • • •'
+          onChangeText={(password) => {this.setState({ password }); this.validate(this.state.password,"password")}}
         />
+        <Text style ={[styles.PasswordErrorMsg, this.state.nameValidate? styles.PasswordErrorMsgDisappear:null]}>* Must have at least 8 characters.</Text> 
+
+        
+        <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
-          style={styles.inputUsernamePassword}
-          placeholder='confirm password'
+          style={styles.signUpInputs}
+          placeholder='• • • • • • • •'
         />
+        
 
         <TouchableOpacity onPress={() => this.handleSignUp()}>
           <Text style={styles.signUpButton}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => this.props.navigation.goBack(null)}>
-          <Text style={styles.signInButton}>Back to Sign In</Text>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <Text style={styles.AlrHaveAnAcctText}>Already have an account?</Text>
+          <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Sign In')}>
+          <Text style={styles.signInBtn}>Sign In</Text>
         </TouchableOpacity>
+        </View>
 
-        <Text style={styles.otherLoginOption}> or sign up with: </Text>
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/facebookIcon.png')}
-            style={{width: 40, height: 40, marginTop: 10,borderWidth: 1.5, borderRadius: 5}}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+        {/*<Text>Password: {this.state.password}</Text>*/}
 
       </View>
     );
@@ -116,68 +147,115 @@ const styles = StyleSheet.create({
   container:
   {
     flex: 1,
-    backgroundColor: 'mistyrose',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center'
   },
 
-  hoodatIcon:
+  SignUpText:
   {
-    marginTop: 75,
-    width: 150,
-    height: 150,
-    marginBottom: 10
+    marginTop: 130,
+    fontSize:35,
+    fontWeight:'800',
+    marginRight:145,
+    marginBottom: 20,
   },
-
-  inputUsernamePassword:
+  InputLabels:
   {
-    borderWidth: 1,
-    borderColor: 'black',
+    marginTop:35,
+    fontSize:16,
+    fontWeight:'600',
+    color: '#5F5F5F',
+  },
+  signUpInputs:
+  {
+    borderBottomWidth: 1,
+    borderColor: '#C4C4C4',
     backgroundColor: 'white',
-    padding: 10,
-    margin: 10,
-    width: 220,
-    borderRadius: 5,
+    paddingVertical: 8,
+    margin: 7,
+    width: 255,
     overflow: 'hidden'
   },
 
+
   signUpButton:
   {
-    marginTop: 15,
-    borderColor: 'black',
-    borderWidth: 0.5,
-    padding: 12,
-    width: 125,
-    backgroundColor: 'grey',
+    marginTop:30,
+    paddingVertical:20,
+    width: 260,
+    backgroundColor: '#6EA8FF',
     color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    borderRadius: 5,
+    fontWeight: '800',
+    fontSize: 25,
+    borderRadius: 20,
     overflow: 'hidden',
-    marginBottom: 20
+    marginBottom: 15,
   },
 
-  signInButton:
+  AlrHaveAnAcctText:
   {
-    borderWidth: 0.1,
-    padding: 8,
-    width: 120,
-    backgroundColor: 'gainsboro',
-    color: 'black',
+    marginTop:20,
+    fontSize:14,
+    marginRight:10,
+    color: '#3D3D3D',
+  },
+
+
+  signInBtn:
+  {
+    marginTop:20,
+    color: '#6EA8FF',
     textAlign:'center',
     fontWeight:'bold',
-    fontSize: 15,
-    borderRadius: 5,
+    fontSize: 14,
     overflow: 'hidden',
-    marginBottom: 100
   },
 
-
-  otherLoginOption:
+  PasswordErrorMsg:
   {
-    alignItems: 'center',
-    fontSize: 11
+    marginTop:0,
+    fontSize:12,
+    marginRight: 78,
+    color: '#FF4F4F',
   },
+  PasswordErrorMsgDisappear:
+  {
+    marginTop:0,
+    fontSize:12,
+    marginRight: 78,
+    color: '#FF4F4F',
+    opacity:0,
+  },
+
+  inputError:
+  {
+    borderBottomWidth: 1,
+    borderColor: '#FF4F4F',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 8,
+    margin: 7,
+    width: 255,
+    overflow: 'hidden',
+  },
+
+  inputErrorLabel:
+  {
+    marginTop:35,
+    fontSize:16,
+    fontWeight:'600',
+    color: '#FF4F4F',
+  },
+
+  disableSignUpBtn:
+  {
+    marginTop:20,
+    color: '#6EA8FF',
+    textAlign:'center',
+    fontWeight:'bold',
+    fontSize: 14,
+    overflow: 'hidden',
+  }
 });
 
 export default SignUpScreen;
