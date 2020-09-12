@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "HooDat",
+    "name": "Hoodat",
+    "description": "A mobile app for remembering people's names.",
     "slug": "hoodat-ui",
     "platforms": [
       "ios",
