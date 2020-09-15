@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
 
 import { API_ROOT } from '../lib/constants';
 
