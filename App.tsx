@@ -13,9 +13,9 @@ class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator headerMode='none'>
+        <Stack.Navigator headerMode='none' screenOptions={{gestureEnabled: false}} >
           <Stack.Screen name="Sign In" component={SignInScreen}/>
-          <Stack.Screen name="My Lists" component={myListsScreen}/>
+          <Stack.Screen name="My Lists" component={myListsScreen} />
           <Stack.Screen name="Hoodat Buds" component={HoodatBudsList}/>
           <Stack.Screen name="Sign Up" component={SignUpScreen}/>
         </Stack.Navigator>
