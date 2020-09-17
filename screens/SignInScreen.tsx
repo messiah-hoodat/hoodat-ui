@@ -6,7 +6,8 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Alert
+  Alert,
+  CheckBox,
 } from 'react-native';
 
 import { API_ROOT } from '../lib/constants';
@@ -49,9 +50,10 @@ class SignInScreen extends React.Component<Props, State> {
       Alert.alert(
         'Hurray!',
         body.message
-      );
+      )
+      ;
+      this.props.navigation.navigate('My Lists')
 
-      // TODO: navigate to the home screen
 
     } else {
       Alert.alert(
@@ -65,47 +67,50 @@ class SignInScreen extends React.Component<Props, State> {
   render(){
     return (
       <View style={styles.container}>
-
         <Image
-          style ={styles.hoodatIcon}
-          source={require('../assets/HoodatIcon.png')}
-          resizeMode='contain'
+        style ={styles.HoodatLogo}
+        source={require('../assets/HoodatTextLogo.png')}
+        resizeMode="contain"
         />
-
+        <Text style={styles.LoginText}>Log In</Text>
+        <Text style={styles.EmailText}>Email</Text>
         <TextInput
           style={styles.inputUsernamePassword}
-          placeholder='email'
+          placeholder='example@gmail.com'
           onChangeText={(email) => this.setState({ email })}
         />
-
+        <Text style={styles.PasswordText}>Password</Text>
         <TextInput
           secureTextEntry={true}
           style={styles.inputUsernamePassword}
-          placeholder='password'
+          placeholder='• • • • • • • •'
           onChangeText={(password) => this.setState({ password })}
         />
 
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordButton}>Forgot Password?</Text>
-        </TouchableOpacity>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
+          <TouchableOpacity>
+            <Text style={styles.forgotPasswordButton}>Reset It</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{flex: 2, flexDirection: 'row'}}>
+          <CheckBox style={styles.rememberMeCheckbox}/>
+          <Text style={styles.rememberMeText}>Remember Me</Text>
+        </View>
 
         <TouchableOpacity onPress={() => this.handleLogin()}>
-          <Text style={styles.loginButton}>Sign In</Text>
+          <Text style={styles.loginButton}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
+          <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Sign Up')}>
           <Text style={styles.signupButton}>Sign Up</Text>
         </TouchableOpacity>
-
-        <Text style={styles.otherLoginOption}> or login with: </Text>
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/facebookIcon.png')}
-            style={{width: 40, height: 40, marginTop: 10,borderWidth: 1.5, borderRadius: 5}}
-            resizeMode='contain'
-          />
-        </TouchableOpacity>
+        </View>
+        
 
       </View>
     );
@@ -117,75 +122,126 @@ const styles = StyleSheet.create({
   container:
   {
     flex: 1,
-    backgroundColor: 'mistyrose',
-    alignItems: 'center'
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 
-  hoodatIcon:
+  HoodatLogo:
   {
-    marginTop: 120,
-    width: 250,
-    height: 250,
-    marginBottom: 10
+    marginTop:130,
+    width: 193,
+    height: 55,
   },
+
+  LoginText:
+  {
+    marginTop: 92,
+    fontSize:35,
+    fontWeight:'800',
+    marginRight:165,
+  },
+
+  EmailText:
+  {
+    marginTop:35,
+    fontSize:16,
+    fontWeight:'600',
+    marginRight:217,
+    color: '#5F5F5F',
+  },
+  PasswordText:
+  {
+    marginTop:20,
+    fontSize:16,
+    fontWeight:'600',
+    marginRight:195,
+    color: '#5F5F5F',
+  },
+
 
   inputUsernamePassword:
   {
-    borderWidth: 1,
-    borderColor: 'black',
+    borderBottomWidth: 1,
+    borderColor: '#C4C4C4',
     backgroundColor: 'white',
-    padding: 8,
+    paddingVertical: 8,
     margin: 7,
-    width: 220,
-    borderRadius: 5,
+    width: 255,
     overflow: 'hidden'
   },
 
+  forgotPasswordText:
+  {
+    marginTop:15,
+    fontSize:12,
+    marginRight:135,
+    color: '#3D3D3D',
+  },
   forgotPasswordButton:
   {
+    marginTop: 15,
     textAlign: 'center',
+    marginLeft:-220,
     fontSize: 12,
-    marginTop: 2,
-    marginLeft: 120,
-    marginBottom: 20
+    fontWeight:'bold',
+    color:'#6EA8FF',
+  },
+
+  rememberMeCheckbox:
+  {
+    marginTop:10,
+    borderWidth:2,
+    height: 20,             
+    width: 20,   
+    borderRadius:5,
+    borderColor:'#6EA8FF', 
+    backgroundColor: '#FFFFFF', 
+    marginRight: 10,
+  },
+  rememberMeText:
+  {
+    marginTop:12.5,
+    fontSize:15,
+    color:'#3D3D3D',
+    fontWeight:'600',
+    marginRight: 120,
   },
 
   loginButton:
   {
-    borderColor: 'black',
-    borderWidth: 2,
-    padding: 12,
-    width: 125,
-    backgroundColor: 'grey',
+    marginTop:-143,
+    paddingHorizontal: 12,
+    paddingVertical:20,
+    width: 260,
+    backgroundColor: '#6EA8FF',
     color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    borderRadius: 5,
+    fontWeight: '800',
+    fontSize: 25,
+    borderRadius: 20,
     overflow: 'hidden',
-    marginBottom: 15
+    marginBottom: 15,
   },
+
+  dontHaveAccountText:
+  {
+    marginTop:-45,
+    fontSize:14,
+    marginRight:10,
+    color: '#3D3D3D',
+  },
+
 
   signupButton:
   {
-    borderWidth: 0.5,
-    padding: 8,
-    width: 85,
-    backgroundColor: 'gainsboro',
-    color: 'black',
+    marginTop:-45,
+    color: '#6EA8FF',
     textAlign:'center',
     fontWeight:'bold',
-    fontSize: 15,
-    borderRadius: 5,
+    fontSize: 14,
     overflow: 'hidden',
-    marginBottom: 100
   },
 
-  otherLoginOption:
-  {
-    alignItems: 'center',
-    fontSize: 11
-  },
 });
 
 export default SignInScreen;
