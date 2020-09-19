@@ -64,7 +64,7 @@ class SignUpScreen extends React.Component<Props, State> {
   validateName = (name: string) => {
     var i = /^[a-zA-Z ,.'-]+$/;
     if (!name.match(i)){
-      this.setState({nameError:"Please only use these characters (letters, spaces, and -'.,)"})
+      this.setState({nameError:"Please only use letters, spaces, and -'.,"})
       return false;
     }else{
       this.setState({nameError:""})
@@ -116,7 +116,9 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style={{color:'red', marginLeft: 55}}>{this.state.nameError}</Text>
+        <Text style={{color:'red'}}>{this.state.nameError}</Text>
+
+        <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>  
         <TextInput
           style={styles.inputUsernamePassword}
           placeholder='john.doe@gmail.com'
@@ -132,22 +134,27 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.email}
         />
-        <Text style={{color:'red', marginRight: 140}}>{this.state.emailError}</Text>
+        <Text style={{color:'red', marginRight: 170}}>{this.state.emailError}</Text>
+
+        <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
-          style={styles.inputUsernamePassword}
-          placeholder='password'
+          style={[styles.signUpInputs]}
+          placeholder='• • • • • • • •'
           onChangeText={(password) => {
             this.setState({ password });
             this.validatePassword(this.state.password)
           }}
     
         />
-        <Text style={{color:'red', marginRight:30}}>{this.state.passwordError}</Text>
+        <Text style={{color:'red', marginRight:60}}>{this.state.passwordError}</Text>
+
+        
+        <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
-          style={styles.inputUsernamePassword}
-          placeholder='confirm password'
+          style={styles.signUpInputs}
+          placeholder='• • • • • • • •'
           onChangeText={(confirmPassword) => {
             this.setState({ confirmPassword }, () => {
               if (!this.validateConfirmPassword(this.state.confirmPassword, this.state.password)) {
@@ -159,7 +166,8 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.confirmPassword}
         />
-        <Text style={{color:'red', marginRight: 50}}>{this.state.confirmPasswordError}</Text>
+        <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
+        
 
         <TouchableOpacity onPress={() => this.handleSignUp()}>
           <Text style={styles.signUpButton}>Sign Up</Text>
