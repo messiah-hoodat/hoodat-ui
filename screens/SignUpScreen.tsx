@@ -9,17 +9,23 @@ interface Props {
 
 interface State {
   name: string,
+  nameError: string,
   email: string,
-  password: string,
+  emailError: string,
+  password: string
+  passwordError: string,
+  confirmPassword: string,
+  confirmPasswordError: string,
+  textValidate: boolean,
   nameValidate: boolean
+
 }
 
 class SignUpScreen extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = { name: '', email: '', password: '', nameValidate:true }
+    this.state = { name: '', nameError:'', email: '', emailError:'', password: '', passwordError:'', confirmPassword: '', confirmPasswordError:'', textValidate: true, nameValidate:true}
   }
 
   async handleSignUp(): Promise<void> {
@@ -27,7 +33,6 @@ class SignUpScreen extends React.Component<Props, State> {
     const email = this.state.email;
     const password = this.state.password;
 
-    // TODO: input validation
 
     const response = await fetch(`${API_ROOT}/auth/sign-up`, {
       method: 'POST',
@@ -57,33 +62,42 @@ class SignUpScreen extends React.Component<Props, State> {
     return Promise.resolve();
   }
 
-  validate(text:any, type:any)
-  {
-    if (type=="password")
-    {
-      if(text.length<7)
-      {
-        this.setState({nameValidate:false})
+
+  validateName = (name: string) => {
+    var i = /^[a-zA-Z ,.'-]+$/;
+    if (!name.match(i)){
+      this.setState({nameError:"Please only use letters, spaces, and -'.,"})
+      return false;
+    }else{
+      this.setState({nameError:""})
+      return true;
+    }
+  };
+
+  validatePassword(password: string) {
+      if (password.length > 6) {
+        this.setState({ textValidate: true, passwordError:"" })
       }
-      else
-      {
-        this.setState({nameValidate:true})
+      else {
+        this.setState({ textValidate: false, passwordError:"Must be at least 8 characters" })
+        
       }
     }
-    
-    // else if (type == "confirmPassword")
-    // {
-    //   if(text==this.state.password)
-    //   {
-    //     this.setState({nameValidate:true})
-    //   }
-    //   else
-    //   {
-    //     this.setState({nameValidate:false})
-    //   }
-    // }
-    
-  }
+  
+  validateConfirmPassword(confirmPassword: string, password: string) {
+      if (!confirmPassword.match(password)) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+
+  validateEmail = (email: string) => {
+    var re = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
 
   render(){
     return (
@@ -91,36 +105,75 @@ class SignUpScreen extends React.Component<Props, State> {
 
         <Text style ={styles.SignUpText}>Sign Up</Text>
 
-        <Text style ={[styles.InputLabels, {marginRight:213}]}>Name</Text>
+
+        <Text style ={[styles.InputLabels, {marginRight:213, marginTop: 0}]}>Name</Text>
         <TextInput
           style={styles.signUpInputs}
           placeholder='John Doe'
-          onChangeText={(name) => this.setState({ name })}
+          onChangeText={(name) => {
+            this.setState({ name });
+            this.validateName(this.state.name)
+              }
+            }
         />
+        <Text style={{color:'red'}}>{this.state.nameError}</Text>
+
+
 
         <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>     
         <TextInput
           style={styles.signUpInputs}
           placeholder='john.doe@gmail.com'
-          onChangeText={(email) => this.setState({ email })}
+          keyboardType={'email-address'}
+          onChangeText={(email) => {
+            this.setState({ email }, () => {
+              if (!this.validateEmail(this.state.email)) {
+                this.setState({emailError:"Invalid email"})
+              }else{
+                this.setState({emailError:""})
+              }
+            })
+          }}
+          value={this.state.email}
         />
+        <Text style={{color:'red', marginRight: 170}}>{this.state.emailError}</Text>
+
 
         <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
           style={[styles.signUpInputs, !this.state.nameValidate? styles.inputError:null]}
           placeholder='• • • • • • • •'
-          onChangeText={(password) => {this.setState({ password }); this.validate(this.state.password,"password")}}
+          onChangeText={(password) => {
+            this.setState({ password }); 
+            this.validatePassword(this.state.password)
+              }
+            }
         />
         <Text style ={[styles.PasswordErrorMsg, this.state.nameValidate? styles.PasswordErrorMsgDisappear:null]}>* Must have at least 8 characters.</Text> 
 
-        
+      
         <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
           style={styles.signUpInputs}
           placeholder='• • • • • • • •'
+
+          onChangeText={(confirmPassword) => {
+            this.setState({ confirmPassword }, () => {
+              if (!this.validateConfirmPassword(this.state.confirmPassword, this.state.password)) {
+                this.setState({confirmPasswordError:"Password does not match"})
+              }else{
+                this.setState({confirmPasswordError:""})
+              }
+            })
+          }}
+          value={this.state.confirmPassword}
         />
+        <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
+
+        
+
         
 
         <TouchableOpacity onPress={() => this.handleSignUp()}>
@@ -135,7 +188,6 @@ class SignUpScreen extends React.Component<Props, State> {
         </TouchableOpacity>
         </View>
 
-        {/*<Text>Password: {this.state.password}</Text>*/}
 
       </View>
     );
@@ -228,6 +280,9 @@ const styles = StyleSheet.create({
     opacity:0,
   },
 
+
+
+
   inputError:
   {
     borderBottomWidth: 1,
@@ -246,6 +301,7 @@ const styles = StyleSheet.create({
     fontWeight:'600',
     color: '#FF4F4F',
   },
+
 
   disableSignUpBtn:
   {
