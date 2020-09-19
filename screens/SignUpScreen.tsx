@@ -142,14 +142,17 @@ class SignUpScreen extends React.Component<Props, State> {
         <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
-          style={[styles.signUpInputs, !this.state.nameValidate? styles.inputError:null]}
+          style={[styles.signUpInputs]}
           placeholder='• • • • • • • •'
-          onChangeText={(password) => {this.setState({ password }); this.validate(this.state.password,"password")}}
+          onChangeText={(password) => {
+            this.setState({ password }); 
+            this.validatePassword(this.state.password)
+              }
+            }
         />
-        <Text style ={[styles.PasswordErrorMsg, this.state.nameValidate? styles.PasswordErrorMsgDisappear:null]}>* Must have at least 8 characters.</Text> 
+        <Text style ={{color:'red', marginRight:60}}>{this.state.passwordError}</Text> 
 
-        
-
+      
         <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
@@ -169,7 +172,7 @@ class SignUpScreen extends React.Component<Props, State> {
         />
         <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
 
-        />
+        
 
         
 
@@ -185,7 +188,6 @@ class SignUpScreen extends React.Component<Props, State> {
         </TouchableOpacity>
         </View>
 
-        {/*<Text>Password: {this.state.password}</Text>*/}
 
       </View>
     );
