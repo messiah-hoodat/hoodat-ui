@@ -142,7 +142,7 @@ class SignUpScreen extends React.Component<Props, State> {
         <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
-          style={[styles.signUpInputs, !this.state.nameValidate? styles.inputError:null]}
+          style={[styles.signUpInputs]}
           placeholder='• • • • • • • •'
           onChangeText={(password) => {
             this.setState({ password }); 
@@ -150,7 +150,7 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style ={[styles.PasswordErrorMsg, this.state.nameValidate? styles.PasswordErrorMsgDisappear:null]}>* Must have at least 8 characters.</Text> 
+        <Text style ={{color:'red', marginRight:60}}>{this.state.passwordError}</Text> 
 
       
         <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
