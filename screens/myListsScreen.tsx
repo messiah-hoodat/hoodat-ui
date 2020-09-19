@@ -1,13 +1,21 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { StyleSheet, Text, View, Image,
-        TextInput,TouchableOpacity } from 'react-native';
+        TextInput,TouchableOpacity, Modal, Button, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 
 class myListsScreen extends React.Component {
   render(){
+
+    let modalOpen= true;
+    let { image } = '';
+
     return (
 
     <View style={styles.container}>
@@ -63,6 +71,26 @@ class myListsScreen extends React.Component {
                 source={require('../assets/Trevor.png')}
                 resizeMode="contain"
               />
+
+              <Modal
+                 visible={modalOpen}
+                 animationType='slide'
+                 transparent= {true}
+              >
+              <View style={styles.modalContent}>
+                        
+              <Button title="Pick an image from camera roll" onPress={this._pickImage} />
+                {image && <Image source={{ uri: image }} style ={styles.addIcon}resizeMode='contain' />}
+                <TextInput
+                  style={styles.inputUsernamePassword}
+                  placeholder='New Name'
+                />
+                <Button title="Add Name" onPress={this.modalUp}/>
+                </View>
+              </Modal>
+
+              <Button title="Add Name" onPress={this.modalUp}/>
+                      
             </ScrollView>
         </LinearGradient>
         </TouchableOpacity>
@@ -71,7 +99,52 @@ class myListsScreen extends React.Component {
     
     );
   } 
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+  
+  modalUp(modalOpen: boolean){
+    if (modalOpen= false)
+    {
+      modalOpen= true;
+    }else{
+      modalOpen= false;
+    }
+    return modalOpen;
+  }
+
+  getPermissionAsync = async () => {
+    if (Platform.OS !== 'web') {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  };
+  
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ image: result.uri });
+      }
+  
+      console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
 }
+
+
+
+
 
 const styles = StyleSheet.create({
 
@@ -81,6 +154,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     
+  },
+
+  addIcon:
+  {
+    marginTop: 10,
+    width: 150,
+    height: 150,
+    marginBottom: 10,
+    borderRadius: 50
   },
 
   myListsText:
