@@ -17,15 +17,15 @@ interface State {
   confirmPassword: string,
   confirmPasswordError: string,
   textValidate: boolean,
+  nameValidate: boolean
+
 }
 
 class SignUpScreen extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = { name: '', nameError:'', email: '', emailError:'', password: '', passwordError:'', confirmPassword: '', confirmPasswordError:'', textValidate: true}
-    
+    this.state = { name: '', nameError:'', email: '', emailError:'', password: '', passwordError:'', confirmPassword: '', confirmPasswordError:'', textValidate: true, nameValidate:true}
   }
 
   async handleSignUp(): Promise<void> {
@@ -62,6 +62,7 @@ class SignUpScreen extends React.Component<Props, State> {
     return Promise.resolve();
   }
 
+
   validateName = (name: string) => {
     var i = /^[a-zA-Z ,.'-]+$/;
     if (!name.match(i)){
@@ -97,11 +98,13 @@ class SignUpScreen extends React.Component<Props, State> {
     return re.test(email);
   };
 
+
   render(){
     return (
       <View style={styles.container}>
 
         <Text style ={styles.SignUpText}>Sign Up</Text>
+
 
         <Text style ={[styles.InputLabels, {marginRight:213, marginTop: 0}]}>Name</Text>
         <TextInput
@@ -114,6 +117,8 @@ class SignUpScreen extends React.Component<Props, State> {
             }
         />
         <Text style={{color:'red'}}>{this.state.nameError}</Text>
+
+
 
         <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>     
         <TextInput
@@ -133,24 +138,24 @@ class SignUpScreen extends React.Component<Props, State> {
         />
         <Text style={{color:'red', marginRight: 170}}>{this.state.emailError}</Text>
 
+
         <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
-          style={[styles.signUpInputs]}
+          style={[styles.signUpInputs, !this.state.nameValidate? styles.inputError:null]}
           placeholder='• • • • • • • •'
-          onChangeText={(password) => {
-            this.setState({ password });
-            this.validatePassword(this.state.password)
-          }}
-    
+          onChangeText={(password) => {this.setState({ password }); this.validate(this.state.password,"password")}}
         />
-        <Text style={{color:'red', marginRight:60}}>{this.state.passwordError}</Text>
+        <Text style ={[styles.PasswordErrorMsg, this.state.nameValidate? styles.PasswordErrorMsgDisappear:null]}>* Must have at least 8 characters.</Text> 
+
+        
 
         <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
           style={styles.signUpInputs}
           placeholder='• • • • • • • •'
+
           onChangeText={(confirmPassword) => {
             this.setState({ confirmPassword }, () => {
               if (!this.validateConfirmPassword(this.state.confirmPassword, this.state.password)) {
@@ -163,6 +168,9 @@ class SignUpScreen extends React.Component<Props, State> {
           value={this.state.confirmPassword}
         />
         <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
+
+        />
+
         
 
         <TouchableOpacity onPress={() => this.handleSignUp()}>
@@ -270,6 +278,9 @@ const styles = StyleSheet.create({
     opacity:0,
   },
 
+
+
+
   inputError:
   {
     borderBottomWidth: 1,
@@ -288,6 +299,7 @@ const styles = StyleSheet.create({
     fontWeight:'600',
     color: '#FF4F4F',
   },
+
 
   disableSignUpBtn:
   {
