@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
 
 import { API_ROOT } from '../lib/constants';
 
@@ -32,6 +32,7 @@ class SignUpScreen extends React.Component<Props, State> {
     const name = this.state.name;
     const email = this.state.email;
     const password = this.state.password;
+
 
     const response = await fetch(`${API_ROOT}/auth/sign-up`, {
       method: 'POST',
@@ -96,20 +97,16 @@ class SignUpScreen extends React.Component<Props, State> {
     return re.test(email);
   };
 
-  render() {
+  render(){
     return (
       <View style={styles.container}>
 
-        <Image
-          style={styles.hoodatIcon}
-          source={require('../assets/HoodatIcon.png')}
-          resizeMode='contain'
-        />
+        <Text style ={styles.SignUpText}>Sign Up</Text>
 
+        <Text style ={[styles.InputLabels, {marginRight:213, marginTop: 0}]}>Name</Text>
         <TextInput
-          style={styles.inputUsernamePassword}
-          placeholder='full name'
-          keyboardType={'default'}
+          style={styles.signUpInputs}
+          placeholder='John Doe'
           onChangeText={(name) => {
             this.setState({ name });
             this.validateName(this.state.name)
@@ -118,9 +115,9 @@ class SignUpScreen extends React.Component<Props, State> {
         />
         <Text style={{color:'red'}}>{this.state.nameError}</Text>
 
-        <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>  
+        <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>     
         <TextInput
-          style={styles.inputUsernamePassword}
+          style={styles.signUpInputs}
           placeholder='john.doe@gmail.com'
           keyboardType={'email-address'}
           onChangeText={(email) => {
@@ -149,7 +146,6 @@ class SignUpScreen extends React.Component<Props, State> {
         />
         <Text style={{color:'red', marginRight:60}}>{this.state.passwordError}</Text>
 
-        
         <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
@@ -173,19 +169,15 @@ class SignUpScreen extends React.Component<Props, State> {
           <Text style={styles.signUpButton}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => this.props.navigation.goBack(null)}>
-          <Text style={styles.signInButton}>Back to Sign In</Text>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <Text style={styles.AlrHaveAnAcctText}>Already have an account?</Text>
+          <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('Sign In')}>
+          <Text style={styles.signInBtn}>Sign In</Text>
         </TouchableOpacity>
+        </View>
 
-        <Text style={styles.otherLoginOption}> or sign up with: </Text>
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/facebookIcon.png')}
-            style={{ width: 40, height: 40, marginTop: 10, borderWidth: 1.5, borderRadius: 5 }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+        {/*<Text>Password: {this.state.password}</Text>*/}
 
       </View>
     );
@@ -197,68 +189,115 @@ const styles = StyleSheet.create({
   container:
   {
     flex: 1,
-    backgroundColor: 'mistyrose',
+    backgroundColor: '#FFFFFF',
     alignItems: 'center'
   },
 
-  hoodatIcon:
+  SignUpText:
   {
-    marginTop: 75,
-    width: 150,
-    height: 150,
-    marginBottom: 10
+    marginTop: 130,
+    fontSize:35,
+    fontWeight:'800',
+    marginRight:145,
+    marginBottom: 20,
   },
-
-  inputUsernamePassword:
+  InputLabels:
   {
-    borderWidth: 1,
-    borderColor: 'black',
+    marginTop:35,
+    fontSize:16,
+    fontWeight:'600',
+    color: '#5F5F5F',
+  },
+  signUpInputs:
+  {
+    borderBottomWidth: 1,
+    borderColor: '#C4C4C4',
     backgroundColor: 'white',
-    padding: 10,
-    margin: 10,
-    width: 220,
-    borderRadius: 5,
+    paddingVertical: 8,
+    margin: 7,
+    width: 255,
     overflow: 'hidden'
   },
 
+
   signUpButton:
   {
-    marginTop: 15,
-    borderColor: 'black',
-    borderWidth: 0.5,
-    padding: 12,
-    width: 125,
-    backgroundColor: 'grey',
+    marginTop:30,
+    paddingVertical:20,
+    width: 260,
+    backgroundColor: '#6EA8FF',
     color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    borderRadius: 5,
+    fontWeight: '800',
+    fontSize: 25,
+    borderRadius: 20,
     overflow: 'hidden',
-    marginBottom: 20
+    marginBottom: 15,
   },
 
-  signInButton:
+  AlrHaveAnAcctText:
   {
-    borderWidth: 0.1,
-    padding: 8,
-    width: 120,
-    backgroundColor: 'gainsboro',
-    color: 'black',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 15,
-    borderRadius: 5,
+    marginTop:20,
+    fontSize:14,
+    marginRight:10,
+    color: '#3D3D3D',
+  },
+
+
+  signInBtn:
+  {
+    marginTop:20,
+    color: '#6EA8FF',
+    textAlign:'center',
+    fontWeight:'bold',
+    fontSize: 14,
     overflow: 'hidden',
-    marginBottom: 100
   },
 
-
-  otherLoginOption:
+  PasswordErrorMsg:
   {
-    alignItems: 'center',
-    fontSize: 11
+    marginTop:0,
+    fontSize:12,
+    marginRight: 78,
+    color: '#FF4F4F',
   },
+  PasswordErrorMsgDisappear:
+  {
+    marginTop:0,
+    fontSize:12,
+    marginRight: 78,
+    color: '#FF4F4F',
+    opacity:0,
+  },
+
+  inputError:
+  {
+    borderBottomWidth: 1,
+    borderColor: '#FF4F4F',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 8,
+    margin: 7,
+    width: 255,
+    overflow: 'hidden',
+  },
+
+  inputErrorLabel:
+  {
+    marginTop:35,
+    fontSize:16,
+    fontWeight:'600',
+    color: '#FF4F4F',
+  },
+
+  disableSignUpBtn:
+  {
+    marginTop:20,
+    color: '#6EA8FF',
+    textAlign:'center',
+    fontWeight:'bold',
+    fontSize: 14,
+    overflow: 'hidden',
+  }
 });
 
 export default SignUpScreen;
