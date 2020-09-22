@@ -116,7 +116,7 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style={{color:'red'}}>{this.state.nameError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.nameError}</Text>
 
 
 
@@ -136,7 +136,7 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.email}
         />
-        <Text style={{color:'red', marginRight: 230}}>{this.state.emailError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.emailError}</Text>
 
 
         <Text style ={[styles.InputLabels]}>Password</Text>     
@@ -150,7 +150,7 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style ={{color:'red', marginRight:60}}>{this.state.passwordError}</Text> 
+        <Text style ={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.passwordError}</Text> 
 
       
         <Text style ={[styles.InputLabels]}>Re-enter Password</Text> 
@@ -170,7 +170,7 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.confirmPassword}
         />
-        <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.confirmPasswordError}</Text>
 
         
 
@@ -206,10 +206,10 @@ const styles = StyleSheet.create({
   SignUpText:
   {
     marginTop: "20%",
-    fontSize:35,
+    fontSize:RFValue(33),
     fontWeight:'800',
     width: RFValue(230),
-    marginBottom: 20,
+    marginBottom: RFValue(18),
   },
   InputLabels:
   {
