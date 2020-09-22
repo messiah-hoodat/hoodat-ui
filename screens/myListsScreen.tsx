@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image,
         TextInput,TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
-
+import { RFValue } from "react-native-responsive-fontsize";
 
 class myListsScreen extends React.Component {
   render(){
@@ -12,7 +12,7 @@ class myListsScreen extends React.Component {
 
     <View style={styles.container}>
 
-      <View style={{flex: 0, flexDirection: 'row'}}>
+      <View style={{flex: 0, flexDirection: 'row', width: "80%", justifyContent: 'space-between', marginTop: RFValue(100)}}>
         <Text style={styles.myListsText}>My Lists</Text>
         <TouchableOpacity>
           <Text style={styles.newListBtn}>+ New List</Text>
@@ -27,7 +27,7 @@ class myListsScreen extends React.Component {
         <Icon name="magnifying-glass" size={18} color="#828282" />
       </View>
 
-      <ScrollView>
+      <ScrollView style ={{width:"80%"}}>
         <TouchableOpacity onPress={() => this.props.navigation.navigate("Hoodat Buds")}>
           <LinearGradient
           colors={['#FFE2AB','#FFBC7C','#FFC28A' ]}
@@ -85,18 +85,18 @@ const styles = StyleSheet.create({
 
   myListsText:
   {
-    marginTop: 110,
-    fontSize:35,
+    
+    marginRight: RFValue(0),
+    fontSize: RFValue(35),
     fontWeight:'800',
-    marginRight:120,
   },
 
   newListBtn:
   {
-    marginTop: 120,
+    marginTop: RFValue(15),
     fontSize: 15,
     fontWeight:'800',
-    marginRight:10,
+    marginRight:0,
     color: '#6EA8FF',
   },
 
@@ -104,8 +104,9 @@ const styles = StyleSheet.create({
   {
     marginTop:40,
     paddingVertical:15,
-    paddingLeft:22,
-    width:330,
+    paddingLeft:RFValue(22),
+    //width: RFValue(290),
+    width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius:20,
     marginBottom:30,
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
   {
     fontWeight:'500',
     fontSize: 20,
-    width:270,
+    width:"85%",
     color: "#828282",
   },
 
   ListButton:
   {
-    width:329,
+    width: "100%",
     height:140,
     borderRadius:25,
   },
