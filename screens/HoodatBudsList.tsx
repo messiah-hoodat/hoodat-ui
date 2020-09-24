@@ -88,13 +88,15 @@ class HoodatBudsList extends React.Component {
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]}>
+                    <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
+                    <Text style={styles.QuizMeText}>Quiz Me</Text>
+                </TouchableOpacity>
             </ScrollView>
         </View>
 
-        <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]}>
-            <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
-            <Text style={styles.QuizMeText}>Quiz Me</Text>
-        </TouchableOpacity>
+        
       
     </View>
     
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
 
   PeopleListScrollView:
   {
-    height: 350,
+    marginBottom:80,
   },
 
   PeopleInList:
