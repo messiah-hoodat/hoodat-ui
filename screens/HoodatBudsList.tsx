@@ -2,13 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, Image,
         TextInput,TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import { RFValue } from "react-native-responsive-fontsize";
 
 class HoodatBudsList extends React.Component {
   render(){
     return (
 
     <View style={styles.container}>
-        <View style={{flex: 0, flexDirection: 'row', marginTop:80} }>
+        <View style={{flex: 0, flexDirection: 'row', marginTop:RFValue(70), width: "80%", justifyContent: 'space-between'} }>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("My Lists")} style={styles.backButton}>
                 <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
@@ -88,12 +89,13 @@ class HoodatBudsList extends React.Component {
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]}>
-                    <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
-                    <Text style={styles.QuizMeText}>Quiz Me</Text>
-                </TouchableOpacity>
             </ScrollView>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]}>
+                  <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
+                  <Text style={styles.QuizMeText}>Quiz Me</Text>
+              </TouchableOpacity>
+            </View>
         </View>
 
         
@@ -114,21 +116,12 @@ const styles = StyleSheet.create({
     
   },
 
-  backButton:
-  {
-      marginRight:270,
-  },
-  optionsButton:
-  {
-      marginRight:10,
-  },
-
   ListTitle:
   {
-    marginTop: 30,
-    fontSize:35,
+    marginTop: RFValue(30),
+    fontSize:RFValue(30),
     fontWeight:'800',
-    marginRight:120,
+    width: "80%",
   },
 
   searchBar:
@@ -136,17 +129,17 @@ const styles = StyleSheet.create({
     marginTop:30,
     paddingVertical:15,
     paddingLeft:22,
-    width:330,
+    width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius:20,
-    marginBottom:30,
+    marginBottom:RFValue(25),
   },
 
   searchTextInput:
   {
     fontWeight:'500',
     fontSize: 20,
-    width:270,
+    width: "85%",
     color: "#828282",
   },
 
@@ -154,28 +147,30 @@ const styles = StyleSheet.create({
   {
       color: "#6EA8FF",
       fontWeight:"800",
-      fontSize:16,
-      marginBottom: 20,
+      fontSize:RFValue(14),
+      marginBottom: RFValue(18),
   },
 
   PeopleListScrollView:
   {
     marginBottom:80,
+    width:"80%",
+    height: "40%",
   },
 
   PeopleInList:
   {
-    width:329,
-    height:68,
+    width:"100%",
+    height:"15%",
     borderRadius:20,
     backgroundColor:"#F0EDED",
-    marginBottom:14,
+    marginBottom:RFValue(14),
   },
 
   PeopleInListPicture:
   {
-    marginVertical: 13,
-    marginLeft: 23,
+    marginVertical: 9,
+    marginLeft: "10%",
     width: 42,
     height: 42,
     borderRadius:10,
@@ -185,23 +180,25 @@ const styles = StyleSheet.create({
 
   PeopleInListName:
   {
-    marginTop:23,
-    marginLeft: 17,
+    marginVertical: 16,
+    marginLeft: RFValue(17),
     fontWeight:'800',
+    textAlignVertical: "center",
     fontSize: 20,
-    width:205,
+    width:"60%",
     color: "#494949",
   },
 
   PeopleInListOptions:
   {
-    marginTop:23,
+    marginVertical:17,
     marginRight:20,
+    textAlignVertical: "center",
   },
   
   QuizMeButton:
   {
-    marginTop: 50,
+    marginTop: RFValue(20),
     marginLeft: 180,
     backgroundColor: "#6EA8FF",
     width: 140,

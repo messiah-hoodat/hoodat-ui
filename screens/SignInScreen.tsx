@@ -10,6 +10,8 @@ import {
   CheckBox,
 } from 'react-native';
 
+import { RFValue } from "react-native-responsive-fontsize";
+
 import { API_ROOT } from '../lib/constants';
 
 interface Props {
@@ -87,14 +89,14 @@ class SignInScreen extends React.Component<Props, State> {
           onChangeText={(password) => this.setState({ password })}
         />
 
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row',width: RFValue(230), marginBottom: RFValue(40)}}>
           <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
           <TouchableOpacity>
             <Text style={styles.forgotPasswordButton}>Reset It</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{flex: 2, flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', width: RFValue(230), marginBottom: RFValue(10)}}>
           <CheckBox style={styles.rememberMeCheckbox}/>
           <Text style={styles.rememberMeText}>Remember Me</Text>
         </View>
@@ -103,7 +105,7 @@ class SignInScreen extends React.Component<Props, State> {
           <Text style={styles.loginButton}>Log In</Text>
         </TouchableOpacity>
 
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row'}}>
           <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
           <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Sign Up')}>
@@ -128,33 +130,32 @@ const styles = StyleSheet.create({
 
   HoodatLogo:
   {
-    marginTop:130,
-    width: 193,
-    height: 55,
+    marginTop:RFValue(80),
+    width: RFValue(170),
   },
 
   LoginText:
   {
-    marginTop: 92,
-    fontSize:35,
+    marginTop: RFValue(40),
+    fontSize:RFValue(28),
     fontWeight:'800',
-    marginRight:165,
+    width: RFValue(230),
   },
 
   EmailText:
   {
-    marginTop:35,
-    fontSize:16,
+    marginTop:RFValue(35),
+    fontSize:RFValue(14),
     fontWeight:'600',
-    marginRight:217,
+    width: RFValue(230),
     color: '#5F5F5F',
   },
   PasswordText:
   {
-    marginTop:20,
-    fontSize:16,
+    marginTop:RFValue(20),
+    fontSize:RFValue(14),
     fontWeight:'600',
-    marginRight:195,
+    width: RFValue(230),
     color: '#5F5F5F',
   },
 
@@ -166,33 +167,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingVertical: 8,
     margin: 7,
-    width: 255,
+    width: RFValue(230),
     overflow: 'hidden'
   },
 
   forgotPasswordText:
   {
-    marginTop:15,
-    fontSize:12,
-    marginRight:135,
+    marginTop:RFValue(15),
+    fontSize:RFValue(12),
+    width: 130,
     color: '#3D3D3D',
   },
   forgotPasswordButton:
   {
-    marginTop: 15,
+    marginTop: RFValue(15),
     textAlign: 'center',
-    marginLeft:-220,
-    fontSize: 12,
+    marginLeft: 8,
+    marginRight: 80,
+    fontSize: RFValue(12),
     fontWeight:'bold',
     color:'#6EA8FF',
   },
 
   rememberMeCheckbox:
   {
-    marginTop:10,
     borderWidth:2,
-    height: 20,             
-    width: 20,   
+    height: RFValue(15),             
+    width: RFValue(15),   
     borderRadius:5,
     borderColor:'#6EA8FF', 
     backgroundColor: '#FFFFFF', 
@@ -200,19 +201,18 @@ const styles = StyleSheet.create({
   },
   rememberMeText:
   {
-    marginTop:12.5,
-    fontSize:15,
+    fontSize:RFValue(13),
     color:'#3D3D3D',
     fontWeight:'600',
-    marginRight: 120,
+    //marginRight: 120,
   },
 
   loginButton:
   {
-    marginTop:-143,
+    marginTop:0,
     paddingHorizontal: 12,
     paddingVertical:20,
-    width: 260,
+    width: RFValue(230),
     backgroundColor: '#6EA8FF',
     color: 'white',
     textAlign: 'center',
@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
 
   dontHaveAccountText:
   {
-    marginTop:-45,
-    fontSize:14,
+    marginTop:0,
+    fontSize:RFValue(12),
     marginRight:10,
     color: '#3D3D3D',
   },
@@ -234,11 +234,10 @@ const styles = StyleSheet.create({
 
   signupButton:
   {
-    marginTop:-45,
     color: '#6EA8FF',
     textAlign:'center',
     fontWeight:'bold',
-    fontSize: 14,
+    fontSize: RFValue(12),
     overflow: 'hidden',
   },
 
