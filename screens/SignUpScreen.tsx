@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
-
+import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from '../lib/constants';
 
 interface Props {
@@ -106,7 +106,7 @@ class SignUpScreen extends React.Component<Props, State> {
         <Text style ={styles.SignUpText}>Sign Up</Text>
 
 
-        <Text style ={[styles.InputLabels, {marginRight:213, marginTop: 0}]}>Name</Text>
+        <Text style ={[styles.InputLabels]}>Name</Text>
         <TextInput
           style={styles.signUpInputs}
           placeholder='John Doe'
@@ -116,11 +116,11 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style={{color:'red'}}>{this.state.nameError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.nameError}</Text>
 
 
 
-        <Text style ={[styles.InputLabels, {marginRight:217}]}>Email</Text>     
+        <Text style ={[styles.InputLabels]}>Email</Text>     
         <TextInput
           style={styles.signUpInputs}
           placeholder='john.doe@gmail.com'
@@ -136,10 +136,10 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.email}
         />
-        <Text style={{color:'red', marginRight: 170}}>{this.state.emailError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.emailError}</Text>
 
 
-        <Text style ={[styles.InputLabels,  {marginRight:190}]}>Password</Text>     
+        <Text style ={[styles.InputLabels]}>Password</Text>     
         <TextInput
           secureTextEntry={true}
           style={[styles.signUpInputs]}
@@ -150,10 +150,10 @@ class SignUpScreen extends React.Component<Props, State> {
               }
             }
         />
-        <Text style ={{color:'red', marginRight:60}}>{this.state.passwordError}</Text> 
+        <Text style ={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.passwordError}</Text> 
 
       
-        <Text style ={[styles.InputLabels, {marginRight:125}, {marginTop:20}]}>Re-enter Password</Text> 
+        <Text style ={[styles.InputLabels]}>Re-enter Password</Text> 
         <TextInput
           secureTextEntry={true}
           style={styles.signUpInputs}
@@ -170,7 +170,7 @@ class SignUpScreen extends React.Component<Props, State> {
           }}
           value={this.state.confirmPassword}
         />
-        <Text style={{color:'red', marginRight: 80}}>{this.state.confirmPasswordError}</Text>
+        <Text style={{color:'red', width: RFValue(230), fontSize:RFValue(11)}}>{this.state.confirmPasswordError}</Text>
 
         
 
@@ -205,16 +205,18 @@ const styles = StyleSheet.create({
 
   SignUpText:
   {
-    marginTop: 130,
-    fontSize:35,
+    marginTop: "20%",
+    fontSize:RFValue(33),
     fontWeight:'800',
-    marginRight:145,
-    marginBottom: 20,
+    width: RFValue(230),
+    marginBottom: RFValue(18),
   },
   InputLabels:
   {
-    marginTop:35,
-    fontSize:16,
+    marginTop:"5%",
+    //marginTop:RFValue(23),
+    fontSize:RFValue(14),
+    width: RFValue(230),
     fontWeight:'600',
     color: '#5F5F5F',
   },
@@ -223,18 +225,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#C4C4C4',
     backgroundColor: 'white',
-    paddingVertical: 8,
+    paddingVertical: RFValue(8),
     margin: 7,
-    width: 255,
+    width: RFValue(230),
     overflow: 'hidden'
   },
 
 
   signUpButton:
   {
-    marginTop:30,
-    paddingVertical:20,
-    width: 260,
+    marginTop:"5%",
+    //marginTop:RFValue(20),
+    paddingVertical:RFValue(15),
+    width: RFValue(230),
     backgroundColor: '#6EA8FF',
     color: 'white',
     textAlign: 'center',
@@ -247,7 +250,7 @@ const styles = StyleSheet.create({
 
   AlrHaveAnAcctText:
   {
-    marginTop:20,
+    marginTop:RFValue(5),
     fontSize:14,
     marginRight:10,
     color: '#3D3D3D',
@@ -256,7 +259,7 @@ const styles = StyleSheet.create({
 
   signInBtn:
   {
-    marginTop:20,
+    marginTop:RFValue(5),
     color: '#6EA8FF',
     textAlign:'center',
     fontWeight:'bold',
