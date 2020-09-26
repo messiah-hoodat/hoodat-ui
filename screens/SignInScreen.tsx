@@ -112,7 +112,7 @@ class SignInScreen extends React.Component<Props, State> {
           style={styles.loginButton}
           onPress={() => this.handleLogin()}
         >
-          <Text style={styles.loginText}>Log In</Text>
+          <Text style={styles.loginButtonText}>Log In</Text>
           <ActivityIndicator
             size="small"
             color="white"
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  loginText: {
+  loginButtonText: {
     color: "white",
     textAlign: "center",
     fontWeight: "800",
