@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image,
         TextInput,TouchableOpacity, Platform, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 class HoodatBudsList extends React.Component {
@@ -13,7 +12,6 @@ class HoodatBudsList extends React.Component {
   };
   render(){
 
-    let modalOpen= true;
     let { image } = this.state;
 
     
