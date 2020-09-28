@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { API_ROOT } from "../lib/constants";
+import { UserContext, UserState } from "../contexts/UserContext";
 
 interface Props {
   navigation: any;
@@ -27,6 +28,8 @@ interface State {
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
+  static contextType = UserContext;
+
   constructor(props: Props) {
     super(props);
 
@@ -89,10 +92,10 @@ class HoodatBudsList extends React.Component<Props, State> {
   };
 
   handleSubmit = async () => {
+    console.log(this.context.value);
     const { name, image } = this.state;
-
-    const token = "abc";
-    const userId = "123";
+    const token = this.context.value.token;
+    const userId = this.context.value.userId;
 
     const response = await fetch(`${API_ROOT}/users/${userId}/contacts`, {
       method: "POST",
@@ -109,10 +112,11 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     const body = await response.json();
 
-    if (body.statusCode == 200 && !body.error) {
-      Alert.alert("Hurray!", body.message);
+    if (response.ok) {
+      Alert.alert("Hurray!", body.message ?? "It worked.");
+      this.props.navigation.pop();
     } else {
-      Alert.alert("Uh oh!", `${body.error}: ${body.message}`);
+      Alert.alert("Uh oh!", body.message ?? "It didn't work.");
     }
     return Promise.resolve();
   };
