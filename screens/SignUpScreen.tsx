@@ -208,7 +208,10 @@ class SignUpScreen extends React.Component<Props, State> {
           <ActivityIndicator
             size="small"
             color="white"
-            style={{ display: this.state.signUpLoading ? "flex" : "none" }}
+            style={{
+              display: this.state.signUpLoading ? "flex" : "none",
+              ...styles.loadingButton,
+            }}
           />
         </TouchableOpacity>
 
@@ -277,7 +280,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "800",
     fontSize: 25,
-    marginRight: 10,
+  },
+
+  loadingButton: {
+    marginLeft: 10,
   },
 
   AlrHaveAnAcctText: {

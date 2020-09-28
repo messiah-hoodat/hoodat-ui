@@ -116,7 +116,10 @@ class SignInScreen extends React.Component<Props, State> {
           <ActivityIndicator
             size="small"
             color="white"
-            style={{ display: this.state.loginLoading ? "flex" : "none" }}
+            style={{
+              display: this.state.loginLoading ? "flex" : "none",
+              ...styles.loadingIcon,
+            }}
           />
         </TouchableOpacity>
 
@@ -228,7 +231,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "800",
     fontSize: 25,
-    marginRight: 10,
+  },
+
+  loadingIcon: {
+    marginLeft: 10,
   },
 
   dontHaveAccountText: {
