@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     fontSize: RFValue(13),
     color: "#3D3D3D",
     fontWeight: "600",
-    //marginRight: 120,
   },
 
   loginButton: {

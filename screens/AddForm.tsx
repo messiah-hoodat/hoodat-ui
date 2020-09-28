@@ -113,7 +113,7 @@ class HoodatBudsList extends React.Component<Props, State> {
     const body = await response.json();
 
     if (response.ok) {
-      Alert.alert("Hurray!", body.message ?? "It worked.");
+      Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
       this.props.navigation.pop();
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
