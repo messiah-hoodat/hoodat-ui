@@ -92,10 +92,8 @@ class HoodatBudsList extends React.Component<Props, State> {
   };
 
   handleSubmit = async () => {
-    console.log(this.context.value);
     const { name, image } = this.state;
-    const token = this.context.value.token;
-    const userId = this.context.value.userId;
+    const { token, userId } = this.context.value;
 
     const response = await fetch(`${API_ROOT}/users/${userId}/contacts`, {
       method: "POST",
