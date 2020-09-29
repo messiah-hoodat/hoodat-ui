@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -10,33 +10,23 @@ import {
   Alert,
   CheckBox,
 } from "react-native";
-
 import { RFValue } from "react-native-responsive-fontsize";
-
+import { UserContext } from "../contexts/UserContext";
 import { API_ROOT } from "../lib/constants";
 
 interface Props {
   navigation: any;
 }
 
-interface State {
-  email: string;
-  password: string;
-  loginLoading: boolean;
-}
+export default function LoginScreen(props: Props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
 
-class SignInScreen extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+  const context = useContext(UserContext);
 
-    this.state = { email: "", password: "", loginLoading: false };
-  }
-
-  async handleLogin(): Promise<void> {
-    this.setState({ loginLoading: true });
-
-    const email = this.state.email;
-    const password = this.state.password;
+  async function handleLogin(): Promise<void> {
+    setLoginLoading(true);
 
     const response = await fetch(`${API_ROOT}/auth/token`, {
       method: "POST",
@@ -51,89 +41,86 @@ class SignInScreen extends React.Component<Props, State> {
 
     const body = await response.json();
 
-    this.setState({ loginLoading: false });
+    setLoginLoading(false);
 
     if (body.statusCode == 200 && !body.error) {
-      this.props.navigation.navigate("My Lists");
+      context?.setValue({ token: body.token, userId: body.userId });
+      props.navigation.navigate("My Lists");
     } else {
       Alert.alert("Uh oh!", `${body.error}: ${body.message}`);
     }
     return Promise.resolve();
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          style={styles.HoodatLogo}
-          source={require("../assets/HoodatTextLogo.png")}
-          resizeMode="contain"
-        />
-        <Text style={styles.LoginText}>Log In</Text>
-        <Text style={styles.EmailText}>Email</Text>
-        <TextInput
-          style={styles.inputUsernamePassword}
-          placeholder="example@gmail.com"
-          onChangeText={(email) => this.setState({ email })}
-        />
-        <Text style={styles.PasswordText}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.inputUsernamePassword}
-          placeholder="• • • • • • • •"
-          onChangeText={(password) => this.setState({ password })}
-        />
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.HoodatLogo}
+        source={require("../assets/HoodatTextLogo.png")}
+        resizeMode="contain"
+      />
+      <Text style={styles.LoginText}>Log In</Text>
+      <Text style={styles.EmailText}>Email</Text>
+      <TextInput
+        style={styles.inputUsernamePassword}
+        placeholder="example@gmail.com"
+        onChangeText={(email) => setEmail(email)}
+      />
+      <Text style={styles.PasswordText}>Password</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.inputUsernamePassword}
+        placeholder="• • • • • • • •"
+        onChangeText={(password) => setPassword(password)}
+      />
 
-        <View
-          style={{
-            flexDirection: "row",
-            width: RFValue(230),
-            marginBottom: RFValue(40),
-          }}
-        >
-          <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
-          <TouchableOpacity>
-            <Text style={styles.forgotPasswordButton}>Reset It</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            width: RFValue(230),
-            marginBottom: RFValue(10),
-          }}
-        >
-          <CheckBox style={styles.rememberMeCheckbox} />
-          <Text style={styles.rememberMeText}>Remember Me</Text>
-        </View>
-
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={() => this.handleLogin()}
-        >
-          <Text style={styles.loginButtonText}>Log In</Text>
-          <ActivityIndicator
-            size="small"
-            color="white"
-            style={{
-              display: this.state.loginLoading ? "flex" : "none",
-              ...styles.loadingIcon,
-            }}
-          />
+      <View
+        style={{
+          flexDirection: "row",
+          width: RFValue(230),
+          marginBottom: RFValue(40),
+        }}
+      >
+        <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
+        <TouchableOpacity>
+          <Text style={styles.forgotPasswordButton}>Reset It</Text>
         </TouchableOpacity>
-
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Sign Up")}
-          >
-            <Text style={styles.signupButton}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
       </View>
-    );
-  }
+
+      <View
+        style={{
+          flexDirection: "row",
+          width: RFValue(230),
+          marginBottom: RFValue(10),
+        }}
+      >
+        <CheckBox style={styles.rememberMeCheckbox} />
+        <Text style={styles.rememberMeText}>Remember Me</Text>
+      </View>
+
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={() => handleLogin()}
+      >
+        <Text style={styles.loginButtonText}>Log In</Text>
+        <ActivityIndicator
+          size="small"
+          color="white"
+          style={{
+            display: loginLoading ? "flex" : "none",
+            ...styles.loadingButton,
+          }}
+        />
+      </TouchableOpacity>
+
+      <View style={{ flexDirection: "row" }}>
+        <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Sign Up")}>
+          <Text style={styles.signupButton}>Sign Up</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -233,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
 
-  loadingIcon: {
+  loadingButton: {
     marginLeft: 10,
   },
 
@@ -252,5 +239,3 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 });
-
-export default SignInScreen;

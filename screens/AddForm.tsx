@@ -1,24 +1,126 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   TextInput,
   TouchableOpacity,
   Platform,
   Button,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import { API_ROOT } from "../lib/constants";
+import { UserContext, UserState } from "../contexts/UserContext";
 
-class HoodatBudsList extends React.Component {
-  state = {
-    image: null,
+interface Props {
+  navigation: any;
+}
+
+interface State {
+  name: string;
+  image: {
+    data: string;
+    fileType: string;
   };
+}
+
+class HoodatBudsList extends React.Component<Props, State> {
+  static contextType = UserContext;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { name: "", image: { data: "", fileType: "" } };
+  }
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Platform.OS !== "web") {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        Alert.alert(
+          "Sorry, we need camera roll permissions to make this work!"
+        );
+      }
+    }
+  };
+
+  pickImage = async () => {
+    try {
+      const result: any = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+        base64: true,
+      });
+      const data = result.base64;
+      const fileExtension = result.uri.split(".").pop();
+      const fileType = this.mapFileExtensionToFileType(fileExtension);
+      if (!data) {
+        Alert.alert("Error picking image");
+      } else if (!fileType) {
+        Alert.alert("Invalid file type");
+      } else {
+        this.setState({
+          image: {
+            data,
+            fileType,
+          },
+        });
+      }
+    } catch (error) {
+      Alert.alert("Error picking image");
+      console.log(error);
+    }
+  };
+
+  mapFileExtensionToFileType = (fileExtension: string) => {
+    if (["jpg", "jpeg"].includes(fileExtension)) {
+      return "image/jpeg";
+    }
+    if (fileExtension === "png") {
+      return "image/png";
+    }
+    return undefined;
+  };
+
+  handleSubmit = async () => {
+    const { name, image } = this.state;
+    const { token, userId } = this.context.value;
+
+    const response = await fetch(`${API_ROOT}/users/${userId}/contacts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        data: image.data,
+        fileType: image.fileType,
+      }),
+    });
+
+    const body = await response.json();
+
+    if (response.ok) {
+      Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
+      this.props.navigation.pop();
+    } else {
+      Alert.alert("Uh oh!", body.message ?? "It didn't work.");
+    }
+    return Promise.resolve();
+  };
+
   render() {
-    let { image } = this.state;
+    const { image } = this.state;
 
     return (
       <View style={styles.container}>
@@ -27,12 +129,7 @@ class HoodatBudsList extends React.Component {
             onPress={() => this.props.navigation.navigate("Hoodat Buds")}
             style={styles.backButton}
           >
-            <Icon
-              name="chevron-thin-left"
-              size={25}
-              marginBottom="20"
-              color="#828282"
-            />
+            <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionsButton}>
             <Icon name="dots-three-vertical" size={25} color="#636363" />
@@ -44,50 +141,26 @@ class HoodatBudsList extends React.Component {
         >
           <Button
             title="Pick an image from camera roll"
-            onPress={this._pickImage}
+            onPress={this.pickImage}
           />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200 }}
-            />
-          )}
-          <TextInput style={styles.addName} placeholder="New Name" />
+          <Image
+            source={{ uri: `data:${image.fileType};base64,${image.data}` }}
+            style={{
+              width: 200,
+              height: 200,
+              display: image.data && image.fileType ? "flex" : "none",
+            }}
+          />
+          <TextInput
+            style={styles.addName}
+            placeholder="Name"
+            onChangeText={(name) => this.setState({ name })}
+          />
+          <Button title="Submit" onPress={this.handleSubmit} />
         </View>
       </View>
     );
   }
-
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
-
-  getPermissionAsync = async () => {
-    if (Platform.OS !== "web") {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-
-  _pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      if (!result.cancelled) {
-        this.setState({ image: result.uri });
-      }
-
-      console.log(result);
-    } catch (E) {
-      console.log(E);
-    }
-  };
 }
 
 const styles = StyleSheet.create({
@@ -107,97 +180,9 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 270,
   },
+
   optionsButton: {
     marginRight: 10,
-  },
-
-  ListTitle: {
-    marginTop: 30,
-    fontSize: 35,
-    fontWeight: "800",
-    marginRight: 120,
-  },
-
-  searchBar: {
-    marginTop: 30,
-    paddingVertical: 15,
-    paddingLeft: 22,
-    width: 330,
-    backgroundColor: "#F0F0F0",
-    borderRadius: 20,
-    marginBottom: 30,
-  },
-
-  searchTextInput: {
-    fontWeight: "500",
-    fontSize: 20,
-    width: 270,
-    color: "#828282",
-  },
-
-  addMorePeopleButton: {
-    color: "#6EA8FF",
-    fontWeight: "800",
-    fontSize: 16,
-    marginBottom: 20,
-  },
-
-  PeopleListScrollView: {
-    height: 350,
-  },
-
-  PeopleInList: {
-    width: 329,
-    height: 68,
-    borderRadius: 20,
-    backgroundColor: "#F0EDED",
-    marginBottom: 14,
-  },
-
-  PeopleInListPicture: {
-    marginVertical: 13,
-    marginLeft: 23,
-    width: 42,
-    height: 42,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "lightgrey",
-  },
-
-  PeopleInListName: {
-    marginTop: 23,
-    marginLeft: 17,
-    fontWeight: "800",
-    fontSize: 20,
-    width: 205,
-    color: "#494949",
-  },
-
-  PeopleInListOptions: {
-    marginTop: 23,
-    marginRight: 20,
-  },
-
-  QuizMeButton: {
-    marginTop: 50,
-    marginLeft: 180,
-    backgroundColor: "#6EA8FF",
-    width: 140,
-    height: 60,
-    borderRadius: 43,
-  },
-
-  QuizMeFlashIcon: {
-    marginLeft: 12,
-    marginTop: 14,
-  },
-
-  QuizMeText: {
-    marginTop: 18,
-    marginLeft: 3,
-    fontWeight: "800",
-    color: "#FFFFFF",
-    fontSize: 20,
   },
 });
 
