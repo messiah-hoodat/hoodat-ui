@@ -28,7 +28,7 @@ class HoodatBudsList extends React.Component {
             <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Add Form")}>
           <Text style={styles.addMorePeopleButton}>+ Add More People</Text>
         </TouchableOpacity>
 
