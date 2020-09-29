@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   View,
@@ -20,10 +21,13 @@ interface Props {
 export default function LoginScreen(props: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
 
   const context = useContext(UserContext);
 
   async function handleLogin(): Promise<void> {
+    setLoginLoading(true);
+
     const response = await fetch(`${API_ROOT}/auth/token`, {
       method: "POST",
       headers: {
@@ -36,6 +40,8 @@ export default function LoginScreen(props: Props) {
     });
 
     const body = await response.json();
+
+    setLoginLoading(false);
 
     if (body.statusCode == 200 && !body.error) {
       context?.setValue({ token: body.token, userId: body.userId });
@@ -92,8 +98,19 @@ export default function LoginScreen(props: Props) {
         <Text style={styles.rememberMeText}>Remember Me</Text>
       </View>
 
-      <TouchableOpacity onPress={() => handleLogin()}>
-        <Text style={styles.loginButton}>Log In</Text>
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={() => handleLogin()}
+      >
+        <Text style={styles.loginButtonText}>Log In</Text>
+        <ActivityIndicator
+          size="small"
+          color="white"
+          style={{
+            display: loginLoading ? "flex" : "none",
+            ...styles.loadingButton,
+          }}
+        />
       </TouchableOpacity>
 
       <View style={{ flexDirection: "row" }}>
@@ -182,18 +199,29 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 0,
     paddingHorizontal: 12,
     paddingVertical: 20,
     width: RFValue(230),
     backgroundColor: "#6EA8FF",
+    borderRadius: 20,
+    overflow: "hidden",
+    marginBottom: 15,
+  },
+
+  loginButtonText: {
     color: "white",
     textAlign: "center",
     fontWeight: "800",
     fontSize: 25,
-    borderRadius: 20,
-    overflow: "hidden",
-    marginBottom: 15,
+  },
+
+  loadingButton: {
+    marginLeft: 10,
   },
 
   dontHaveAccountText: {
