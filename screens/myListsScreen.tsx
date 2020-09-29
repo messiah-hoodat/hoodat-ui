@@ -110,7 +110,11 @@ class myListsScreen extends React.Component<Props, State> {
 
         <ScrollView style={{ width: "80%" }}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Hoodat Buds")}
+            onPress={() =>
+              this.props.navigation.navigate("Hoodat Buds", {
+                contacts: this.state.contacts,
+              })
+            }
           >
             <LinearGradient
               colors={["#FFE2AB", "#FFBC7C", "#FFC28A"]}
