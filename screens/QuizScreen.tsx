@@ -1,18 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image,
-        TextInput,TouchableOpacity } from 'react-native';
+        Dimensions,TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from "react-native-responsive-fontsize";
 import CircularTimer from 'react-native-circular-timer';
+import { getAutoFocusEnabled } from 'expo/build/AR';
+
+
 
 
 class QuizScreen extends React.Component {
 
-  
   render(){
+    const screenWidth = Math.round(Dimensions.get('window').width);
     const {QuizTitleListName} = this.props.route.params;
     const {QuizListNames} = this.props.route.params; 
+    var {CurrentQuizQuestionNumber} = this.props.route.params;
     var randName = QuizListNames[Math.floor(Math.random() * QuizListNames.length)];
+    var QuizTotalNumberOfQuestions = QuizListNames.length;
+    CurrentQuizQuestionNumber = CurrentQuizQuestionNumber+1
+    var ProgressBarWidth = ((CurrentQuizQuestionNumber/QuizTotalNumberOfQuestions)*screenWidth)
+    var TotalQuizTime = QuizTotalNumberOfQuestions*10
     return (
         <View style={styles.container}>
           
@@ -26,14 +34,12 @@ class QuizScreen extends React.Component {
           <View style={{flex: 1, marginTop:RFValue(50), width: "80%", alignItems:'center' }}>
             <View style={{flex: 3.5, marginTop:RFValue(0), width: "125%", alignItems:'center' }}>
               <CircularTimer
-                seconds = {10}
+                seconds = {TotalQuizTime}
                 radius = {RFValue(37)}
                 borderWidth = {RFValue(6)}
                 borderBackgroundColor = {'#FFB906'}
                 borderColor = {'#FFB906'}
-                onTimeElapsed={() => {
-                  console.log('Timer Finished!');
-                }}
+               onTimeElapsed={() => { Alert.alert('Quiz Timed Out!'); this.props.navigation.navigate("Quiz Results Screen",{QuizListNames:QuizListNames})}}
               />
               <Text style = {styles.HooIsText}>Hoo is...</Text>
               <Text style = {styles.QuizPersonName}>{randName}</Text>
@@ -41,36 +47,57 @@ class QuizScreen extends React.Component {
 
             <View style={{flex: 5.5, width: "87%"}}>
               <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: RFValue(5)} }>
-                <TouchableOpacity style={{flex:1, borderRadius:10, borderWidth:2, marginRight: RFValue(5), overflow: "hidden"}}>
-                  <Image
-                    style = {styles.QuizQuestionImage}
-                    source={require('../assets/QuizQuestionImagePlaceholder.png')}
-                  />
+                <TouchableOpacity onPress={() => {
+                  if(CurrentQuizQuestionNumber<QuizTotalNumberOfQuestions){ this.props.navigation.navigate('Quiz Screen', {CurrentQuizQuestionNumber:CurrentQuizQuestionNumber })}
+                  else{ this.props.navigation.navigate('Quiz Results Screen',{QuizListNames:QuizListNames, CurrentQuizQuestionNumber:CurrentQuizQuestionNumber})} 
+                  }} 
+                  style={{flex:1, borderRadius:10, borderWidth:2, marginRight: RFValue(5), overflow: "hidden"}} >
+                    <Image
+                      style = {styles.QuizQuestionImage}
+                      source={require('../assets/QuizQuestionImagePlaceholder.png')}
+                    />
                 </TouchableOpacity>
-                <TouchableOpacity style={{flex:1, borderRadius:10, borderWidth:2, overflow: "hidden"}}>
-                  <Image
-                    style = {styles.QuizQuestionImage}
-                    source={require('../assets/QuizQuestionImagePlaceholder.png')}
-                  />
+                <TouchableOpacity onPress={() => {
+                  if(CurrentQuizQuestionNumber<QuizTotalNumberOfQuestions){ this.props.navigation.navigate('Quiz Screen', {CurrentQuizQuestionNumber:CurrentQuizQuestionNumber })}
+                  else{ this.props.navigation.navigate('Quiz Results Screen',{QuizListNames:QuizListNames, CurrentQuizQuestionNumber:CurrentQuizQuestionNumber})} 
+                  }}
+                  style={{flex:1, borderRadius:10, borderWidth:2, overflow: "hidden"}} >
+                    <Image
+                      style = {styles.QuizQuestionImage}
+                      source={require('../assets/QuizQuestionImagePlaceholder.png')}
+                    />
                 </TouchableOpacity>
               </View>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'} }>
-                <TouchableOpacity style={{flex:1, borderRadius:10, borderWidth:2, marginRight: RFValue(5), overflow: "hidden"}}>
-                  <Image
-                    style = {styles.QuizQuestionImage}
-                    source={require('../assets/QuizQuestionImagePlaceholder.png')}
-                  />
+                <TouchableOpacity onPress={() => {
+                  if(CurrentQuizQuestionNumber<QuizTotalNumberOfQuestions){ this.props.navigation.navigate('Quiz Screen', {CurrentQuizQuestionNumber:CurrentQuizQuestionNumber })}
+                  else{ this.props.navigation.navigate('Quiz Results Screen',{QuizListNames:QuizListNames, CurrentQuizQuestionNumber:CurrentQuizQuestionNumber})} 
+                  }}
+                  style={{flex:1, borderRadius:10, borderWidth:2, marginRight: RFValue(5), overflow: "hidden"}} >
+                    <Image
+                      style = {styles.QuizQuestionImage}
+                      source={require('../assets/QuizQuestionImagePlaceholder.png')}
+                    />
                 </TouchableOpacity>
-                <TouchableOpacity style={{flex:1, borderRadius:10, borderWidth:2, overflow: "hidden"}}>
-                  <Image
-                    style = {styles.QuizQuestionImage}
-                    source={require('../assets/QuizQuestionImagePlaceholder.png')}
-                  />
+                <TouchableOpacity onPress={() => {
+                  if(CurrentQuizQuestionNumber<QuizTotalNumberOfQuestions){ this.props.navigation.navigate('Quiz Screen', {CurrentQuizQuestionNumber:CurrentQuizQuestionNumber })}
+                  else{ this.props.navigation.navigate('Quiz Results Screen',{QuizListNames:QuizListNames, CurrentQuizQuestionNumber:CurrentQuizQuestionNumber})} 
+                  }}
+                  style={{flex:1, borderRadius:10, borderWidth:2, overflow: "hidden"}} >
+                    <Image
+                      style = {styles.QuizQuestionImage}
+                      source={require('../assets/QuizQuestionImagePlaceholder.png')}
+                    />
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{flex: 1, marginTop:0, width: "125%", alignItems:'center', borderWidth:2 }}>
-              
+            <View style={{flex: 1, marginTop:0, width: "125%", alignItems:'center' }}>
+              <View style={{flex: 1, marginTop:0, width: "80%", alignItems:'baseline', borderWidth:0,  }}>
+                <Text style={styles.QuestionCounter}>Question {CurrentQuizQuestionNumber} of {QuizTotalNumberOfQuestions}</Text>
+              </View>
+              <View style={{flex: 1, marginTop:0, width: "100%", borderWidth:0 , backgroundColor: "lightgrey"}}>
+                <View style={{width:ProgressBarWidth, flex:1, backgroundColor: '#6EA8FF', borderBottomRightRadius:50, borderTopRightRadius:50}} />
+              </View>
             </View>
           </View>
         </View>
@@ -116,6 +143,19 @@ const styles = StyleSheet.create({
     width: '100%',
     height: undefined,
     aspectRatio: 1,
+  },
+
+  QuestionCounter:
+  {
+    fontSize:RFValue(14),
+    fontWeight:"600",
+  },
+
+  QuizQuestionProgressBar: 
+  {
+    width: 10,
+    height: 100,
+    backgroundColor: '#6EA8FF'
   }
 
 

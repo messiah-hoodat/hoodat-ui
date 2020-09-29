@@ -8,6 +8,7 @@ class HoodatBudsList extends React.Component {
   render(){
     var ListTitleName = "Hoodat Buds"
     var ListNames = ["Billy Park","Eric Weischedel","Wesley Chong","Belosan Jekale", "Trevor Bunch"];
+    var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
     return (
     <View style={styles.container}>
         <View style={{flex: 0, flexDirection: 'row', marginTop:RFValue(70), width: "80%", justifyContent: 'space-between'} }>
@@ -92,7 +93,7 @@ class HoodatBudsList extends React.Component {
                 </View>
             </ScrollView>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames })}>
+              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}>
                   <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
                   <Text style={styles.QuizMeText}>Quiz Me</Text>
               </TouchableOpacity>
