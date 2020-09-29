@@ -6,19 +6,20 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 class HoodatBudsList extends React.Component {
   render(){
+    var ListTitleName = "Hoodat Buds"
+    var ListNames = ["Billy Park","Eric Weischedel","Wesley Chong","Belosan Jekale", "Trevor Bunch"];
     return (
-
     <View style={styles.container}>
         <View style={{flex: 0, flexDirection: 'row', marginTop:RFValue(70), width: "80%", justifyContent: 'space-between'} }>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("My Lists")} style={styles.backButton}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("My Lists")}>
                 <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.optionsButton}>
+            <TouchableOpacity>
                 <Icon name="dots-three-vertical" size={25} color="#636363" />
             </TouchableOpacity>
         </View>
         
-        <Text style={styles.ListTitle}>Hoodat Buds</Text>
+        <Text style={styles.ListTitle}>{ListTitleName}</Text>
 
         <View style={[styles.searchBar, {flex:0, flexDirection:'row'}]}>
             <TextInput
@@ -40,7 +41,7 @@ class HoodatBudsList extends React.Component {
                         source={require('../assets/Billy.png')}
                         resizeMode="contain"
                     />
-                    <Text style={styles.PeopleInListName}>Billy Park</Text>
+                    <Text style={styles.PeopleInListName}>{ListNames[0]}</Text>
                     <TouchableOpacity style={styles.PeopleInListOptions}>
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
@@ -51,7 +52,7 @@ class HoodatBudsList extends React.Component {
                         source={require('../assets/Eric.png')}
                         resizeMode="contain"
                     />
-                    <Text style={styles.PeopleInListName}>Eric Weischedel</Text>
+                    <Text style={styles.PeopleInListName}>{ListNames[1]}</Text>
                     <TouchableOpacity style={styles.PeopleInListOptions}>
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
@@ -62,7 +63,7 @@ class HoodatBudsList extends React.Component {
                         source={require('../assets/Wesley.png')}
                         resizeMode="contain"
                     />
-                    <Text style={styles.PeopleInListName}>Wesley Chong</Text>
+                    <Text style={styles.PeopleInListName}>{ListNames[2]}</Text>
                     <TouchableOpacity style={styles.PeopleInListOptions}>
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
@@ -73,7 +74,7 @@ class HoodatBudsList extends React.Component {
                         source={require('../assets/Belosan.png')}
                         resizeMode="contain"
                     />
-                    <Text style={styles.PeopleInListName}>Belosan Jekale</Text>
+                    <Text style={styles.PeopleInListName}>{ListNames[3]}</Text>
                     <TouchableOpacity style={styles.PeopleInListOptions}>
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
@@ -84,14 +85,14 @@ class HoodatBudsList extends React.Component {
                         source={require('../assets/Trevor.png')}
                         resizeMode="contain"
                     />
-                    <Text style={styles.PeopleInListName}>Trevor Bunch</Text>
+                    <Text style={styles.PeopleInListName}>{ListNames[4]}</Text>
                     <TouchableOpacity style={styles.PeopleInListOptions}>
                         <Icon name="dots-three-vertical" size={20} color="#636363" />
                     </TouchableOpacity>
                 </View>
             </ScrollView>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]}>
+              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames })}>
                   <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
                   <Text style={styles.QuizMeText}>Quiz Me</Text>
               </TouchableOpacity>

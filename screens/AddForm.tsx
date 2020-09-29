@@ -51,7 +51,7 @@ class HoodatBudsList extends React.Component {
               source={{ uri: image }}
               style={{ width: 200, height: 200 }}
             />
-          )}
+          )} 
           <TextInput style={styles.addName} placeholder="New Name" />
         </View>
       </View>

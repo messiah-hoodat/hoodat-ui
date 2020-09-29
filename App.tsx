@@ -7,6 +7,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import myListsScreen from './screens/myListsScreen';
 import HoodatBudsList from './screens/HoodatBudsList';
 import AddForm from './screens/AddForm';
+import QuizScreen from './screens/QuizScreen';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ class App extends React.Component {
           <Stack.Screen name="Sign In" component={SignInScreen}/>
           <Stack.Screen name="My Lists" component={myListsScreen} />
           <Stack.Screen name="Hoodat Buds" component={HoodatBudsList}/>
+          <Stack.Screen name="Quiz Screen" component={QuizScreen}/>
           <Stack.Screen name="Sign Up" component={SignUpScreen}/>
           <Stack.Screen name="Add Form" component={AddForm}/>
         </Stack.Navigator>
