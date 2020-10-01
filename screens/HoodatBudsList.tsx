@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Contact } from "./myListsScreen";
 
+
 interface Props {
   navigation: any;
   route: any;
@@ -31,6 +32,10 @@ class HoodatBudsList extends React.Component<Props, State> {
   }
 
   render() {
+    var ListTitleName = "Hoodat Buds"
+    var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
+    var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
+    
     return (
       <View style={styles.container}>
         <View
@@ -53,7 +58,8 @@ class HoodatBudsList extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.ListTitle}>Hoodat Buds</Text>
+        <Text style={styles.ListTitle}>ListTitleName</Text>
+
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />
@@ -89,6 +95,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
               style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
+              onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
             >
               <Icon
                 marginTop="20"
@@ -105,6 +112,13 @@ class HoodatBudsList extends React.Component<Props, State> {
     );
   }
 }
+
+{/* <View style={{flex: 1, flexDirection: 'row'}}>
+              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} )}>
+                  <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
+                  <Text style={styles.QuizMeText}>Quiz Me</Text>
+              </TouchableOpacity>
+            </View> */}
 
 const styles = StyleSheet.create({
   container: {
