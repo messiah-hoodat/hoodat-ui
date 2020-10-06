@@ -95,7 +95,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
               style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
+              onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
             >
               <Icon
                 marginTop="20"
