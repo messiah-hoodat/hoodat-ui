@@ -77,11 +77,6 @@ class myListsScreen extends React.Component<Props, State> {
 
     this.setState({ contacts });
 
-    Alert.alert(
-      "Hurray!",
-      "Your contacts have been fetched from the database."
-    );
-
     return Promise.resolve();
   };
 

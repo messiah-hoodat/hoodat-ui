@@ -23,8 +23,6 @@ class QuizResultsScreen extends React.Component<Props> {
   render() {
     const { questionResults } = this.props.route.params;
 
-    console.log(questionResults);
-
     const correctCount = questionResults.filter((i) => i.correct).length;
     const questionsCount = questionResults.length;
     const correctPercentage = Math.round((correctCount / questionsCount) * 100);

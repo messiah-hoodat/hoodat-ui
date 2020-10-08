@@ -14,26 +14,31 @@ import CircularTimer from "react-native-circular-timer";
 import { Contact } from "./myListsScreen";
 import { QuestionResult } from "./QuizResultsScreen";
 
-class QuizScreen extends React.Component {
+interface Props {
+  navigation: any;
+  route: {
+    params: {
+      contacts: Contact[];
+      questionResults: QuestionResult[];
+      QuizTitleListName: string;
+      CurrentQuizQuestionNumber: number;
+    };
+  };
+}
+
+class QuizScreen extends React.Component<Props> {
   render() {
     const screenWidth = Math.round(Dimensions.get("window").width);
-    const { QuizTitleListName } = this.props.route.params;
-    const { QuizListNames } = this.props.route.params;
-    const { contacts } = this.props.route.params;
-    const questionResults: QuestionResult[] = contacts.map(
-      (contact: Contact): QuestionResult => ({
-        contact,
-        correct: true,
-      })
-    );
+    const { QuizTitleListName, contacts } = this.props.route.params;
     var { CurrentQuizQuestionNumber } = this.props.route.params;
-    var randName =
-      QuizListNames[Math.floor(Math.random() * QuizListNames.length)];
-    var QuizTotalNumberOfQuestions = QuizListNames.length;
+    var questionResults = this.props.route.params.questionResults ?? [];
+    var QuizTotalNumberOfQuestions = contacts.length;
     CurrentQuizQuestionNumber = CurrentQuizQuestionNumber + 1;
     var ProgressBarWidth =
       (CurrentQuizQuestionNumber / QuizTotalNumberOfQuestions) * screenWidth;
     var TotalQuizTime = QuizTotalNumberOfQuestions * 10;
+    const correctContact = contacts[CurrentQuizQuestionNumber - 1];
+    const incorrectContacts = [contacts[0], contacts[1], contacts[2]];
     return (
       <View style={styles.container}>
         <View
@@ -79,13 +84,11 @@ class QuizScreen extends React.Component {
               borderColor={"#FFB906"}
               onTimeElapsed={() => {
                 Alert.alert("Quiz Timed Out!");
-                this.props.navigation.navigate("Quiz Results Screen", {
-                  QuizListNames: QuizListNames,
-                });
+                this.props.navigation.navigate("Quiz Results Screen");
               }}
             />
             <Text style={styles.HooIsText}>Hoo is...</Text>
-            <Text style={styles.QuizPersonName}>{randName}</Text>
+            <Text style={styles.QuizPersonName}>{correctContact.name}</Text>
           </View>
 
           <View style={{ flex: 5.5, width: "87%" }}>
@@ -98,14 +101,18 @@ class QuizScreen extends React.Component {
             >
               <TouchableOpacity
                 onPress={() => {
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: true,
+                  });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
+                      questionResults,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   } else {
                     this.props.navigation.navigate("Quiz Results Screen", {
                       questionResults,
-                      QuizListNames: QuizListNames,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   }
@@ -120,19 +127,26 @@ class QuizScreen extends React.Component {
               >
                 <Image
                   style={styles.QuizQuestionImage}
-                  source={require("../assets/QuizQuestionImagePlaceholder.png")}
+                  source={{
+                    uri: `data:${correctContact.image.fileType};base64,${correctContact.image.data}`,
+                  }}
+                  resizeMode="contain"
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: false,
+                  });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
+                      questionResults,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   } else {
                     this.props.navigation.navigate("Quiz Results Screen", {
                       questionResults,
-                      QuizListNames: QuizListNames,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   }
@@ -146,7 +160,10 @@ class QuizScreen extends React.Component {
               >
                 <Image
                   style={styles.QuizQuestionImage}
-                  source={require("../assets/QuizQuestionImagePlaceholder.png")}
+                  source={{
+                    uri: `data:${incorrectContacts[0].image.fileType};base64,${incorrectContacts[0].image.data}`,
+                  }}
+                  resizeMode="contain"
                 />
               </TouchableOpacity>
             </View>
@@ -155,13 +172,18 @@ class QuizScreen extends React.Component {
             >
               <TouchableOpacity
                 onPress={() => {
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: false,
+                  });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
+                      questionResults,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   } else {
                     this.props.navigation.navigate("Quiz Results Screen", {
-                      QuizListNames: QuizListNames,
+                      questionResults,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   }
@@ -176,19 +198,26 @@ class QuizScreen extends React.Component {
               >
                 <Image
                   style={styles.QuizQuestionImage}
-                  source={require("../assets/QuizQuestionImagePlaceholder.png")}
+                  source={{
+                    uri: `data:${incorrectContacts[1].image.fileType};base64,${incorrectContacts[1].image.data}`,
+                  }}
+                  resizeMode="contain"
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: false,
+                  });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
+                      questionResults,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   } else {
                     this.props.navigation.navigate("Quiz Results Screen", {
                       questionResults,
-                      QuizListNames: QuizListNames,
                       CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                     });
                   }
@@ -202,7 +231,10 @@ class QuizScreen extends React.Component {
               >
                 <Image
                   style={styles.QuizQuestionImage}
-                  source={require("../assets/QuizQuestionImagePlaceholder.png")}
+                  source={{
+                    uri: `data:${incorrectContacts[2].image.fileType};base64,${incorrectContacts[2].image.data}`,
+                  }}
+                  resizeMode="contain"
                 />
               </TouchableOpacity>
             </View>
