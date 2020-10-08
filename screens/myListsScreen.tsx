@@ -102,6 +102,9 @@ class myListsScreen extends React.Component<Props, State> {
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={() => this.fetchContacts()}>
+          <Text style={styles.newListBtn}>Refresh</Text>
+        </TouchableOpacity>
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />

@@ -42,23 +42,23 @@ class HoodatBudsList extends React.Component<Props, State> {
           style={{
             flex: 0,
             flexDirection: "row",
-            marginTop: RFValue(70),
+            marginTop: RFValue(65),
             width: "80%",
             justifyContent: "space-between",
           }}
         >
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("My Lists")}
-            style={styles.backButton}
+            
           >
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsButton}>
+          <TouchableOpacity>
             <Icon name="dots-three-vertical" size={25} color="#636363" />
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.ListTitle}>ListTitleName</Text>
+        <Text style={styles.ListTitle}>{ListTitleName}</Text>
 
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
@@ -75,9 +75,7 @@ class HoodatBudsList extends React.Component<Props, State> {
         <View style={styles.PeopleListScrollView}>
           <ScrollView>
             {this.state.contacts.map((contact: Contact) => (
-              <View
-                style={[styles.PeopleInList, { flex: 0, flexDirection: "row" }]}
-              >
+              <TouchableOpacity style={[styles.PeopleInList, { flex: 0, flexDirection: "row" }]} >
                 <Image
                   style={styles.PeopleInListPicture}
                   source={{
@@ -89,36 +87,30 @@ class HoodatBudsList extends React.Component<Props, State> {
                 <TouchableOpacity style={styles.PeopleInListOptions}>
                   <Icon name="dots-three-vertical" size={20} color="#636363" />
                 </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <TouchableOpacity
-              style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
-            >
-              <Icon
-                marginTop="20"
-                name="flash"
-                size={30}
-                color="#FFFFFF"
-                style={styles.QuizMeFlashIcon}
-              />
-              <Text style={styles.QuizMeText}>Quiz Me</Text>
-            </TouchableOpacity>
-          </View>
         </View>
+        <View style={styles.QuizMeBtnView}>
+          <TouchableOpacity
+            style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
+            onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
+          >
+            <Icon
+              name="flash"
+              size={30}
+              color="#FFFFFF"
+              style={styles.QuizMeFlashIcon}
+            />
+            <Text style={styles.QuizMeText}>Quiz Me</Text>
+          </TouchableOpacity>
+        </View>
+        
       </View>
     );
   }
 }
 
-{/* <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} )}>
-                  <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
-                  <Text style={styles.QuizMeText}>Quiz Me</Text>
-              </TouchableOpacity>
-            </View> */}
 
 const styles = StyleSheet.create({
   container: {
@@ -128,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   ListTitle: {
-    marginTop: RFValue(30),
+    marginTop: RFValue(20),
     fontSize: RFValue(30),
     fontWeight: "800",
     width: "80%",
@@ -136,12 +128,12 @@ const styles = StyleSheet.create({
 
   searchBar: {
     marginTop: 30,
-    paddingVertical: 15,
+    paddingVertical: RFValue(10),
     paddingLeft: 22,
     width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius: 20,
-    marginBottom: RFValue(25),
+    marginBottom: RFValue(18),
   },
 
   searchTextInput: {
@@ -159,9 +151,11 @@ const styles = StyleSheet.create({
   },
 
   PeopleListScrollView: {
-    marginBottom: 80,
+    position: "relative",
+    top: 0,
+    height: "58%",
     width: "80%",
-    height: "40%",
+    
   },
 
   PeopleInList: {
@@ -197,8 +191,16 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
 
+  QuizMeBtnView:
+  { flex: 1, 
+    flexDirection: "row", 
+    position: "absolute", 
+    bottom: "6%", 
+    right: "7%",
+  },
+
   QuizMeButton: {
-    marginTop: RFValue(20),
+    borderWidth:1,
     marginLeft: 180,
     backgroundColor: "#6EA8FF",
     width: 140,
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
   },
 
   QuizMeText: {
-    marginTop: 18,
+    marginTop: RFValue(16),
     marginLeft: 3,
     fontWeight: "800",
     color: "#FFFFFF",
