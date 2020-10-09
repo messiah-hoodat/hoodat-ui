@@ -18,10 +18,10 @@ interface Props {
 
 export default function ListDetailsContactCard({ contact, removeContact }: Props) {
 
-  const [visible, setVisible] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const handleRemoveContact = async () => {
-    setVisible(false);
+    setMenuVisible(false);
     await removeContact();
   }
 
@@ -39,10 +39,10 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
       </View>
       <View style={styles.optionsContainer}>
         <Menu
-          visible={visible}
-          onDismiss={() => setVisible(false)}
+          visible={menuVisible}
+          onDismiss={() => setMenuVisible(false)}
           anchor={
-            <TouchableOpacity onPress={() => setVisible(true)}>
+            <TouchableOpacity onPress={() => setMenuVisible(true)}>
               <Icon name="dots-three-vertical" size={20} color="#636363" />
             </TouchableOpacity>
           }
