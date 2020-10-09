@@ -91,7 +91,10 @@ class QuizResultsScreen extends React.Component<Props> {
 
           <TouchableOpacity>
             <Text
-              onPress={() => this.props.navigation.navigate("Quiz Screen")}
+              onPress={() => this.props.navigation.navigate("Quiz Screen", {
+                questionResults: [],
+                CurrentQuizQuestionNumber: 0,
+              })}
               style={styles.retakeQuizButton}
             >
               Retake Quiz

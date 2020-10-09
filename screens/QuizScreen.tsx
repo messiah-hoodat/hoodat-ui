@@ -121,7 +121,6 @@ class QuizScreen extends React.Component<Props> {
               borderColor={"#FFB906"}
               onTimeElapsed={() => {
                 Alert.alert("Quiz Timed Out!");
-                this.props.navigation.navigate("Quiz Results Screen");
               }}
             />
             <Text style={styles.HooIsText}>Hoo is...</Text>
