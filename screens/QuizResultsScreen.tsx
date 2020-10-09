@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
 import { ScrollView } from "react-native-gesture-handler";
 import { Contact } from "./myListsScreen";
+//import Confetti from "react-native-confetti";       Confetti code chunk 1/3
 
 export interface QuestionResult {
   contact: Contact;
@@ -20,6 +21,10 @@ interface Props {
 }
 
 class QuizResultsScreen extends React.Component<Props> {
+  
+  // private _confettiView: any;
+  // componentDidMount() {if(this._confettiView) {this._confettiView.startConfetti();}}   Confetti code chunk 2/3
+
   render() {
     const { questionResults } = this.props.route.params;
 
@@ -29,7 +34,9 @@ class QuizResultsScreen extends React.Component<Props> {
 
     return (
       <View style={styles.container}>
+        
         <View style={{ flex: 44, width: "100%", alignItems: "center" }}>
+          {/* <Confetti ref={(node: any) => this._confettiView = node}/>            Confetti code chunk 3/3*/}
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Hoodat Buds")}
             style={styles.exitButton}
@@ -127,7 +134,6 @@ const styles = StyleSheet.create({
 
   QuizResultsScreenBackground: {
     padding: 10,
-    //width: '80%',
     height: "65%",
   },
   correctAnswersPercentageText: {
@@ -150,7 +156,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: 10,
     borderWidth: 0.5,
-    //borderWidth:0,
   },
   namesInQuizResultPage: {
     flex: 1,
