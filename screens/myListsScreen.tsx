@@ -100,6 +100,17 @@ class myListsScreen extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
+        <View style={{
+            flex: 0,
+            flexDirection: "row",
+            width: "75%",
+          }}>
+          <TouchableOpacity onPress={() => this.fetchContacts()}>
+            <Text style={styles.refreshBtn}>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+        
+
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />
           <Icon name="magnifying-glass" size={18} color="#828282" />
@@ -166,12 +177,19 @@ const styles = StyleSheet.create({
     marginRight: 0,
     color: "#6EA8FF",
   },
+  refreshBtn: {
+    marginTop: RFValue(10),
+    fontSize: 15,
+    fontWeight: "800",
+    marginRight: 0,
+    color: "#6EA8FF",
+    marginBottom: RFValue(-20),
+  },
 
   searchBar: {
-    marginTop: 40,
+    marginTop: RFValue(40),
     paddingVertical: 15,
     paddingLeft: RFValue(22),
-    //width: RFValue(290),
     width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius: 20,

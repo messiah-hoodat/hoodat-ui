@@ -14,6 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { API_ROOT } from "../lib/constants";
 import { UserContext, UserState } from "../contexts/UserContext";
+import myListsScreen from '../screens/myListsScreen';
 
 interface Props {
   navigation: any;
@@ -112,7 +113,7 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     if (response.ok) {
       Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
-      this.props.navigation.pop();
+      this.props.navigation.pop(2);
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
     }
