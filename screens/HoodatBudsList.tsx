@@ -96,26 +96,14 @@ class HoodatBudsList extends React.Component<Props, State> {
               </TouchableOpacity>
             ))}
           </ScrollView>
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <TouchableOpacity
-              style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
-            >
-              <Icon
-                name="flash"
-                size={30}
-                color="#FFFFFF"
-                style={styles.QuizMeFlashIcon}
-              />
-              <Text style={styles.QuizMeText}>Quiz Me</Text>
-            </TouchableOpacity>
-          </View>
+          
         </View>
+        
         <View style={styles.QuizMeBtnView}>
           <TouchableOpacity
             style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-            onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:this.state.listName ?? "My People", QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
-          >
+            onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
+            >
             <Icon
               name="flash"
               size={30}

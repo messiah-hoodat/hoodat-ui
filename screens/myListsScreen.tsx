@@ -99,9 +99,17 @@ class myListsScreen extends React.Component<Props, State> {
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => this.fetchContacts()}>
-          <Text style={styles.newListBtn}>Refresh</Text>
-        </TouchableOpacity>
+
+        <View style={{
+            flex: 0,
+            flexDirection: "row",
+            width: "75%",
+          }}>
+          <TouchableOpacity onPress={() => this.fetchContacts()}>
+            <Text style={styles.refreshBtn}>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+        
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />
@@ -169,12 +177,19 @@ const styles = StyleSheet.create({
     marginRight: 0,
     color: "#6EA8FF",
   },
+  refreshBtn: {
+    marginTop: RFValue(10),
+    fontSize: 15,
+    fontWeight: "800",
+    marginRight: 0,
+    color: "#6EA8FF",
+    marginBottom: RFValue(-20),
+  },
 
   searchBar: {
-    marginTop: 40,
+    marginTop: RFValue(40),
     paddingVertical: 15,
     paddingLeft: RFValue(22),
-    //width: RFValue(290),
     width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius: 20,
