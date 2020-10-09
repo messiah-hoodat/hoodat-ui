@@ -77,15 +77,12 @@ class myListsScreen extends React.Component<Props, State> {
 
     this.setState({ contacts });
 
-    Alert.alert(
-      "Hurray!",
-      "Your contacts have been fetched from the database."
-    );
-
     return Promise.resolve();
   };
 
   render() {
+    const listName = "My Peeps";
+
     return (
       <View style={styles.container}>
         <View
@@ -113,6 +110,7 @@ class myListsScreen extends React.Component<Props, State> {
             onPress={() =>
               this.props.navigation.navigate("Hoodat Buds", {
                 contacts: this.state.contacts,
+                listName
               })
             }
           >
@@ -122,7 +120,7 @@ class myListsScreen extends React.Component<Props, State> {
               start={{ x: -0.2, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}
             >
-              <Text style={styles.ListButtonTitle}>Hoodat Buds</Text>
+              <Text style={styles.ListButtonTitle}>{listName}</Text>
               <Text style={styles.ListButtonSubtitle}>
                 {this.state.contacts.length} contacts
               </Text>

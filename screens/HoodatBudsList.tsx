@@ -15,27 +15,32 @@ import { Contact } from "./myListsScreen";
 
 interface Props {
   navigation: any;
-  route: any;
+  route: {
+    params: {
+      contacts: Contact[];
+      listName: string;
+    }
+  };
 }
 
 interface State {
   contacts: Contact[];
+  listName: string;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { contacts } = this.props.route.params;
+    const { contacts, listName } = this.props.route.params;
 
-    this.state = { contacts };
+    this.state = { contacts, listName };
   }
 
   render() {
-    var ListTitleName = "Hoodat Buds"
     var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
     var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
-    
+
     return (
       <View style={styles.container}>
         <View
@@ -58,7 +63,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.ListTitle}>ListTitleName</Text>
+        <Text style={styles.ListTitle}>{this.state.listName ?? "My People"}</Text>
 
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
@@ -95,7 +100,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
               style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
+              onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
             >
               <Icon
                 marginTop="20"
@@ -112,13 +117,6 @@ class HoodatBudsList extends React.Component<Props, State> {
     );
   }
 }
-
-{/* <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} )}>
-                  <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
-                  <Text style={styles.QuizMeText}>Quiz Me</Text>
-              </TouchableOpacity>
-            </View> */}
 
 const styles = StyleSheet.create({
   container: {
