@@ -129,152 +129,60 @@ class QuizScreen extends React.Component<Props> {
           </View>
 
           <View style={{ flex: 5.5, width: "87%" }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginBottom: RFValue(5),
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  questionResults.push({
-                    contact: correctContact,
-                    correct: questionOptions[0].isCorrect,
-                  });
-                  if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
-                    this.props.navigation.navigate("Quiz Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  } else {
-                    this.props.navigation.navigate("Quiz Results Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  marginRight: RFValue(5),
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  style={styles.QuizQuestionImage}
-                  source={{
-                    uri: `data:${questionOptions[0].contact.image.fileType};base64,${questionOptions[0].contact.image.data}`,
-                  }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  questionResults.push({
-                    contact: correctContact,
-                    correct: questionOptions[1].isCorrect,
-                  });
-                  if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
-                    this.props.navigation.navigate("Quiz Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  } else {
-                    this.props.navigation.navigate("Quiz Results Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  style={styles.QuizQuestionImage}
-                  source={{
-                    uri: `data:${questionOptions[1].contact.image.fileType};base64,${questionOptions[1].contact.image.data}`,
-                  }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  questionResults.push({
-                    contact: correctContact,
-                    correct: questionOptions[2].isCorrect,
-                  });
-                  if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
-                    this.props.navigation.navigate("Quiz Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  } else {
-                    this.props.navigation.navigate("Quiz Results Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  marginRight: RFValue(5),
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  style={styles.QuizQuestionImage}
-                  source={{
-                    uri: `data:${questionOptions[2].contact.image.fileType};base64,${questionOptions[2].contact.image.data}`,
-                  }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  questionResults.push({
-                    contact: correctContact,
-                    correct: questionOptions[3].isCorrect,
-                  });
-                  if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
-                    this.props.navigation.navigate("Quiz Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  } else {
-                    this.props.navigation.navigate("Quiz Results Screen", {
-                      questionResults,
-                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                    });
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  style={styles.QuizQuestionImage}
-                  source={{
-                    uri: `data:${questionOptions[3].contact.image.fileType};base64,${questionOptions[3].contact.image.data}`,
-                  }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-            </View>
+            {
+              (() => {
+                const wrapper = (children: any) =>
+                  <View
+                    style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: RFValue(5) }}
+                  >
+                    {children}
+                  </View>
+
+                const option = (index: number) =>
+                  <TouchableOpacity
+                    onPress={() => {
+                      questionResults.push({
+                        contact: correctContact,
+                        correct: questionOptions[index].isCorrect,
+                      });
+                      if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
+                        this.props.navigation.navigate("Quiz Screen", {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                      } else {
+                        this.props.navigation.navigate("Quiz Results Screen", {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      borderRadius: 10,
+                      borderWidth: 2,
+                      marginRight: RFValue(5),
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      style={styles.QuizQuestionImage}
+                      source={{
+                        uri: `data:${questionOptions[index].contact.image.fileType};base64,${questionOptions[index].contact.image.data}`,
+                      }}
+                      resizeMode="contain"
+                    />
+                  </TouchableOpacity>
+
+                return (
+                  <View>
+                    {
+                      [wrapper([option(0), option(1)]), wrapper([option(2), option(3)])]
+                    }
+                  </View>
+                );
+              })()
+            }
           </View>
           <View
             style={{
