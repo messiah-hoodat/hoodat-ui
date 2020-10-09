@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: RFValue(20),
     borderRadius: 20,
-    overflow: "hidden"
+    overflow: "hidden",
   },
 });
 
