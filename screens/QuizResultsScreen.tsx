@@ -84,6 +84,7 @@ class QuizResultsScreen extends React.Component<Props> {
                   >
                     {questionResult.contact.name}
                   </Text>
+                  <Icon name={questionResult.correct ? "check" : "cross"} size={RFValue(14)} color={questionResult.correct ? "green" : "red"} />
                 </View>
               ))}
             </ScrollView>
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignSelf: "flex-start",
+    alignItems: "center",
     paddingVertical: RFValue(10),
     paddingLeft: RFValue(20),
     marginBottom: RFValue(5),
@@ -168,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14),
     fontWeight: "bold",
     paddingLeft: RFValue(20),
+    marginRight: RFValue(5)
   },
   retakeQuizButton: {
     marginTop: "2%",
