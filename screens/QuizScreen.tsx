@@ -14,6 +14,11 @@ import CircularTimer from "react-native-circular-timer";
 import { Contact } from "./myListsScreen";
 import { QuestionResult } from "./QuizResultsScreen";
 
+interface QuestionOption {
+  contact: Contact;
+  isCorrect: boolean;
+}
+
 interface Props {
   navigation: any;
   route: {
@@ -37,8 +42,40 @@ class QuizScreen extends React.Component<Props> {
     var ProgressBarWidth =
       (CurrentQuizQuestionNumber / QuizTotalNumberOfQuestions) * screenWidth;
     var TotalQuizTime = QuizTotalNumberOfQuestions * 10;
-    const correctContact = contacts[CurrentQuizQuestionNumber - 1];
-    const incorrectContacts = [contacts[0], contacts[1], contacts[2]];
+
+    const correctContactIndex = CurrentQuizQuestionNumber - 1;
+    const correctContact = contacts[correctContactIndex];
+
+    const getUniqueRandomOptions = (): QuestionOption[] => {
+      let options: QuestionOption[] = [];
+      let indeces: number[] = [];
+      for (let i = 0; i < contacts.length; i++) {
+        if (!(i === correctContactIndex)) {
+          indeces.push(i);
+        }
+      }
+      const randomIndeces = indeces.sort(() => 0.5 - Math.random());
+      for (let i = 0; i < 4; i++) {
+        options[i] = {
+          contact: contacts[randomIndeces[i]],
+          isCorrect: false
+        };
+      }
+
+      return options;
+    }
+
+
+    // Initialize options with random contacts
+    const questionOptions = getUniqueRandomOptions();
+
+    // Insert correct option at random position
+    const correctIndex = Math.floor(Math.random() * 3);
+    questionOptions[correctIndex] = {
+      contact: correctContact,
+      isCorrect: true
+    };
+
     return (
       <View style={styles.container}>
         <View
@@ -103,7 +140,7 @@ class QuizScreen extends React.Component<Props> {
                 onPress={() => {
                   questionResults.push({
                     contact: correctContact,
-                    correct: true,
+                    correct: questionOptions[0].isCorrect,
                   });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
@@ -128,7 +165,7 @@ class QuizScreen extends React.Component<Props> {
                 <Image
                   style={styles.QuizQuestionImage}
                   source={{
-                    uri: `data:${correctContact.image.fileType};base64,${correctContact.image.data}`,
+                    uri: `data:${questionOptions[0].contact.image.fileType};base64,${questionOptions[0].contact.image.data}`,
                   }}
                   resizeMode="contain"
                 />
@@ -137,7 +174,7 @@ class QuizScreen extends React.Component<Props> {
                 onPress={() => {
                   questionResults.push({
                     contact: correctContact,
-                    correct: false,
+                    correct: questionOptions[1].isCorrect,
                   });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
@@ -161,7 +198,7 @@ class QuizScreen extends React.Component<Props> {
                 <Image
                   style={styles.QuizQuestionImage}
                   source={{
-                    uri: `data:${incorrectContacts[0].image.fileType};base64,${incorrectContacts[0].image.data}`,
+                    uri: `data:${questionOptions[1].contact.image.fileType};base64,${questionOptions[1].contact.image.data}`,
                   }}
                   resizeMode="contain"
                 />
@@ -174,7 +211,7 @@ class QuizScreen extends React.Component<Props> {
                 onPress={() => {
                   questionResults.push({
                     contact: correctContact,
-                    correct: false,
+                    correct: questionOptions[2].isCorrect,
                   });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
@@ -199,7 +236,7 @@ class QuizScreen extends React.Component<Props> {
                 <Image
                   style={styles.QuizQuestionImage}
                   source={{
-                    uri: `data:${incorrectContacts[1].image.fileType};base64,${incorrectContacts[1].image.data}`,
+                    uri: `data:${questionOptions[2].contact.image.fileType};base64,${questionOptions[2].contact.image.data}`,
                   }}
                   resizeMode="contain"
                 />
@@ -208,7 +245,7 @@ class QuizScreen extends React.Component<Props> {
                 onPress={() => {
                   questionResults.push({
                     contact: correctContact,
-                    correct: false,
+                    correct: questionOptions[3].isCorrect,
                   });
                   if (CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions) {
                     this.props.navigation.navigate("Quiz Screen", {
@@ -232,7 +269,7 @@ class QuizScreen extends React.Component<Props> {
                 <Image
                   style={styles.QuizQuestionImage}
                   source={{
-                    uri: `data:${incorrectContacts[2].image.fileType};base64,${incorrectContacts[2].image.data}`,
+                    uri: `data:${questionOptions[3].contact.image.fileType};base64,${questionOptions[3].contact.image.data}`,
                   }}
                   resizeMode="contain"
                 />
