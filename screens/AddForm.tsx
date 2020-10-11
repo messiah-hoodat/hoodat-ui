@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Button,
+  Text,
   Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
@@ -14,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { API_ROOT } from "../lib/constants";
 import { UserContext, UserState } from "../contexts/UserContext";
+import { RFValue } from "react-native-responsive-fontsize";
 
 interface Props {
   navigation: any;
@@ -124,7 +126,15 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View style={{ flex: 0, flexDirection: "row", marginTop: 80 }}>
+        <View
+          style={{
+            flex: 0,
+            flexDirection: "row",
+            marginTop: RFValue(80),
+            width: "80%",
+            justifyContent: "space-between",
+          }}
+        >
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("Hoodat Buds")}
             style={styles.backButton}
@@ -135,28 +145,65 @@ class HoodatBudsList extends React.Component<Props, State> {
             <Icon name="dots-three-vertical" size={25} color="#636363" />
           </TouchableOpacity>
         </View>
-
+        <Text style={styles.myAddContactText}>Add Contact</Text>
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            marginTop: RFValue(300),
+            marginBottom: RFValue(-500),
+            marginLeft: RFValue(130),
+            width: "95%",
+          }}
         >
-          <Button
-            title="Pick an image from camera roll"
-            onPress={this.pickImage}
-          />
+        
+        <Text style={[styles.InputLabel]}>Name</Text>
+        </View>
+        
+        <TextInput
+          style={styles.nameInput}
+          placeholder="John Doe"
+          onChangeText={(name) => this.setState({ name })}
+        />
+          <Text style={[styles.InputLabel]}>Image</Text>  
+           
+          <View
+          style={{ flex: 1, alignItems: "left", justifyContent: "center" }}
+        >
           <Image
+          style={{
+            width: 200,
+            height: 200,
+            marginLeft: RFValue(30),
+            marginTop: RFValue(-100),
+            display: image.data && image.fileType ? "flex" : "none",
+          }}
             source={{ uri: `data:${image.fileType};base64,${image.data}` }}
-            style={{
-              width: 200,
-              height: 200,
-              display: image.data && image.fileType ? "flex" : "none",
-            }}
+            
           />
-          <TextInput
-            style={styles.addName}
-            placeholder="Name"
-            onChangeText={(name) => this.setState({ name })}
-          />
-          <Button title="Submit" onPress={this.handleSubmit} />
+          <TouchableOpacity
+          onPress={this.pickImage}
+        >
+          <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={this.pickImage}
+        >
+          <Text style={styles.takePicbutton}>Take a picture</Text>
+        </TouchableOpacity>
+          <TouchableOpacity
+              style={[styles.AddContactButton, { flex: 0, flexDirection: "row" }]}
+              onPress={this.handleSubmit}
+            >
+              <Icon
+                marginTop="20"
+                name="plus"
+                size={30}
+                color="#FFFFFF"
+                style={styles.AddContactIcon}
+              />
+              <Text style={styles.AddContactText}>Add Contact</Text>
+            </TouchableOpacity>
         </View>
       </View>
     );
@@ -170,11 +217,57 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  myAddContactText: {
+    marginTop: RFValue(30),
+    marginBottom: RFValue(-275),
+    fontSize: RFValue(30),
+    fontWeight: "800",
+    width: "80%",
+  },
+
+  InputLabel: {
+    marginTop: "5%",
+    marginLeft: RFValue(-35),
+    marginBottom:RFValue(10),
+    fontSize: RFValue(14),
+    width: RFValue(230),
+    fontWeight: "600",
+    color: "#5F5F5F",
+  },
+
+  nameInput: {
+    borderBottomWidth: 1,
+    borderColor: "#C4C4C4",
+    backgroundColor: "white",
+    paddingVertical: RFValue(8),
+    margin: 7,
+    marginLeft: RFValue(-35),
+    marginTop: RFValue(100),
+    width: RFValue(230),
+    overflow: "hidden",
+  },
+
   addName: {
     marginTop: 20,
     fontSize: 35,
     fontWeight: "400",
     marginRight: 85,
+  },
+
+  cameraRollbutton: {
+    color: "#6EA8FF",
+    fontWeight: "800",
+    fontSize: RFValue(14),
+    marginLeft: RFValue(30),
+    marginBottom: RFValue(18),
+  },
+
+  takePicbutton: {
+    color: "#6EA8FF",
+    fontWeight: "800",
+    fontSize: RFValue(14),
+    marginLeft: RFValue(30),
+    marginBottom: RFValue(18),
   },
 
   backButton: {
@@ -184,6 +277,29 @@ const styles = StyleSheet.create({
   optionsButton: {
     marginRight: 10,
   },
+
+  AddContactButton: {
+    marginTop: RFValue(20),
+    marginLeft: 180,
+    backgroundColor: "#6EA8FF",
+    width: 180,
+    height: 60,
+    borderRadius: 43,
+  },
+
+  AddContactIcon: {
+    marginLeft: 12,
+    marginTop: 14,
+  },
+
+  AddContactText: {
+    marginTop: 18,
+    marginLeft: 3,
+    fontWeight: "800",
+    color: "#FFFFFF",
+    fontSize: 20,
+  },
+
 });
 
 export default HoodatBudsList;
