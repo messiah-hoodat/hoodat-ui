@@ -114,7 +114,7 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     if (response.ok) {
       Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
-      this.props.navigation.pop();
+      this.props.navigation.pop(2);
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
     }
