@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from './screens/SplashScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import myListsScreen from './screens/myListsScreen';
@@ -26,6 +27,7 @@ export default function App() {
           headerMode="none"
           screenOptions={{ gestureEnabled: false }}
         >
+          <Stack.Screen name="Splash Screen" component={SplashScreen} />
           <Stack.Screen name="Sign In" component={SignInScreen} />
           <Stack.Screen name="My Lists" component={myListsScreen} />
           <Stack.Screen name="Hoodat Buds" component={HoodatBudsList}/>
