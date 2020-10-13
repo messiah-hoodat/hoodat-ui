@@ -126,84 +126,62 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            flex: 0,
-            flexDirection: "row",
-            marginTop: RFValue(65),
-            width: "80%",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Hoodat Buds")}
-            style={styles.backButton}
-          >
+        
+        <View style={{marginTop: RFValue(65), width: "80%"}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Hoodat Buds")}>
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsButton}>
-            <Icon name="dots-three-vertical" size={25} color="#636363" />
+        </View>
+
+
+        <View style={{width: "80%", marginTop: RFValue(25)}}>
+          <Text style={styles.myAddContactText}>Add Contact</Text>
+        </View>
+
+        <View style={{width: "79%"}}>
+          <Text style={[styles.InputLabel]}>Name</Text>
+          <TextInput
+            style={styles.nameInput}
+            placeholder="John Doe"
+            onChangeText={(name) => this.setState({ name })}
+          />
+        </View>
+        <View style={{width: "79%", marginTop:"2%"}}>
+          <Text style={[styles.InputLabel]}>Image</Text>  
+          <View style ={{width:RFValue(175), height:RFValue(175), borderWidth:1, marginTop:"4%", borderRadius:16, marginLeft:"2%"}}> 
+            <Image
+              style={{
+              width: "100%",
+              height: "100%",
+              borderRadius:16,
+              display: image.data && image.fileType ? "flex" : "none",
+            }}
+            source={{ uri: `data:${image.fileType};base64,${image.data}` }}
+            />
+          </View>
+        </View>
+        
+           
+        <View style={{width: "78%", marginTop:"4%"}}>
+          <TouchableOpacity onPress={this.pickImage}>
+            <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={this.pickImage}>
+            <Text style={styles.takePicbutton}>Take a picture</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.myAddContactText}>Add Contact</Text>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            marginTop: RFValue(300),
-            marginBottom: RFValue(-500),
-            marginLeft: RFValue(130),
-            width: "95%",
-          }}
-        >
-        
-        <Text style={[styles.InputLabel]}>Name</Text>
-        </View>
-        
-        <TextInput
-          style={styles.nameInput}
-          placeholder="John Doe"
-          onChangeText={(name) => this.setState({ name })}
-        />
-          <Text style={[styles.InputLabel]}>Image</Text>  
-           
-          <View
-          style={{ flex: 1, alignItems: "left", justifyContent: "center" }}
-        >
-          <Image
-          style={{
-            width: 200,
-            height: 200,
-            marginLeft: RFValue(30),
-            marginTop: RFValue(-100),
-            display: image.data && image.fileType ? "flex" : "none",
-          }}
-            source={{ uri: `data:${image.fileType};base64,${image.data}` }}
-            
-          />
-          <TouchableOpacity
-          onPress={this.pickImage}
-        >
-          <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={this.pickImage}
-        >
-          <Text style={styles.takePicbutton}>Take a picture</Text>
-        </TouchableOpacity>
-          <TouchableOpacity
-              style={[styles.AddContactButton, { flex: 0, flexDirection: "row" }]}
-              onPress={this.handleSubmit}
-            >
+          
+        <View style={{width: "80%", marginTop:"4%", flex: 0, flexDirection: "row-reverse",}}>
+          <TouchableOpacity style={[styles.AddContactButton]} onPress={this.handleSubmit}>
               <Icon
-                marginTop="20"
                 name="plus"
                 size={30}
                 color="#FFFFFF"
                 style={styles.AddContactIcon}
               />
               <Text style={styles.AddContactText}>Add Contact</Text>
-            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -218,17 +196,12 @@ const styles = StyleSheet.create({
   },
 
   myAddContactText: {
-    marginTop: RFValue(30),
-    marginBottom: RFValue(-275),
     fontSize: RFValue(30),
     fontWeight: "800",
-    width: "80%",
   },
 
   InputLabel: {
-    marginTop: "5%",
-    marginLeft: RFValue(-35),
-    marginBottom:RFValue(10),
+    marginTop: "8%",
     fontSize: RFValue(14),
     width: RFValue(230),
     fontWeight: "600",
@@ -236,14 +209,12 @@ const styles = StyleSheet.create({
   },
 
   nameInput: {
+    marginTop: "4%",
     borderBottomWidth: 1,
     borderColor: "#C4C4C4",
     backgroundColor: "white",
     paddingVertical: RFValue(8),
-    margin: 7,
-    marginLeft: RFValue(-35),
-    marginTop: RFValue(100),
-    width: RFValue(230),
+    width: "100%",
     overflow: "hidden",
   },
 
@@ -258,16 +229,13 @@ const styles = StyleSheet.create({
     color: "#6EA8FF",
     fontWeight: "800",
     fontSize: RFValue(14),
-    marginLeft: RFValue(30),
-    marginBottom: RFValue(18),
+    marginBottom: RFValue(14),
   },
 
   takePicbutton: {
     color: "#6EA8FF",
     fontWeight: "800",
     fontSize: RFValue(14),
-    marginLeft: RFValue(30),
-    marginBottom: RFValue(18),
   },
 
   backButton: {
@@ -279,12 +247,14 @@ const styles = StyleSheet.create({
   },
 
   AddContactButton: {
+    flex: 0, 
+    flexDirection: "row",
     marginTop: RFValue(20),
-    marginLeft: 180,
     backgroundColor: "#6EA8FF",
     width: 180,
     height: 60,
     borderRadius: 43,
+
   },
 
   AddContactIcon: {
