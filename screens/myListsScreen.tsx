@@ -97,7 +97,7 @@ class myListsScreen extends React.Component<Props, State> {
           }}
         >
           <Text style={styles.myListsText}>My Lists</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List")}>
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
