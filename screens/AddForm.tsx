@@ -130,7 +130,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           style={{
             flex: 0,
             flexDirection: "row",
-            marginTop: RFValue(65),
+            marginTop: RFValue(80),
             width: "80%",
             justifyContent: "space-between",
           }}
