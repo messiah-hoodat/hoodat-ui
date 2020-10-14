@@ -7,9 +7,14 @@ import {
   Text,
   Alert,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+/*import { Header } from "react-native/Libraries/NewAppScreen";*/
 import { API_ROOT } from "../lib/constants";
+import { Header } from 'react-navigation-stack';
 
 interface Props {
   navigation: any;
@@ -115,6 +120,13 @@ class SignUpScreen extends React.Component<Props, State> {
 
   render() {
     return (
+<KeyboardAvoidingView
+      keyboardVerticalOffset = {Header.HEIGHT + 20}
+      behavior="padding"
+      style={{ flex:1 }}
+    >
+      
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Text style={styles.SignUpText}>Sign Up</Text>
 
@@ -224,6 +236,8 @@ class SignUpScreen extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
       </View>
+      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
