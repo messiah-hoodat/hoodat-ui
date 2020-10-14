@@ -135,10 +135,11 @@ const styles = StyleSheet.create({
         borderColor: "#C4C4C4",
         backgroundColor: "white",
         paddingVertical: RFValue(8),
-        margin: 7,
+        marginTop: 7,
+        marginLeft: 3,
         width: "100%",
         color: "#000000",
-        overflow: "hidden",
+
       },
     
     ListColorLabels: {
@@ -167,16 +168,14 @@ const styles = StyleSheet.create({
 
     createListButtonView:
     { 
-        position:"absolute", 
-        bottom: "12%", 
         flex:1, 
         flexDirection: "row", 
         width: "80%", 
-        borderWidth:0, 
         justifyContent:'flex-end'
     },
 
     AddListButton: {
+        marginTop:"30%",
         backgroundColor: "#6EA8FF",
         width: 180,
         height: 60,
