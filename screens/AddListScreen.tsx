@@ -184,13 +184,13 @@ const styles = StyleSheet.create({
     },
 
     AddListIcon: {
-        marginLeft: 12,
-        marginTop: 14,
+        marginLeft: RFValue(12),
+        marginTop: RFValue(14),
     },
 
     AddListText: {
-        marginTop: 18,
-        marginLeft: 3,
+        marginTop: RFValue(18),
+        marginLeft: RFValue(6),
         fontWeight: "800",
         color: "#FFFFFF",
         fontSize: RFValue(20),
