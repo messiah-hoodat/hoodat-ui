@@ -5,6 +5,7 @@ import SplashScreen from './screens/SplashScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import myListsScreen from './screens/myListsScreen';
+import AddList from './screens/AddListScreen';
 import HoodatBudsList from './screens/HoodatBudsList';
 import AddForm from './screens/AddForm';
 import QuizScreen from './screens/QuizScreen';
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name="Splash Screen" component={SplashScreen} />
           <Stack.Screen name="Sign In" component={SignInScreen} />
           <Stack.Screen name="My Lists" component={myListsScreen} />
+          <Stack.Screen name="Add List" component={AddList}/>
           <Stack.Screen name="Hoodat Buds" component={HoodatBudsList}/>
           <Stack.Screen name="Quiz Screen" component={QuizScreen}/>
           <Stack.Screen name="Quiz Results Screen" component={QuizResultsScreen}/>
