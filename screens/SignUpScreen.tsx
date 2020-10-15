@@ -121,9 +121,9 @@ class SignUpScreen extends React.Component<Props, State> {
   render() {
     return (
 <KeyboardAvoidingView
-      keyboardVerticalOffset = {Header.HEIGHT + 20}
+      keyboardVerticalOffset = {Header.HEIGHT + 50}
       behavior="padding"
-      style={{ flex:1 }}
+      style={styles.container}
     >
       
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
