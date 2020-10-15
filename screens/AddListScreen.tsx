@@ -50,11 +50,11 @@ class AddList extends React.Component<Props, State> {
                 <Text style={styles.NewListText}>New List</Text>
             </View>
             
-            <View style = {{ marginTop: RFValue(8), height:"4%", width: "78%", borderWidth:0}}> 
+            <View style = {{ marginTop: RFValue(8), width: "78%", borderWidth:0}}> 
                 <Text style={styles.ListNameLabel}>Name</Text>
             </View>
 
-            <View style = {{ marginTop: RFValue(0), height:"8%", width: "80%", borderWidth:0}}> 
+            <View style = {{ width: "80%", borderWidth:0}}> 
                 <TextInput
                     style={styles.ListNameInput}
                     placeholder="Hoodat Buds"
@@ -186,15 +186,15 @@ const styles = StyleSheet.create({
 
     AddListIcon: {
         marginLeft: RFValue(12),
-        marginTop: RFValue(14),
+        marginTop: RFValue(13),
     },
 
     AddListText: {
-        marginTop: RFValue(18),
+        marginTop: RFValue(16),
         marginLeft: RFValue(6),
         fontWeight: "800",
         color: "#FFFFFF",
-        fontSize: RFValue(20),
+        fontSize: 22,
     },
 
 });
