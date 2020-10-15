@@ -134,11 +134,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#C4C4C4",
         backgroundColor: "white",
-        paddingVertical: RFValue(8),
         marginTop: 7,
-        marginLeft: 3,
+        marginLeft: 5,
         width: "100%",
         color: "#000000",
+        borderWidth:0,
+        height:RFValue(25),
 
       },
     
