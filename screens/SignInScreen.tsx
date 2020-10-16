@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -8,9 +8,11 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  CheckBox,
+  AsyncStorage,
 } from "react-native";
+import { Checkbox } from 'react-native-paper';
 import { RFValue } from "react-native-responsive-fontsize";
+import { async } from "validate.js";
 import { UserContext } from "../contexts/UserContext";
 import { API_ROOT } from "../lib/constants";
 
@@ -19,12 +21,20 @@ interface Props {
 }
 
 export default function LoginScreen(props: Props) {
+
+  useEffect(() => {
+    componentDidMount();
+    }
+    );
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [checked, setChecked] = React.useState(false);
 
   const context = useContext(UserContext);
-
+    
   async function handleLogin(): Promise<void> {
     setLoginLoading(true);
 
@@ -51,7 +61,50 @@ export default function LoginScreen(props: Props) {
     }
     return Promise.resolve();
   }
-
+  const componentDidMount = async () => {
+    const email = await getRememberedUser();
+    const password = await getRememberedUser();
+   // setEmail(email || ""); //this.setState({email: email || ""})
+    setPassword(password || "");
+    setRememberMe(email && password ? true : false);
+    }  
+  const toggleRememberMe = (value: boolean) => {
+    setRememberMe(value) //this.setState({ rememberMe: value })
+      if (value === true) {
+        rememberUser();
+      } else {
+        forgetUser();
+      }
+  }
+  const rememberUser = async () => {
+    try {
+      await AsyncStorage.setItem("email", email);
+      await AsyncStorage.setItem('password', password);
+    } catch (error) {
+      alert("error saving data")
+    }
+    };
+    const getRememberedUser = async () => {
+      try {
+        const email = await AsyncStorage.getItem('email');
+        const password = await AsyncStorage.getItem('password');
+        if (email && password !== null) {
+          // We have email and password!!
+          return email && password;
+        }
+      } catch (error) {
+        // Error retrieving data
+        alert("error getting saved data")
+      }
+      };
+      const forgetUser = async () => {
+        try {
+          await AsyncStorage.removeItem('email');
+          await AsyncStorage.removeItem('password');
+        } catch (error) {
+         // Error removing
+        }
+      };
   return (
     <View style={styles.container}>
       <Image
@@ -63,6 +116,7 @@ export default function LoginScreen(props: Props) {
       <Text style={styles.EmailText}>Email</Text>
       <TextInput
         style={styles.inputUsernamePassword}
+        keyboardType={"email-address"}
         placeholder="example@gmail.com"
         onChangeText={(email) => setEmail(email)}
       />
@@ -94,7 +148,21 @@ export default function LoginScreen(props: Props) {
           marginBottom: RFValue(10),
         }}
       >
-        <CheckBox style={styles.rememberMeCheckbox} />
+      
+      <Checkbox style={styles.rememberMeCheckbox}
+      //uncheckedColor={"blue"}
+      status={checked ? 'checked' : 'unchecked'}
+      onPress={() => {
+        setChecked(!checked);
+      }}
+      value = {rememberMe} 
+      onValueChange = { (value: boolean) => toggleRememberMe(value) }
+    /> 
+        
+        {/* <Switch
+        value = {rememberMe} 
+        onValueChange = { (value) => toggleRememberMe(value) }
+        /> */}
         <Text style={styles.rememberMeText}>Remember Me</Text>
       </View>
 
@@ -120,7 +188,7 @@ export default function LoginScreen(props: Props) {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
@@ -196,6 +264,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(13),
     color: "#3D3D3D",
     fontWeight: "600",
+    marginTop:10,
   },
 
   loginButton: {
