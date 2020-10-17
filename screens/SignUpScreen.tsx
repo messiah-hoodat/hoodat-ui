@@ -14,10 +14,6 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 /*import { Header } from "react-native/Libraries/NewAppScreen";*/
 import { API_ROOT } from "../lib/constants";
-import { Header } from 'react-navigation-stack';
-import { ScrollView } from "react-native-gesture-handler";
-import { FadeFromBottomAndroid } from "@react-navigation/stack/lib/typescript/src/TransitionConfigs/TransitionPresets";
-import { useFocusEffect } from "@react-navigation/native";
 
 interface Props {
   navigation: any;
