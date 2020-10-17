@@ -7,98 +7,125 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
+import { Provider } from "react-native-paper";
 import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Contact } from "./myListsScreen";
+import { ListDetailsContactCard } from "../components";
+import { API_ROOT } from "../lib/constants";
+import { UserContext } from "../contexts/UserContext";
 
 
 interface Props {
   navigation: any;
-  route: any;
+  route: {
+    params: {
+      contacts: Contact[];
+      fetchContacts: () => Promise<any>;
+      listName: string;
+    }
+  };
 }
 
 interface State {
   contacts: Contact[];
+  listName: string;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
+  static contextType = UserContext;
+
   constructor(props: Props) {
     super(props);
 
-    const { contacts } = this.props.route.params;
+    const { contacts, listName } = this.props.route.params;
 
-    this.state = { contacts };
+    this.state = { contacts, listName };
+  }
+
+  async removeContact(contactId: string): Promise<void> {
+    const { token, userId } = this.context.value;
+
+    const response = await fetch(`${API_ROOT}/users/${userId}/contacts/${contactId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      Alert.alert(
+        "Uh oh!",
+        "There was an error deleting the contact."
+      );
+      return Promise.reject();
+    }
+
+    this.setState({
+      contacts: this.state.contacts.filter((contact: Contact) => contact.id !== contactId)
+    });
+
+    await this.props.route.params.fetchContacts();
+
+    return Promise.resolve();
   }
 
   render() {
-    var ListTitleName = "Hoodat Buds"
     var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
     var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
-    
+
     return (
-      <View style={styles.container}>
-        <View
-          style={{
-            flex: 0,
-            flexDirection: "row",
-            marginTop: RFValue(70),
-            width: "80%",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("My Lists")}
-            style={styles.backButton}
+      <Provider>
+        <View style={styles.container}>
+          <View
+            style={{
+              flex: 0,
+              flexDirection: "row",
+              marginTop: RFValue(65),
+              width: "80%",
+              justifyContent: "space-between",
+            }}
           >
-            <Icon name="chevron-thin-left" size={25} color="#828282" />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("My Lists")}
+            >
+              <Icon name="chevron-thin-left" size={25} color="#828282" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Icon name="dots-three-vertical" size={25} color="#636363" />
+            </TouchableOpacity>
+          </View>
+
+
+          <Text style={styles.ListTitle}>{this.state.listName ?? "My People"}</Text>
+
+
+          <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
+            <TextInput style={styles.searchTextInput} placeholder="Search..." />
+            <Icon name="magnifying-glass" size={18} color="#828282" />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Add Form")}
+          >
+            <Text style={styles.addMorePeopleButton}>+ Add More People</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionsButton}>
-            <Icon name="dots-three-vertical" size={25} color="#636363" />
-          </TouchableOpacity>
-        </View>
 
-        <Text style={styles.ListTitle}>ListTitleName</Text>
+          <View style={styles.PeopleListScrollView}>
+            <ScrollView>
+              {this.state.contacts.map((contact: Contact) => <ListDetailsContactCard contact={contact} removeContact={() => this.removeContact(contact.id)}/>)}
+            </ScrollView>
+          </View>
 
-
-        <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
-          <TextInput style={styles.searchTextInput} placeholder="Search..." />
-          <Icon name="magnifying-glass" size={18} color="#828282" />
-        </View>
-
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("Add Form")}
-        >
-          <Text style={styles.addMorePeopleButton}>+ Add More People</Text>
-        </TouchableOpacity>
-
-        <View style={styles.PeopleListScrollView}>
-          <ScrollView>
-            {this.state.contacts.map((contact: Contact) => (
-              <View
-                style={[styles.PeopleInList, { flex: 0, flexDirection: "row" }]}
-              >
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={{
-                    uri: `data:${contact.image.fileType};base64,${contact.image.data}`,
-                  }}
-                  resizeMode="contain"
-                />
-                <Text style={styles.PeopleInListName}>{contact.name}</Text>
-                <TouchableOpacity style={styles.PeopleInListOptions}>
-                  <Icon name="dots-three-vertical" size={20} color="#636363" />
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
-          <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={styles.QuizMeBtnView}>
             <TouchableOpacity
               style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { QuizTitleListName:ListTitleName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
-            >
+              onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
+              >
               <Icon
-                marginTop="20"
                 name="flash"
                 size={30}
                 color="#FFFFFF"
@@ -107,18 +134,13 @@ class HoodatBudsList extends React.Component<Props, State> {
               <Text style={styles.QuizMeText}>Quiz Me</Text>
             </TouchableOpacity>
           </View>
+          
         </View>
-      </View>
+      </Provider>
     );
   }
 }
 
-{/* <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity style={[styles.QuizMeButton, {flex:0, flexDirection:'row'}]} )}>
-                  <Icon marginTop="20" name="flash" size={30} color="#FFFFFF" style={styles.QuizMeFlashIcon}/>
-                  <Text style={styles.QuizMeText}>Quiz Me</Text>
-              </TouchableOpacity>
-            </View> */}
 
 const styles = StyleSheet.create({
   container: {
@@ -128,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   ListTitle: {
-    marginTop: RFValue(30),
+    marginTop: RFValue(20),
     fontSize: RFValue(30),
     fontWeight: "800",
     width: "80%",
@@ -136,12 +158,12 @@ const styles = StyleSheet.create({
 
   searchBar: {
     marginTop: 30,
-    paddingVertical: 15,
+    paddingVertical: RFValue(10),
     paddingLeft: 22,
     width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius: 20,
-    marginBottom: RFValue(25),
+    marginBottom: RFValue(18),
   },
 
   searchTextInput: {
@@ -159,46 +181,22 @@ const styles = StyleSheet.create({
   },
 
   PeopleListScrollView: {
-    marginBottom: 80,
+    position: "relative",
+    top: 0,
+    height: "58%",
     width: "80%",
-    height: "40%",
+    
   },
 
-  PeopleInList: {
-    width: "100%",
-    borderRadius: 20,
-    backgroundColor: "#F0EDED",
-    marginBottom: RFValue(14),
-  },
-
-  PeopleInListPicture: {
-    marginVertical: 9,
-    marginLeft: "10%",
-    width: 42,
-    height: 42,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "lightgrey",
-  },
-
-  PeopleInListName: {
-    marginVertical: 16,
-    marginLeft: RFValue(17),
-    fontWeight: "800",
-    textAlignVertical: "center",
-    fontSize: 20,
-    width: "60%",
-    color: "#494949",
-  },
-
-  PeopleInListOptions: {
-    marginVertical: 17,
-    marginRight: 20,
-    textAlignVertical: "center",
+  QuizMeBtnView:
+  { flex: 1, 
+    flexDirection: "row", 
+    position: "absolute", 
+    bottom: "6%", 
+    right: "7%",
   },
 
   QuizMeButton: {
-    marginTop: RFValue(20),
     marginLeft: 180,
     backgroundColor: "#6EA8FF",
     width: 140,
@@ -212,7 +210,7 @@ const styles = StyleSheet.create({
   },
 
   QuizMeText: {
-    marginTop: 18,
+    marginTop: RFValue(16),
     marginLeft: 3,
     fontWeight: "800",
     color: "#FFFFFF",
