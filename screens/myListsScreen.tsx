@@ -16,6 +16,7 @@ import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
 
 export interface Contact {
+  id: string;
   name: string;
   image: {
     data: string;
@@ -67,6 +68,7 @@ class myListsScreen extends React.Component<Props, State> {
 
     const contacts: Contact[] = body.map(
       (contact: any): Contact => ({
+        id: contact._id,
         name: contact.name,
         image: {
           data: contact.data,
@@ -77,15 +79,12 @@ class myListsScreen extends React.Component<Props, State> {
 
     this.setState({ contacts });
 
-    Alert.alert(
-      "Hurray!",
-      "Your contacts have been fetched from the database."
-    );
-
     return Promise.resolve();
   };
 
   render() {
+    const listName = "My Peeps";
+
     return (
       <View style={styles.container}>
         <View
@@ -98,10 +97,21 @@ class myListsScreen extends React.Component<Props, State> {
           }}
         >
           <Text style={styles.myListsText}>My Lists</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List")}>
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={{
+            flex: 0,
+            flexDirection: "row",
+            width: "75%",
+          }}>
+          <TouchableOpacity onPress={() => this.fetchContacts()}>
+            <Text style={styles.refreshBtn}>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+        
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />
@@ -113,6 +123,8 @@ class myListsScreen extends React.Component<Props, State> {
             onPress={() =>
               this.props.navigation.navigate("Hoodat Buds", {
                 contacts: this.state.contacts,
+                listName,
+                fetchContacts: this.fetchContacts
               })
             }
           >
@@ -122,7 +134,7 @@ class myListsScreen extends React.Component<Props, State> {
               start={{ x: -0.2, y: 0.5 }}
               end={{ x: 1, y: 0.5 }}
             >
-              <Text style={styles.ListButtonTitle}>Hoodat Buds</Text>
+              <Text style={styles.ListButtonTitle}>{listName}</Text>
               <Text style={styles.ListButtonSubtitle}>
                 {this.state.contacts.length} contacts
               </Text>
@@ -168,12 +180,19 @@ const styles = StyleSheet.create({
     marginRight: 0,
     color: "#6EA8FF",
   },
+  refreshBtn: {
+    marginTop: RFValue(10),
+    fontSize: 15,
+    fontWeight: "800",
+    marginRight: 0,
+    color: "#6EA8FF",
+    marginBottom: RFValue(-20),
+  },
 
   searchBar: {
-    marginTop: 40,
+    marginTop: RFValue(40),
     paddingVertical: 15,
     paddingLeft: RFValue(22),
-    //width: RFValue(290),
     width: "80%",
     backgroundColor: "#F0F0F0",
     borderRadius: 20,
