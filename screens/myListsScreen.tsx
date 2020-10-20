@@ -110,6 +110,10 @@ class myListsScreen extends React.Component<Props, State> {
           <TouchableOpacity onPress={() => this.fetchContacts()}>
             <Text style={styles.refreshBtn}>Refresh</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Mult Lists Test")} >
+            <Text style={styles.refreshBtn}>MultListScreen</Text>
+        </TouchableOpacity>
+
         </View>
         
 
