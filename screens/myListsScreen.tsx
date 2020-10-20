@@ -68,12 +68,9 @@ class myListsScreen extends React.Component<Props, State> {
 
     const contacts: Contact[] = body.map(
       (contact: any): Contact => ({
-        id: contact._id,
+        id: contact.id,
         name: contact.name,
-        image: {
-          data: contact.data,
-          fileType: contact.fileType,
-        },
+        image: contact.image,
       })
     );
 
