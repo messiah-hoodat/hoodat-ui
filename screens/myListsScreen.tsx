@@ -16,6 +16,7 @@ import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
 
 export interface Contact {
+  id: string;
   name: string;
   image: {
     data: string;
@@ -67,11 +68,9 @@ class myListsScreen extends React.Component<Props, State> {
 
     const contacts: Contact[] = body.map(
       (contact: any): Contact => ({
+        id: contact.id,
         name: contact.name,
-        image: {
-          data: contact.data,
-          fileType: contact.fileType,
-        },
+        image: contact.image,
       })
     );
 
@@ -95,7 +94,7 @@ class myListsScreen extends React.Component<Props, State> {
           }}
         >
           <Text style={styles.myListsText}>My Lists</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List")}>
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
@@ -121,7 +120,8 @@ class myListsScreen extends React.Component<Props, State> {
             onPress={() =>
               this.props.navigation.navigate("Hoodat Buds", {
                 contacts: this.state.contacts,
-                listName
+                listName,
+                fetchContacts: this.fetchContacts
               })
             }
           >
