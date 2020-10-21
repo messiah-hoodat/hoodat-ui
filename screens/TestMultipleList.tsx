@@ -36,7 +36,7 @@ interface Props {
 }
 
 interface State {
-  contacts: List[];
+  lists: List[];
 }
 
 class TestMultipleList extends React.Component<Props, State> {
@@ -45,7 +45,7 @@ class TestMultipleList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { contacts: [] };
+    this.state = { lists: [] };
   }
 
   componentDidMount() {
@@ -75,18 +75,18 @@ class TestMultipleList extends React.Component<Props, State> {
 
     const lists: List[] = body.map(
       (list: any): List => ({
-        id: list._id,
+        id: list.id,
         name: list.name,
         color: list.color,
         contacts: 
         [
             {
-                id: list.contact._id,
-                name: list.contact.name,
+                id: list.contacts.id,
+                name: list.contacts.name,
                 image: 
                 {
-                    data: list.contact.data,
-                    fileType: list.contact.fileType
+                    data: list.contacts.data,
+                    fileType: list.contacts.fileType
                 },
             }
         ]
@@ -99,12 +99,16 @@ class TestMultipleList extends React.Component<Props, State> {
   };
 
   render() {
-    const listName = "My Peeps";
-
+    const listLength = this.state.lists.length;
     return (
       <View style={styles.container}>
         <Text style = {{marginTop:200}}>Hello World</Text>
-
+        <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("My Lists")}
+            >
+              <Icon name="chevron-thin-left" size={25} color="#828282" />
+        </TouchableOpacity>
+        <Text>Length: {listLength}</Text>
       </View>
     );
   }
