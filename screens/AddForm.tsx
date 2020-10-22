@@ -9,11 +9,12 @@ import {
   Button,
   Text,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import { API_ROOT } from "../lib/constants";
+import { API_ROOT, ISEEK_ROOT } from "../lib/constants";
 import { UserContext, UserState } from "../contexts/UserContext";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -27,6 +28,7 @@ interface State {
     data: string;
     fileType: string;
   };
+  checkingImage: boolean;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
@@ -35,7 +37,7 @@ class HoodatBudsList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { name: "", image: { data: "", fileType: "" } };
+    this.state = { name: "", image: { data: "", fileType: "" }, checkingImage: false };
   }
 
   componentDidMount() {
@@ -92,6 +94,39 @@ class HoodatBudsList extends React.Component<Props, State> {
     }
     return undefined;
   };
+
+  handleCheckForPerson = async () => {
+    const { image } = this.state;
+
+    if (!image.data) {
+      return Promise.reject('No image selected');
+    }
+
+    this.setState({ checkingImage: true });
+
+    const response = await fetch(`${ISEEK_ROOT}:5000/image`, {
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pictureString: image.data
+      })
+    });
+
+    const body = await response.json();
+
+    if (body.objects?.includes('person')) {
+      Alert.alert("Looks good!", "This image contains a person.");
+    } else {
+      Alert.alert("Hmm", "This image might not contain a person. Please try selecting a different image.");
+    }
+
+    this.setState({ checkingImage: false });
+
+    return Promise.resolve();
+  }
 
   handleSubmit = async () => {
     const { name, image } = this.state;
@@ -160,9 +195,23 @@ class HoodatBudsList extends React.Component<Props, State> {
             />
           </View>
         </View>
-        
-           
-        <View style={{width: "78%", marginTop:"4%"}}>
+
+        <View style={{ width: "78%", marginTop: "4%" }}>
+          {this.state.image.data ?
+            <TouchableOpacity onPress={this.handleCheckForPerson} disabled={this.state.checkingImage} style={{flexDirection: 'row'}}>
+              <Text style={styles.checkImageButton}>Check image for face</Text>
+              <ActivityIndicator
+                size="small"
+                color="#6EA8FF"
+                style={{
+                  display: this.state.checkingImage ? "flex" : "none",
+                  ...styles.imageLoadingIcon,
+                }}
+              />
+            </TouchableOpacity>
+            : null
+          }
+
           <TouchableOpacity onPress={this.pickImage}>
             <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
           </TouchableOpacity>
@@ -223,6 +272,18 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "400",
     marginRight: 85,
+  },
+
+  imageLoadingIcon: {
+    alignSelf: "flex-start",
+    marginLeft: 5
+  },
+
+  checkImageButton: {
+    color: "#6EA8FF",
+    fontWeight: "bold",
+    fontSize: RFValue(14),
+    marginBottom: RFValue(14)
   },
 
   cameraRollbutton: {
