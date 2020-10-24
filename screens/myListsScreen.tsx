@@ -14,6 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
+import  MultipleListsCard  from "../components/MultipleListsCard";
 
 export interface Contact {
   id: string;
@@ -24,12 +25,34 @@ export interface Contact {
   };
 }
 
+export interface List {
+  id: "string",
+  name: "string",
+  color: 0,
+  contacts: [
+    {
+      id: "string",
+      name: "string",
+      image: {
+        data: "string",
+        fileType: "string"
+      },
+    }
+  ]
+}
+
 interface Props {
   navigation: any;
+  route: {
+    params: {
+      fetchContacts: () => Promise<any>;
+    }
+  };
 }
 
 interface State {
   contacts: Contact[];
+  lists: List[];
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -38,17 +61,17 @@ class myListsScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { contacts: [] };
+    this.state = { lists: [] };
   }
 
   componentDidMount() {
-    this.fetchContacts();
+    this.fetchLists();
   }
 
-  fetchContacts = async (): Promise<any> => {
+  fetchLists = async (): Promise<any> => {
     const { token, userId } = this.context.value;
-
-    const response = await fetch(`${API_ROOT}/users/${userId}/contacts`, {
+    
+    const response = await fetch(`${API_ROOT}/users/${userId}/lists`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -59,29 +82,30 @@ class myListsScreen extends React.Component<Props, State> {
     if (!response.ok) {
       Alert.alert(
         "Uh oh!",
-        "There was an error fetching your contacts from the database."
+        "There was an error fetching your lists from the database."
       );
       return Promise.reject();
     }
 
     const body = await response.json();
 
-    const contacts: Contact[] = body.map(
-      (contact: any): Contact => ({
-        id: contact.id,
-        name: contact.name,
-        image: contact.image,
+    const lists: List[] = body.map(
+      (list: any): List => ({
+        id: list.id,
+        name: list.name,
+        color: list.color,
+        contacts: list.contacts,
       })
     );
 
-    this.setState({ contacts });
-
+    this.setState({ lists });
     return Promise.resolve();
   };
 
   render() {
     const listName = "My Peeps";
-
+    const listLength = this.state.lists.length;
+    const ListName ="hello";
     return (
       <View style={styles.container}>
         <View
@@ -104,12 +128,12 @@ class myListsScreen extends React.Component<Props, State> {
             flexDirection: "row",
             width: "75%",
           }}>
-          <TouchableOpacity onPress={() => this.fetchContacts()}>
+          <TouchableOpacity onPress={() => this.fetchLists()}>
             <Text style={styles.refreshBtn}>Refresh</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Mult Lists Test")} >
+          {/* <TouchableOpacity onPress={() => this.props.navigation.navigate("Mult Lists Test")} >
             <Text style={styles.refreshBtn}>MultListScreen</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         </View>
         
@@ -119,42 +143,8 @@ class myListsScreen extends React.Component<Props, State> {
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
-        <ScrollView style={{ width: "80%" }}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("Hoodat Buds", {
-                contacts: this.state.contacts,
-                listName,
-                fetchContacts: this.fetchContacts
-              })
-            }
-          >
-            <LinearGradient
-              colors={["#FFE2AB", "#FFBC7C", "#FFC28A"]}
-              style={styles.ListButton}
-              start={{ x: -0.2, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-            >
-              <Text style={styles.ListButtonTitle}>{listName}</Text>
-              <Text style={styles.ListButtonSubtitle}>
-                {this.state.contacts.length} contacts
-              </Text>
-              <ScrollView
-                style={styles.ListButtonImageScroll}
-                horizontal={true}
-              >
-                {this.state.contacts.map((contact: Contact) => (
-                  <Image
-                    style={styles.ListButtonContactImage}
-                    source={{
-                      uri: `data:${contact.image.fileType};base64,${contact.image.data}`,
-                    }}
-                    resizeMode="contain"
-                  />
-                ))}
-              </ScrollView>
-            </LinearGradient>
-          </TouchableOpacity>
+        <ScrollView style={{width:"80%"}}>
+              {this.state.lists.map((list: List) => <MultipleListsCard list={list} />)}
         </ScrollView>
       </View>
     );
