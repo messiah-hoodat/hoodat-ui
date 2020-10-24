@@ -23,7 +23,7 @@ interface Props {
   route: {
     params: {
       contacts: Contact[];
-      fetchContacts: () => Promise<any>;
+      //fetchLists: () => Promise<any>;
       listName: string;
     }
   };
@@ -68,7 +68,7 @@ class HoodatBudsList extends React.Component<Props, State> {
       contacts: this.state.contacts.filter((contact: Contact) => contact.id !== contactId)
     });
 
-    await this.props.route.params.fetchContacts();
+    await this.props.route.params.fetchLists();
 
     return Promise.resolve();
   }
