@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
   Text,
@@ -12,6 +11,8 @@ import Icon from "react-native-vector-icons/Entypo";
 import SelectableGrid from 'react-native-selectable-grid'
 import { RFValue } from "react-native-responsive-fontsize";
 import { LinearGradient } from "expo-linear-gradient";
+import { UserContext } from "../contexts/UserContext";
+import { API_ROOT } from "../lib/constants";
 
 interface Props {
   navigation: any;
@@ -19,6 +20,7 @@ interface Props {
 
 interface State {
   name: string;
+  color: number;
 }
 
 const colorData =   [   { label: '1' , backgroundListColor:'#B3A7FF'  }, 
@@ -32,9 +34,41 @@ const colorData =   [   { label: '1' , backgroundListColor:'#B3A7FF'  },
                     ];
 
 class AddList extends React.Component<Props, State> {
+    static contextType = UserContext;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { name: "", color:0 };
+  }
+    
+    handleSubmit = async () => {
+        const { name, color } = this.state;
+        const { token, userId } = this.context.value;
+        const response = await fetch(`${API_ROOT}/lists`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+            color,
+          }),
+        });
+    
+        const body = await response.json();
+    
+        if (response.ok) {
+          Alert.alert("Hurray!", body.message ?? "Your List has been added.");
+          this.props.navigation.pop();
+        } else {
+          Alert.alert("Uh oh!", body.message ?? "It didn't work.");
+        }
+        return Promise.resolve();
+      };
     
   render() {
-    var {selectedColor}= " ";
     return (
         
         <View style={styles.container}>
@@ -58,6 +92,7 @@ class AddList extends React.Component<Props, State> {
                 <TextInput
                     style={styles.ListNameInput}
                     placeholder="Hoodat Buds"
+                    onChangeText={(name) => this.setState({ name })}
                 />
             </View>
 
@@ -69,7 +104,7 @@ class AddList extends React.Component<Props, State> {
                 <SelectableGrid
                     data={colorData}
                     //ref={(ref) => {selectedColor = ref;}}
-                    onSelect={selectedData => ( selectedColor=selectedData)}
+                    onSelect={selectedData => ( this.setState({ color: selectedData}))}
                     maxPerRow={4}
                     unselectedRender={data => (
                         <View style={{ borderRadius:10, width:"100%",  height:"100%" ,backgroundColor: data.backgroundListColor}}>
@@ -89,7 +124,7 @@ class AddList extends React.Component<Props, State> {
 
             <View style = {styles.createListButtonView}> 
                 <TouchableOpacity
-                    onPress={() => alert(selectedColor)}            // key for color stored in "selectedColor" variable
+                    onPress={this.handleSubmit}            // key for color stored in "selectedColor" variable
                     style={[styles.AddListButton, { flexDirection: "row" }]}
                 >
                 <Icon
