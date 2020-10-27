@@ -23,15 +23,18 @@ interface Props {
   route: {
     params: {
       contacts: Contact[];
-      fetchContacts: () => Promise<any>;
+      fetchLists: () => Promise<any>;
       listName: string;
+      listId: string;
     }
   };
 }
 
 interface State {
   contacts: Contact[];
+  fetchLists: () => Promise<any>;
   listName: string;
+  listId: string;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
@@ -40,15 +43,16 @@ class HoodatBudsList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { contacts, listName } = this.props.route.params;
+    const { contacts, listName, listId, fetchLists } = this.props.route.params;
 
-    this.state = { contacts, listName };
+    this.state = { contacts, listName, listId, fetchLists };
   }
 
-  async removeContact(contactId: string): Promise<void> {
+  async removeContact(contactId: string, listId:string ): Promise<void> {
     const { token, userId } = this.context.value;
 
-    const response = await fetch(`${API_ROOT}/users/${userId}/contacts/${contactId}`, {
+    const response = await fetch(`${API_ROOT}/lists/${this.state.listId}/contacts/${contactId}`, {
+      
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +72,7 @@ class HoodatBudsList extends React.Component<Props, State> {
       contacts: this.state.contacts.filter((contact: Contact) => contact.id !== contactId)
     });
 
-    await this.props.route.params.fetchContacts();
+    await this.props.route.params.fetchLists();
 
     return Promise.resolve();
   }
@@ -76,7 +80,7 @@ class HoodatBudsList extends React.Component<Props, State> {
   render() {
     var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
     var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
-
+    
     return (
       <Provider>
         <View style={styles.container}>
@@ -109,14 +113,14 @@ class HoodatBudsList extends React.Component<Props, State> {
           </View>
 
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Add Form")}
+            onPress={() => this.props.navigation.navigate("Add Form", {listId:this.state.listId, Contacts:this.state.contacts, fetchLists:this.state.fetchLists })}
           >
             <Text style={styles.addMorePeopleButton}>+ Add More People</Text>
           </TouchableOpacity>
 
           <View style={styles.PeopleListScrollView}>
             <ScrollView>
-              {this.state.contacts.map((contact: Contact) => <ListDetailsContactCard contact={contact} removeContact={() => this.removeContact(contact.id)}/>)}
+              {this.state.contacts.map((contact: Contact) => <ListDetailsContactCard contact={contact} removeContact={() => this.removeContact(contact.id, this.state.listId)}/>)}
             </ScrollView>
           </View>
 
