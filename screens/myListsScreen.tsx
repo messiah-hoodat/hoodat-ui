@@ -26,16 +26,16 @@ export interface Contact {
 }
 
 export interface List {
-  id: "string",
-  name: "string",
-  color: 0,
+  id: string;
+  name: string;
+  color: number;
   contacts: [
     {
-      id: "string",
-      name: "string",
+      id: string;
+      name: string;
       image: {
-        data: "string",
-        fileType: "string"
+        data: string;
+        fileType: string;
       },
     }
   ]
