@@ -41,7 +41,7 @@ class QuizScreen extends React.Component<Props> {
     CurrentQuizQuestionNumber = CurrentQuizQuestionNumber + 1;
     var ProgressBarWidth =
       (CurrentQuizQuestionNumber / QuizTotalNumberOfQuestions) * screenWidth;
-    var TotalQuizTime = QuizTotalNumberOfQuestions * 10;
+    var TotalQuizTime = 10;
 
     const correctContactIndex = CurrentQuizQuestionNumber - 1;
     const correctContact = contacts[correctContactIndex];

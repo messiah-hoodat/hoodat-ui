@@ -60,7 +60,6 @@ class myListsScreen extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
     this.state = { lists: [] };
   }
 
@@ -144,7 +143,7 @@ class myListsScreen extends React.Component<Props, State> {
         </View>
 
         <ScrollView style={{width:"80%"}}>
-              {this.state.lists.map((list: List) => <MultipleListsCard list={list} />)}
+              {this.state.lists.map((list: List) => <MultipleListsCard list={list} fetchLists={() => this.fetchLists()} />)}
         </ScrollView>
       </View>
     );
