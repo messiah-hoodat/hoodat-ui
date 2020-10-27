@@ -15,9 +15,10 @@ import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   list: List,
+  fetchLists: () => Promise<void>;
 }
 
-export default function MultipleListsCard({ list }: Props) {
+export default function MultipleListsCard({ list, fetchLists }: Props) {
     var color1 = "";
     var color2 = "";
 
@@ -33,6 +34,7 @@ export default function MultipleListsCard({ list }: Props) {
 
     const navigation = useNavigation();
     const listName = list.name;
+    const listId   = list.id;
   return (
         
         <TouchableOpacity
@@ -40,7 +42,8 @@ export default function MultipleListsCard({ list }: Props) {
                 navigation.navigate("Hoodat Buds", {
                 contacts: list.contacts,
                 listName,
-                //fetchLists: this.fetchLists,
+                listId,
+                fetchLists,
                 })
             }>
             <LinearGradient

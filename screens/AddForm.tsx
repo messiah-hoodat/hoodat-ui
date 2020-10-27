@@ -14,11 +14,19 @@ import Icon from "react-native-vector-icons/Entypo";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import { API_ROOT } from "../lib/constants";
+import { Contact } from "./myListsScreen";
 import { UserContext, UserState } from "../contexts/UserContext";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface Props {
   navigation: any;
+  route: {
+    params: {
+      contacts: Contact[];
+      listId: string;
+      fetchLists: () => Promise<any>;
+    }
+  };
 }
 
 interface State {
@@ -27,6 +35,9 @@ interface State {
     data: string;
     fileType: string;
   };
+  listId:string;
+  contacts: Contact[];
+  fetchLists: () => Promise<any>;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
@@ -34,8 +45,8 @@ class HoodatBudsList extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    this.state = { name: "", image: { data: "", fileType: "" } };
+    const {listId, contacts, fetchLists} = this.props.route.params;
+    this.state = { name: "", image: { data: "", fileType: "" },listId, contacts, fetchLists };
   }
 
   componentDidMount() {
@@ -97,7 +108,7 @@ class HoodatBudsList extends React.Component<Props, State> {
     const { name, image } = this.state;
     const { token, userId } = this.context.value;
 
-    const response = await fetch(`${API_ROOT}/users/${userId}/contacts`, {
+    const response = await fetch(`${API_ROOT}/lists/${this.state.listId}/contacts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,12 +120,13 @@ class HoodatBudsList extends React.Component<Props, State> {
         fileType: image.fileType,
       }),
     });
-
     const body = await response.json();
 
     if (response.ok) {
       Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
+      await this.props.route.params.fetchLists();
       this.props.navigation.pop(2);
+      //await this.props.route.params.fetchLists();
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
     }
