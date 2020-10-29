@@ -117,7 +117,7 @@ class myListsScreen extends React.Component<Props, State> {
           }}
         >
           <Text style={styles.myListsText}>My Lists</Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List")}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List", {fetchLists: this.fetchLists}) }>
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
@@ -142,7 +142,7 @@ class myListsScreen extends React.Component<Props, State> {
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
-        <ScrollView style={{width:"80%"}}>
+        <ScrollView style={{width:"80%"}} >
               {this.state.lists.map((list: List) => <MultipleListsCard list={list} fetchLists={() => this.fetchLists()} />)}
         </ScrollView>
       </View>
