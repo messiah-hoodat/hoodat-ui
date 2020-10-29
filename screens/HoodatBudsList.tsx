@@ -99,6 +99,9 @@ class HoodatBudsList extends React.Component<Props, State> {
             >
               <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
+            <TouchableOpacity>
+               <Icon name="dots-three-vertical" size={25} color="#636363" />
+             </TouchableOpacity>
           </View>
 
 
