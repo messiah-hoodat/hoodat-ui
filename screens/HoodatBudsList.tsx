@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { Menu } from "react-native-paper";
 import { Provider } from "react-native-paper";
 import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -39,7 +40,7 @@ interface State {
 
 class HoodatBudsList extends React.Component<Props, State> {
   static contextType = UserContext;
-
+  
   constructor(props: Props) {
     super(props);
 
@@ -97,9 +98,6 @@ class HoodatBudsList extends React.Component<Props, State> {
               onPress={() => this.props.navigation.navigate("My Lists")}
             >
               <Icon name="chevron-thin-left" size={25} color="#828282" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Icon name="dots-three-vertical" size={25} color="#636363" />
             </TouchableOpacity>
           </View>
 
