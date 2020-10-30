@@ -13,6 +13,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import CircularTimer from "react-native-circular-timer";
 import { Contact } from "./myListsScreen";
 import { QuestionResult } from "./QuizResultsScreen";
+import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 
 interface QuestionOption {
   contact: Contact;
@@ -32,6 +33,11 @@ interface Props {
 }
 
 class QuizScreen extends React.Component<Props> {
+
+  _restartTimer = () => {
+    if (this._timerRef) this._timerRef.restart();
+  };
+
   render() {
     const screenWidth = Math.round(Dimensions.get("window").width);
     const { QuizTitleListName, contacts } = this.props.route.params;
@@ -65,12 +71,12 @@ class QuizScreen extends React.Component<Props> {
       return options;
     }
 
-
+    
     // Initialize options with random contacts
     const questionOptions = getUniqueRandomOptions();
 
     // Insert correct option at random position
-    const correctIndex = Math.floor(Math.random() * 3);
+    const correctIndex = Math.floor(Math.random() * 4);
     questionOptions[correctIndex] = {
       contact: correctContact,
       isCorrect: true
@@ -114,13 +120,24 @@ class QuizScreen extends React.Component<Props> {
             }}
           >
             <CircularTimer
-              seconds={TotalQuizTime}
+              ref={refs => (this._timerRef = refs)}
+              seconds={10}
               radius={RFValue(37)}
               borderWidth={RFValue(6)}
-              borderBackgroundColor={"#FFB906"}
+              borderBackgroundColor={"#DDDDDD"}
               borderColor={"#FFB906"}
               onTimeElapsed={() => {
-                Alert.alert("Quiz Timed Out!");
+                if (CurrentQuizQuestionNumber != QuizTotalNumberOfQuestions){
+                  this._restartTimer();
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: false,
+                  });
+                  this.props.navigation.navigate("Quiz Screen", {
+                    questionResults,
+                    CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                  });
+                  }
               }}
             />
             <Text style={styles.HooIsText}>Hoo is...</Text>
@@ -140,6 +157,7 @@ class QuizScreen extends React.Component<Props> {
                 const option = (index: number) =>
                   <TouchableOpacity
                     onPress={() => {
+                      this._restartTimer();
                       questionResults.push({
                         contact: correctContact,
                         correct: questionOptions[index].isCorrect,
@@ -153,6 +171,7 @@ class QuizScreen extends React.Component<Props> {
                         this.props.navigation.navigate("Quiz Results Screen", {
                           questionResults,
                           CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                          restart: this._restartTimer
                         });
                       }
                     }}
