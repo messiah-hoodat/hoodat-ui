@@ -20,8 +20,7 @@ export interface Contact {
   id: string;
   name: string;
   image: {
-    data: string;
-    fileType: string;
+    url: string
   };
 }
 
@@ -29,16 +28,7 @@ export interface List {
   id: string;
   name: string;
   color: number;
-  contacts: [
-    {
-      id: string;
-      name: string;
-      image: {
-        data: string;
-        fileType: string;
-      },
-    }
-  ]
+  contacts: Contact[]
 }
 
 interface Props {
@@ -51,7 +41,6 @@ interface Props {
 }
 
 interface State {
-  contacts: Contact[];
   lists: List[];
 }
 

@@ -33,7 +33,7 @@ interface State {
   name: string;
   image: {
     data: string;
-    fileType: string;
+    name: string;
   };
   listId:string;
   contacts: Contact[];
@@ -46,7 +46,7 @@ class HoodatBudsList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const {listId, contacts, fetchLists} = this.props.route.params;
-    this.state = { name: "", image: { data: "", fileType: "" },listId, contacts, fetchLists };
+    this.state = { name: "", image: { data: "", name: "" },listId, contacts, fetchLists };
   }
 
   componentDidMount() {
@@ -74,17 +74,14 @@ class HoodatBudsList extends React.Component<Props, State> {
         base64: true,
       });
       const data = result.base64;
-      const fileExtension = result.uri.split(".").pop();
-      const fileType = this.mapFileExtensionToFileType(fileExtension);
-      if (!data) {
+      const name = result.uri;
+      if (!(data && name)) {
         Alert.alert("Error picking image");
-      } else if (!fileType) {
-        Alert.alert("Invalid file type");
       } else {
         this.setState({
           image: {
             data,
-            fileType,
+            name,
           },
         });
       }
@@ -92,16 +89,6 @@ class HoodatBudsList extends React.Component<Props, State> {
       Alert.alert("Error picking image");
       console.log(error);
     }
-  };
-
-  mapFileExtensionToFileType = (fileExtension: string) => {
-    if (["jpg", "jpeg"].includes(fileExtension)) {
-      return "image/jpeg";
-    }
-    if (fileExtension === "png") {
-      return "image/png";
-    }
-    return undefined;
   };
 
   handleSubmit = async () => {
@@ -116,8 +103,7 @@ class HoodatBudsList extends React.Component<Props, State> {
       },
       body: JSON.stringify({
         name,
-        data: image.data,
-        fileType: image.fileType,
+        image
       }),
     });
     const body = await response.json();
