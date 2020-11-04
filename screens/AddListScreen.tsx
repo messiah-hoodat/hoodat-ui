@@ -16,6 +16,11 @@ import { API_ROOT } from "../lib/constants";
 
 interface Props {
   navigation: any;
+  route: {
+    params: {
+      fetchLists: () => Promise<any>;
+    }
+  };
 }
 
 interface State {
@@ -62,6 +67,7 @@ class AddList extends React.Component<Props, State> {
 
     if (response.ok) {
       Alert.alert("Hurray!", body.message ?? "Your List has been added.");
+      this.props.route.params.fetchLists();
       this.props.navigation.pop();
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
