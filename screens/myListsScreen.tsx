@@ -14,14 +14,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
-import  MultipleListsCard  from "../components/MultipleListsCard";
+import MultipleListsCard from "../components/MultipleListsCard";
 
 export interface Contact {
   id: string;
   name: string;
   image: {
-    data: string;
-    fileType: string;
+    url: string;
   };
 }
 
@@ -29,16 +28,7 @@ export interface List {
   id: string;
   name: string;
   color: number;
-  contacts: [
-    {
-      id: string;
-      name: string;
-      image: {
-        data: string;
-        fileType: string;
-      },
-    }
-  ]
+  contacts: Contact[];
 }
 
 interface Props {
@@ -46,12 +36,11 @@ interface Props {
   route: {
     params: {
       fetchContacts: () => Promise<any>;
-    }
+    };
   };
 }
 
 interface State {
-  contacts: Contact[];
   lists: List[];
 }
 
@@ -69,7 +58,7 @@ class myListsScreen extends React.Component<Props, State> {
 
   fetchLists = async (): Promise<any> => {
     const { token, userId } = this.context.value;
-    
+
     const response = await fetch(`${API_ROOT}/users/${userId}/lists`, {
       method: "GET",
       headers: {
@@ -104,7 +93,7 @@ class myListsScreen extends React.Component<Props, State> {
   render() {
     const listName = "My Peeps";
     const listLength = this.state.lists.length;
-    const ListName ="hello";
+    const ListName = "hello";
     return (
       <View style={styles.container}>
         <View
@@ -117,33 +106,40 @@ class myListsScreen extends React.Component<Props, State> {
           }}
         >
           <Text style={styles.myListsText}>My Lists</Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Add List")}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Add List")}
+          >
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{
+        <View
+          style={{
             flex: 0,
             flexDirection: "row",
             width: "75%",
-          }}>
+          }}
+        >
           <TouchableOpacity onPress={() => this.fetchLists()}>
             <Text style={styles.refreshBtn}>Refresh</Text>
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={() => this.props.navigation.navigate("Mult Lists Test")} >
             <Text style={styles.refreshBtn}>MultListScreen</Text>
         </TouchableOpacity> */}
-
         </View>
-        
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
           <TextInput style={styles.searchTextInput} placeholder="Search..." />
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
-        <ScrollView style={{width:"80%"}}>
-              {this.state.lists.map((list: List) => <MultipleListsCard list={list} fetchLists={() => this.fetchLists()} />)}
+        <ScrollView style={{ width: "80%" }}>
+          {this.state.lists.map((list: List) => (
+            <MultipleListsCard
+              list={list}
+              fetchLists={() => this.fetchLists()}
+            />
+          ))}
         </ScrollView>
       </View>
     );
