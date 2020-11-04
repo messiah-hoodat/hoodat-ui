@@ -167,7 +167,7 @@ class QuizScreen extends React.Component<Props> {
                     <Image
                       style={styles.QuizQuestionImage}
                       source={{
-                        uri: `data:${questionOptions[index].contact.image.fileType};base64,${questionOptions[index].contact.image.data}`,
+                        uri: questionOptions[index].contact.image.url,
                       }}
                       resizeMode="contain"
                     />
