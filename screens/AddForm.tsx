@@ -25,7 +25,7 @@ interface Props {
       contacts: Contact[];
       listId: string;
       fetchLists: () => Promise<any>;
-    }
+    };
   };
 }
 
@@ -34,8 +34,9 @@ interface State {
   image: {
     data: string;
     fileType: string;
+    name: string;
   };
-  listId:string;
+  listId: string;
   contacts: Contact[];
   fetchLists: () => Promise<any>;
 }
@@ -45,8 +46,14 @@ class HoodatBudsList extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const {listId, contacts, fetchLists} = this.props.route.params;
-    this.state = { name: "", image: { data: "", fileType: "" },listId, contacts, fetchLists };
+    const { listId, contacts, fetchLists } = this.props.route.params;
+    this.state = {
+      name: "",
+      image: { data: "", fileType: "", name: "" },
+      listId,
+      contacts,
+      fetchLists,
+    };
   }
 
   componentDidMount() {
@@ -74,17 +81,20 @@ class HoodatBudsList extends React.Component<Props, State> {
         base64: true,
       });
       const data = result.base64;
-      const fileExtension = result.uri.split(".").pop();
+      const name = result.uri;
+      const fileExtension = name.split(".").pop();
       const fileType = this.mapFileExtensionToFileType(fileExtension);
-      if (!data) {
+
+      if (!(data && name)) {
         Alert.alert("Error picking image");
       } else if (!fileType) {
-        Alert.alert("Invalid file type");
+        Alert.alert("Unsupported file type. Please try a different image.");
       } else {
         this.setState({
           image: {
             data,
             fileType,
+            name,
           },
         });
       }
@@ -108,18 +118,23 @@ class HoodatBudsList extends React.Component<Props, State> {
     const { name, image } = this.state;
     const { token, userId } = this.context.value;
 
-    const response = await fetch(`${API_ROOT}/lists/${this.state.listId}/contacts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name,
-        data: image.data,
-        fileType: image.fileType,
-      }),
-    });
+    const response = await fetch(
+      `${API_ROOT}/lists/${this.state.listId}/contacts`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          image: {
+            name: image.name,
+            data: image.data,
+          },
+        }),
+      }
+    );
     const body = await response.json();
 
     if (response.ok) {
@@ -138,19 +153,19 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View style={{marginTop: RFValue(65), width: "80%"}}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Hoodat Buds")}>
-
+        <View style={{ marginTop: RFValue(65), width: "80%" }}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("Hoodat Buds")}
+          >
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
         </View>
 
-
-        <View style={{width: "80%", marginTop: RFValue(25)}}>
+        <View style={{ width: "80%", marginTop: RFValue(25) }}>
           <Text style={styles.myAddContactText}>Add Contact</Text>
         </View>
 
-        <View style={{width: "79%"}}>
+        <View style={{ width: "79%" }}>
           <Text style={[styles.InputLabel]}>Name</Text>
           <TextInput
             style={styles.nameInput}
@@ -158,41 +173,61 @@ class HoodatBudsList extends React.Component<Props, State> {
             onChangeText={(name) => this.setState({ name })}
           />
         </View>
-        <View style={{width: "79%", marginTop:"2%"}}>
-          <Text style={[styles.InputLabel]}>Image</Text>  
-          <View style ={{width:RFValue(175), height:RFValue(175), borderWidth:1, marginTop:"4%", borderRadius:16, marginLeft:"2%"}}> 
+        <View style={{ width: "79%", marginTop: "2%" }}>
+          <Text style={[styles.InputLabel]}>Image</Text>
+          <View
+            style={{
+              width: RFValue(175),
+              height: RFValue(175),
+              borderWidth: 1,
+              marginTop: "4%",
+              borderRadius: 16,
+              marginLeft: "2%",
+            }}
+          >
             <Image
               style={{
-              width: "100%",
-              height: "100%",
-              borderRadius:16,
-              display: image.data && image.fileType ? "flex" : "none",
-            }}
-            source={{ uri: `data:${image.fileType};base64,${image.data}` }}
+                width: "100%",
+                height: "100%",
+                borderRadius: 16,
+                display: image.data && image.fileType ? "flex" : "none",
+              }}
+              source={{
+                uri: `data:${this.state.image.fileType};base64,${image.data}`,
+              }}
             />
           </View>
         </View>
-        
-           
-        <View style={{width: "78%", marginTop:"4%"}}>
+
+        <View style={{ width: "78%", marginTop: "4%" }}>
           <TouchableOpacity onPress={this.pickImage}>
             <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity onPress={this.pickImage}>
             <Text style={styles.takePicbutton}>Take a picture</Text>
           </TouchableOpacity>
         </View>
-          
-        <View style={{width: "80%", marginTop:"4%", flex: 0, flexDirection: "row-reverse",}}>
-          <TouchableOpacity style={[styles.AddContactButton]} onPress={this.handleSubmit}>
-              <Icon
-                name="plus"
-                size={30}
-                color="#FFFFFF"
-                style={styles.AddContactIcon}
-              />
-              <Text style={styles.AddContactText}>Add Contact</Text>
+
+        <View
+          style={{
+            width: "80%",
+            marginTop: "4%",
+            flex: 0,
+            flexDirection: "row-reverse",
+          }}
+        >
+          <TouchableOpacity
+            style={[styles.AddContactButton]}
+            onPress={this.handleSubmit}
+          >
+            <Icon
+              name="plus"
+              size={30}
+              color="#FFFFFF"
+              style={styles.AddContactIcon}
+            />
+            <Text style={styles.AddContactText}>Add Contact</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -259,14 +294,13 @@ const styles = StyleSheet.create({
   },
 
   AddContactButton: {
-    flex: 0, 
+    flex: 0,
     flexDirection: "row",
     marginTop: RFValue(20),
     backgroundColor: "#6EA8FF",
     width: 180,
     height: 60,
     borderRadius: 43,
-
   },
 
   AddContactIcon: {
@@ -281,7 +315,6 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 20,
   },
-
 });
 
 export default HoodatBudsList;

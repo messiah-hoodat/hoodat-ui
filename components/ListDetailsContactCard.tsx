@@ -31,7 +31,7 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
         <Image
           style={styles.PeopleInListPicture}
           source={{
-            uri: `data:${contact.image.fileType};base64,${contact.image.data}`,
+            uri: contact.image.url,
           }}
           resizeMode="cover"
         />

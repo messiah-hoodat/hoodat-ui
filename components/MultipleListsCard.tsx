@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
-import { List } from "../screens/TestMultipleList";
+import { List } from "../screens/myListsScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from '@react-navigation/native';
 
@@ -62,11 +62,11 @@ export default function MultipleListsCard({ list, fetchLists }: Props) {
                     style={styles.ListButtonImageScroll}
                     horizontal={true}
                 >
-                    {list.contacts.map((contact: any) => (
+                    {list.contacts.map((contact) => (
                     <Image
                         style={styles.ListButtonContactImage}
                         source={{
-                        uri: `data:${contact.image.fileType};base64,${contact.image.data}`,
+                            uri: contact.image.url,
                         }}
                         resizeMode="contain"
                     />
