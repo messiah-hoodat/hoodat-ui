@@ -124,8 +124,8 @@ class QuizScreen extends React.Component<Props> {
               seconds={10}
               radius={RFValue(37)}
               borderWidth={RFValue(6)}
-              borderBackgroundColor={"#DDDDDD"}
-              borderColor={"#FFB906"}
+              borderBackgroundColor={"#FFB906"}
+              borderColor={"#DDDDDD"}
               onTimeElapsed={() => {
                 if (CurrentQuizQuestionNumber != QuizTotalNumberOfQuestions){
                   this._restartTimer();
