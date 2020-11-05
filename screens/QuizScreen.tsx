@@ -13,7 +13,6 @@ import { RFValue } from "react-native-responsive-fontsize";
 import CircularTimer from "react-native-circular-timer";
 import { Contact } from "./myListsScreen";
 import { QuestionResult } from "./QuizResultsScreen";
-import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 
 interface QuestionOption {
   contact: Contact;
