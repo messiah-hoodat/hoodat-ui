@@ -80,7 +80,7 @@ class QuizResultsScreen extends React.Component<Props> {
                   <Image
                     style={styles.QuizResultsPagePersonImage}
                     source={{
-                      uri: `data:${questionResult.contact.image.fileType};base64,${questionResult.contact.image.data}`,
+                      uri: questionResult.contact.image.url,
                     }}
                     resizeMode="contain"
                   />

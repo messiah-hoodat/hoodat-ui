@@ -47,7 +47,7 @@ class QuizScreen extends React.Component<Props> {
     CurrentQuizQuestionNumber = CurrentQuizQuestionNumber + 1;
     var ProgressBarWidth =
       (CurrentQuizQuestionNumber / QuizTotalNumberOfQuestions) * screenWidth;
-    var TotalQuizTime = QuizTotalNumberOfQuestions * 10;
+    var TotalQuizTime = 10;
 
     const correctContactIndex = CurrentQuizQuestionNumber - 1;
     const correctContact = contacts[correctContactIndex];
@@ -186,7 +186,7 @@ class QuizScreen extends React.Component<Props> {
                     <Image
                       style={styles.QuizQuestionImage}
                       source={{
-                        uri: `data:${questionOptions[index].contact.image.fileType};base64,${questionOptions[index].contact.image.data}`,
+                        uri: questionOptions[index].contact.image.url,
                       }}
                       resizeMode="contain"
                     />

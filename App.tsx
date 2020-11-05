@@ -10,6 +10,7 @@ import HoodatBudsList from './screens/HoodatBudsList';
 import AddForm from './screens/AddForm';
 import QuizScreen from './screens/QuizScreen';
 import QuizResultsScreen from './screens/QuizResultsScreen';
+import TestMultipleList from './screens/TestMultipleList';
 import "react-native-gesture-handler";
 import React, { useState } from "react";
 
@@ -31,6 +32,7 @@ export default function App() {
           <Stack.Screen name="Splash Screen" component={SplashScreen} />
           <Stack.Screen name="Sign In" component={SignInScreen} />
           <Stack.Screen name="My Lists" component={myListsScreen} />
+          <Stack.Screen name="Mult Lists Test" component={TestMultipleList} />
           <Stack.Screen name="Add List" component={AddList}/>
           <Stack.Screen name="Hoodat Buds" component={HoodatBudsList}/>
           <Stack.Screen name="Quiz Screen" component={QuizScreen}/>
