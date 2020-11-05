@@ -22,15 +22,17 @@ export default function MultipleListsCard({ list, fetchLists }: Props) {
     var color1 = "";
     var color2 = "";
 
-    if      (list.color==0)     {color1 = "#B3A7FF"; color2 = "#f3b6c9";}   // 0.       dark purple
-    else if (list.color==1)     {color1 = "#FFA7D1"; color2 = "#f3b6c9";}   // 1.       light pink
-    else if (list.color==2)     {color1 = "#FFACA7"; color2 = "#E8B6F3";}   // 2.       dark pink
-    else if (list.color==3)     {color1 = "#A7FFB0"; color2 = "#A7ECFF";}   // 3.       pastel green
-    else if (list.color==4)     {color1 = "#FFE2AB"; color2 = "#FFBC7C";}   // 4.       orange/peach -
-    else if (list.color==5)     {color1 = "#A7F4FF"; color2 = "#A7AEFF";}   // 5.       light blue
-    else if (list.color==6)     {color1 = "#FFB4E1"; color2 = "#E16AFF";}   // 6.       light purple - 
-    else if (list.color==7)     {color1 = "#E3FFA7"; color2 = "#A7DEFF";}   // 7.       light green
-    else                        {color1 = "#FFE2AB"; color2 = "#FFBC7C";}   // else.    orange/peach -
+    if (list.color==0)          {color1 = "#FFFFCC"; color2 = "#FFFF00";}  
+    else if (list.color==1)     {color1 = "#FFE2AB"; color2 = "#FFBC7C";} 
+    else if (list.color==2)     {color1 = "#FFD9DE"; color2 = "#E99BA6";}
+    else if (list.color==3)     {color1 = "#B3A7FF"; color2 = "#f3b6c9";}   
+    else if (list.color==4)     {color1 = "#FFB4E1"; color2 = "#E16AFF";} 
+    else if (list.color==5)     {color1 = "#DCF8EF"; color2 = "#FEE2F8";}  
+    else if (list.color==6)     {color1 = "#A7FFB0"; color2 = "#A7ECFF";}   
+    else if (list.color==7)     {color1 = "#A7F4FF"; color2 = "#A7AEFF";}  
+      
+    
+    else                        {color1 = "#F894A4"; color2 = "#F9D1B7";} 
 
     const navigation = useNavigation();
     const listName = list.name;
