@@ -125,6 +125,7 @@ class HoodatBudsList extends React.Component<Props, State> {
             </ScrollView>
           </View>
 
+          
           <View style={styles.QuizMeBtnView}>
             <TouchableOpacity
               style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}

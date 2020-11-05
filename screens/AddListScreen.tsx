@@ -29,14 +29,14 @@ interface State {
 }
 
 const colorData = [
-  { label: "1", backgroundListColor: "#B3A7FF" },
-  { label: "2", backgroundListColor: "#FFA7D1" },
-  { label: "3", backgroundListColor: "#FFC28A" },
-  { label: "4", backgroundListColor: "#A7FFB0" },
-  { label: "5", backgroundListColor: "#FFE6A7" },
-  { label: "6", backgroundListColor: "#A7F4FF" },
-  { label: "7", backgroundListColor: "#F8A7FF" },
-  { label: "8", backgroundListColor: "#E3FFA7" },
+  { label: "1", backgroundListColor: "#FFFF66" },
+  { label: "2", backgroundListColor: "#FFCF94" },
+  { label: "3", backgroundListColor: "#F4BAC2" },
+  { label: "4", backgroundListColor: "#D3AFE4" },
+  { label: "5", backgroundListColor: "#F08FF0" },
+  { label: "6", backgroundListColor: "#EDEDF4" },
+  { label: "7", backgroundListColor: "#A7F6D8" },
+  { label: "8", backgroundListColor: "#A7D1FF" },
 ];
 
 class AddList extends React.Component<Props, State> {
