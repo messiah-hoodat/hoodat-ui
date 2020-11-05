@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import { Menu } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Contact } from "../screens/myListsScreen";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface Props {
   contact: Contact,
@@ -26,7 +27,13 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
   }
 
   return (
-    <View style={styles.cardContainer} >
+    // <LinearGradient
+    //         colors={["#A7FFB0", "#A7ECFF"]}
+    //         style={styles.cardContainer}
+    //         start={{ x: -0.2, y: 0.5 }}
+    //         end={{ x: 1, y: 0.5 }}
+    //         >
+    <View style = {styles.cardContainer}>
       <View style={styles.contactContainer}>
         <Image
           style={styles.PeopleInListPicture}
@@ -52,6 +59,7 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
         </Menu>
       </View>
     </View>
+    // </LinearGradient>
   );
 }
 
