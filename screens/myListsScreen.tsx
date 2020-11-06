@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import {  RefreshControl } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
@@ -42,16 +43,22 @@ interface Props {
 
 interface State {
   lists: List[];
+  refreshing: boolean;
 }
 
 class myListsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
-
+  
   constructor(props: Props) {
     super(props);
-    this.state = { lists: [] };
+    this.state = { refreshing: false, lists: [],  };
   }
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.fetchLists().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
   componentDidMount() {
     this.fetchLists();
   }
@@ -133,9 +140,9 @@ class myListsScreen extends React.Component<Props, State> {
             width: "75%",
           }}
         >
-          <TouchableOpacity onPress={() => this.fetchLists()}>
+          {/* <TouchableOpacity onPress={() => this.fetchLists()}>
             <Text style={styles.refreshBtn}>Refresh</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <TouchableOpacity onPress={() => this.props.navigation.navigate("Mult Lists Test")} >
             <Text style={styles.refreshBtn}>MultListScreen</Text>
         </TouchableOpacity> */}
@@ -159,7 +166,9 @@ class myListsScreen extends React.Component<Props, State> {
         </View>
 
 
-        <ScrollView style={{ width: "80%" }}>
+        <ScrollView 
+          style={{ width: "80%" }} 
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
           {this.state.lists.map((list: List) => (
             <MultipleListsCard
               list={list}
