@@ -97,6 +97,19 @@ class myListsScreen extends React.Component<Props, State> {
     return Promise.resolve();
   };
 
+  searchList = (value) =>{
+    const filteredList = this.state.lists.filter(
+      list => {
+        let listLowercase = (list.name).toLowerCase()
+
+        let searchTermLowercase = value.toLowerCase()
+
+        return listLowercase.indexOf(searchTermLowercase)> -1
+      }
+    )
+    this.setState({lists: filteredList});
+  };
+
   render() {
     const listName = "My Peeps";
     const listLength = this.state.lists.length;
@@ -136,7 +149,19 @@ class myListsScreen extends React.Component<Props, State> {
         </View>
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
-          <TextInput style={styles.searchTextInput} placeholder="Search..." />
+          <TextInput 
+          style={styles.searchTextInput} 
+          placeholder="Search..." 
+          onChangeText={(value)=>
+            this.setState({value}, () => {
+              if(value == ''){
+                this.fetchLists()
+              }else{
+                this.searchList(value)
+              }
+            })
+          }
+          />
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
@@ -150,7 +175,6 @@ class myListsScreen extends React.Component<Props, State> {
               fetchLists={() => this.fetchLists()}
             />
           ))}
-
         </ScrollView>
       </View>
     );
