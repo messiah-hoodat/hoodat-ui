@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
     "expo": "~37.0.3",
@@ -28,6 +29,7 @@
     "react-native-countdown-circle-timer": "^2.3.9",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-loading-view": "^1.0.1",
     "react-native-paper": "^4.2.0",
     "react-native-reanimated": "~1.7.0",
     "react-native-responsive-fontsize": "^0.4.3",
@@ -37,6 +39,7 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.11.7",
     "react-navigation": "^1.6.1",
+    "react-navigation-tabs": "^2.10.1",
     "react-navigator": "0.0.0-0",
     "validate.js": "^0.13.1"
   },
