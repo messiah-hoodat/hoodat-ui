@@ -16,15 +16,8 @@ import sharedWithMe from './screens/sharedWithMe';
 import Groups from './screens/Groups';
 import Settings from './screens/Settings';
 import TestScreen from './screens/TestScreen';
-import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import "react-native-gesture-handler";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
 import React, { useState } from "react";
 
 import { UserContext, UserState } from "./contexts/UserContext";
@@ -41,23 +34,23 @@ function LoggedInTabNavScreen() {
           let iconName;
           if (route.name === 'My Lists') {
             iconName = focused
-            ? 'home'
-            : 'home';
+            ? 'contacts'
+            : 'contacts';
           } 
           else if (route.name === 'Shared With Me') {
             iconName = focused
-            ? 'v-card'
-            : 'v-card';
+            ? 'team'
+            : 'team';
           }
           else if (route.name === 'Groups') {
             iconName = focused
-            ? 'users'
-            : 'users';
+            ? 'API'
+            : 'API';
           }
           else if (route.name === 'Settings') {
             iconName = focused
-            ? 'dots-three-horizontal'
-            : 'dots-three-horizontal';
+            ? 'ellipsis1'
+            : 'ellipsis1';
           }
           else {
             iconName = focused
@@ -65,7 +58,7 @@ function LoggedInTabNavScreen() {
             : 'help';
           }
     
-        return <Entypo name={iconName} size={size} color={color}     />;
+        return <AntDesign name={iconName} size={size} color={color}     />;
           },
         })}
           tabBarOptions={{
