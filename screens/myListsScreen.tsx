@@ -12,6 +12,8 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import {  RefreshControl } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
+//import { ListDetailsContactCard } from "../components";
+import { Provider } from "react-native-paper";
 import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
@@ -44,6 +46,7 @@ interface Props {
 interface State {
   lists: List[];
   refreshing: boolean;
+  listId: string;
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -51,7 +54,8 @@ class myListsScreen extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props);
-    this.state = { refreshing: false, lists: [],  };
+    //const listId = this.state;
+    this.state = { refreshing: false, lists: [], };
   }
   _onRefresh = () => {
     this.setState({refreshing: true});
@@ -97,6 +101,39 @@ class myListsScreen extends React.Component<Props, State> {
     return Promise.resolve();
   };
 
+  async removeList(listId:string ): Promise<void> {
+    const { token, userId } = this.context.value;
+  
+    const response = await fetch(`${API_ROOT}/lists/${listId}`, {
+      
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    //alert(response.status)
+    const body = await response.json();
+    console.log(body.error)
+
+    if (!response.ok) {
+      Alert.alert(
+        "Uh oh!",
+        "There was an error deleting the contact."
+      );
+      return Promise.reject();
+    }
+
+    this.setState({
+      lists: this.state.lists.filter((list: List) => list.id !== listId)
+    });
+
+    await this.fetchLists();
+
+    return Promise.resolve();
+  }
+
   searchList = (value) =>{
     const filteredList = this.state.lists.filter(
       list => {
@@ -115,6 +152,7 @@ class myListsScreen extends React.Component<Props, State> {
     const listLength = this.state.lists.length;
     const ListName = "hello";
     return (
+      <Provider>
       <View style={styles.container}>
         <View
           style={{
@@ -169,14 +207,14 @@ class myListsScreen extends React.Component<Props, State> {
         <ScrollView 
           style={{ width: "80%" }} 
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
-          {this.state.lists.map((list: List) => (
-            <MultipleListsCard
-              list={list}
-              fetchLists={() => this.fetchLists()}
-            />
-          ))}
+          {/* <TouchableOpacity>
+               <Icon name="dots-three-vertical" size={25} color="#636363" />
+             </TouchableOpacity> */}
+          {this.state.lists.map((list: List) => <MultipleListsCard list={list} fetchLists={() => this.fetchLists()} removeList={() => this.removeList(list.id)}/> 
+          )}
         </ScrollView>
       </View>
+      </Provider>
     );
   }
 }

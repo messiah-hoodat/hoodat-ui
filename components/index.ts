@@ -1,1 +1,2 @@
 export { default as ListDetailsContactCard } from './ListDetailsContactCard';
+export { default as MultipleListsCard } from './MultipleListsCard';
