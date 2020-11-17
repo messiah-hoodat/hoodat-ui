@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/Entypo";
 
 
 
-class TestScreen extends React.Component{
+class QuizAll extends React.Component{
   
 
   render() {
@@ -18,8 +18,8 @@ class TestScreen extends React.Component{
 
     return (
       <View style={styles.container}>
-        <Text style = {{marginTop:200}}>Test Screen</Text>
-        <Button title="Back" onPress={() => this.props.navigation.goBack()}></Button>
+        <Text style = {{marginTop:200}}>Quiz All Screen</Text>
+        <Button title="Next" onPress={() => this.props.navigation.navigate("Test Screen")}></Button>
       </View>
     );
   }
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default TestScreen;
+export default QuizAll;

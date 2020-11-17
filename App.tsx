@@ -13,21 +13,36 @@ import QuizScreen from './screens/QuizScreen';
 import QuizResultsScreen from './screens/QuizResultsScreen';
 import TestMultipleList from './screens/TestMultipleList';
 import sharedWithMe from './screens/sharedWithMe';
+import QuizAll from './screens/QuizAll';
 import Groups from './screens/Groups';
 import Settings from './screens/Settings';
 import TestScreen from './screens/TestScreen';
 import { AntDesign } from '@expo/vector-icons';
 import "react-native-gesture-handler";
 import React, { useState } from "react";
+import  {View,Image,Text} from "react-native";
 
 import { UserContext, UserState } from "./contexts/UserContext";
 
 
+const getTabBarVisibility = (route) => {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : '';
+
+  if (routeName === 'Test Screen') {                      // Add SharedwMe/Groups/Settings Stack Screen Names here
+    return false;
+  }
+
+  return true;
+}
 
 
 const LoggedInTabNav = createBottomTabNavigator();
 function LoggedInTabNavScreen() {
+  
   return (
+    
     <LoggedInTabNav.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -41,6 +56,14 @@ function LoggedInTabNavScreen() {
             iconName = focused
             ? 'team'
             : 'team';
+          }
+          else if (route.name === 'Quiz All') {
+            iconName = focused
+            ? 'bulb1'
+            : 'bulb1';
+            
+  
+            
           }
           else if (route.name === 'Groups') {
             iconName = focused
@@ -64,12 +87,21 @@ function LoggedInTabNavScreen() {
           tabBarOptions={{
           activeTintColor: "#6EA8FF",
           inactiveTintColor: 'gray',
-        }}>
+          
+        }}
+        >
 
         <LoggedInTabNav.Screen name="My Lists"     component=  {myListsScreen} />
-        <LoggedInTabNav.Screen name="Shared With Me" component=  {SharedWithMeStackScreen} />
-        <LoggedInTabNav.Screen name="Groups" component=  {GroupsStackScreen} />
-        <LoggedInTabNav.Screen name="Settings" component=  {SettingsStackScreen} />
+        <LoggedInTabNav.Screen name="Shared With Me" component=  {SharedWithMeStackScreen} options={({ route }) => ({tabBarVisible: getTabBarVisibility(route)})} />
+        <LoggedInTabNav.Screen name="Quiz All" 
+            component=  {QuizAllStack} 
+            options={({ route }) => ({
+              tabBarVisible: getTabBarVisibility(route),
+            })} 
+            
+            />
+        <LoggedInTabNav.Screen name="Groups" component=  {GroupsStackScreen} options={({ route }) => ({tabBarVisible: getTabBarVisibility(route)})}/>
+        <LoggedInTabNav.Screen name="Settings" component=  {SettingsStackScreen} options={({ route }) => ({tabBarVisible: getTabBarVisibility(route)})}/>
       </LoggedInTabNav.Navigator>
 
   );
@@ -77,6 +109,7 @@ function LoggedInTabNavScreen() {
 
 const myListsStack = createStackNavigator();
 function myListsStackScreen() {
+  
   return (
     <myListsStack.Navigator
           headerMode="none"
@@ -101,8 +134,21 @@ function SharedWithMeStackScreen() {
           screenOptions={{ gestureEnabled: false }}
         >
           <sharedWithMeStack.Screen name="Shared With Me" component={sharedWithMe} />
-          <sharedWithMeStack.Screen name="Test Screen" component={TestScreen}/>
+          <sharedWithMeStack.Screen name="Test Screen" component={TestScreen} />
       </sharedWithMeStack.Navigator>
+  );
+}
+
+const quizAllStack = createStackNavigator();
+function QuizAllStack() {
+  return (
+    <quizAllStack.Navigator
+          headerMode="none"
+          screenOptions={{ gestureEnabled: false }}
+        >
+          <quizAllStack.Screen name="Quiz All" component={QuizAll} />
+          <quizAllStack.Screen name="Test Screen" component={TestScreen} />
+      </quizAllStack.Navigator>
   );
 }
 
@@ -114,7 +160,7 @@ function GroupsStackScreen() {
           screenOptions={{ gestureEnabled: false }}
         >
           <groupsStack.Screen name="Groups" component={Groups} />
-          <groupsStack.Screen name="Test Screen" component={TestScreen}/>
+          <groupsStack.Screen options={{headerShown: false}} name="Test Screen" component={TestScreen} />
       </groupsStack.Navigator>
   );
 }
@@ -136,7 +182,7 @@ function SettingsStackScreen() {
 const fullAppStack = createStackNavigator();
 export default function App() {
   const [value, setValue] = useState<UserState>({ token: "", userId: "" });
-
+  console.disableYellowBox = true;
   return (
     <UserContext.Provider value={{ value, setValue }}>
       <NavigationContainer>
@@ -148,9 +194,6 @@ export default function App() {
             <fullAppStack.Screen name="Sign In" component={SignInScreen} />
             <fullAppStack.Screen name="Sign Up" component={SignUpScreen}/>
             <fullAppStack.Screen name="My Lists" component={myListsStackScreen}/>
-            <fullAppStack.Screen name="Shared With Me" component={SharedWithMeStackScreen}/>
-            <fullAppStack.Screen name="Groups" component={GroupsStackScreen}/>
-            <fullAppStack.Screen name="Settings" component={SettingsStackScreen}/>
         </fullAppStack.Navigator>
         
       </NavigationContainer>
