@@ -82,9 +82,8 @@ export default function MultipleListsCard({ list, fetchLists, removeList }: Prop
                 <Text style={styles.ListButtonSubtitle}>
                     {list.contacts.length} contacts
                 </Text>
-                <ScrollView
+                <View
                     style={styles.ListButtonImageScroll}
-                    horizontal={true}
                 >
                     {list.contacts.map((contact) => (
                         <Image
@@ -92,11 +91,11 @@ export default function MultipleListsCard({ list, fetchLists, removeList }: Prop
                             source={{
                                 uri: contact.image.url,
                             }}
-                            resizeMode="contain"
+                            resizeMode="cover"
                         />
                     ))}
 
-                </ScrollView>
+                </View>
 
             </LinearGradient>
         </TouchableOpacity>
@@ -131,18 +130,18 @@ const styles = StyleSheet.create({
     },
 
     ListButtonImageScroll: {
+        flexDirection: "row",
         marginTop: 15,
         marginLeft: 26,
         width: 300,
     },
 
     ListButtonContactImage: {
-        width: 42,
-        height: 42,
-        borderRadius: 10,
-        borderWidth: 1,
-        marginRight: 12,
-        borderColor: "lightgrey",
+      width: 42,
+      height: 42,
+      borderRadius: 13,
+      marginRight: 12,
+      borderColor: "lightgrey",
     },
 
     cardContainer: {
