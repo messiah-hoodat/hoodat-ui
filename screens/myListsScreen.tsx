@@ -46,7 +46,6 @@ interface Props {
 interface State {
   lists: List[];
   refreshing: boolean;
-  listId: string;
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -54,7 +53,6 @@ class myListsScreen extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props);
-    //const listId = this.state;
     this.state = { refreshing: false, lists: [], };
   }
   _onRefresh = () => {
@@ -134,7 +132,7 @@ class myListsScreen extends React.Component<Props, State> {
     return Promise.resolve();
   }
 
-  searchList = (value) =>{
+  searchList = (value: any) =>{
     const filteredList = this.state.lists.filter(
       list => {
         let listLowercase = (list.name).toLowerCase()
@@ -191,7 +189,7 @@ class myListsScreen extends React.Component<Props, State> {
           style={styles.searchTextInput} 
           placeholder="Search..." 
           onChangeText={(value)=>
-            this.setState({value}, () => {
+            this.setState(() => {
               if(value == ''){
                 this.fetchLists()
               }else{

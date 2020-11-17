@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
       },
 
     optionsContainer: {
-        //marginLeft: 0
+        marginTop: 20,
         width: 40,
     },
 
