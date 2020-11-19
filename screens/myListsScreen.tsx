@@ -16,6 +16,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
 import MultipleListsCard from "../components/MultipleListsCard";
+import LoadingView from 'react-native-loading-view'
 
 export interface Contact {
   id: string;
@@ -44,6 +45,7 @@ interface Props {
 interface State {
   lists: List[];
   refreshing: boolean;
+  loading: boolean;
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -51,7 +53,7 @@ class myListsScreen extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props);
-    this.state = { refreshing: false, lists: [],  };
+    this.state = { refreshing: false, lists: [], loading: true };
   }
   _onRefresh = () => {
     this.setState({refreshing: true});
@@ -61,6 +63,11 @@ class myListsScreen extends React.Component<Props, State> {
   }
   componentDidMount() {
     this.fetchLists();
+    setTimeout(() => {
+      this.setState({loading: false});
+    }, 250)
+    
+
   }
 
   fetchLists = async (): Promise<any> => {
@@ -95,6 +102,19 @@ class myListsScreen extends React.Component<Props, State> {
 
     this.setState({ lists });
     return Promise.resolve();
+  };
+
+  searchList = (value) =>{
+    const filteredList = this.state.lists.filter(
+      list => {
+        let listLowercase = (list.name).toLowerCase()
+
+        let searchTermLowercase = value.toLowerCase()
+
+        return listLowercase.indexOf(searchTermLowercase)> -1
+      }
+    )
+    this.setState({lists: filteredList});
   };
 
   render() {
@@ -136,22 +156,35 @@ class myListsScreen extends React.Component<Props, State> {
         </View>
 
         <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
-          <TextInput style={styles.searchTextInput} placeholder="Search..." />
+          <TextInput 
+          style={styles.searchTextInput} 
+          placeholder="Search..." 
+          onChangeText={(value)=>
+            this.setState({value}, () => {
+              if(value == ''){
+                this.fetchLists()
+              }else{
+                this.searchList(value)
+              }
+            })
+          }
+          />
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
+        <LoadingView loading={this.state.loading}>
+          <ScrollView 
+            style={{ width: "80%" }} 
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
+            {this.state.lists.map((list: List) => (
+              <MultipleListsCard
+                list={list}
+                fetchLists={() => this.fetchLists()}
+              />
+            ))}
 
-        <ScrollView 
-          style={{ width: "80%" }} 
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
-          {this.state.lists.map((list: List) => (
-            <MultipleListsCard
-              list={list}
-              fetchLists={() => this.fetchLists()}
-            />
-          ))}
-
-        </ScrollView>
+          </ScrollView>
+        </LoadingView>
       </View>
     );
   }
