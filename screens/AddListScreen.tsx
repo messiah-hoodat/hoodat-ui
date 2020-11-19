@@ -13,6 +13,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { LinearGradient } from "expo-linear-gradient";
 import { UserContext } from "../contexts/UserContext";
 import { API_ROOT } from "../lib/constants";
+import { FAB } from "../components";
 
 interface Props {
   navigation: any;
@@ -26,6 +27,7 @@ interface Props {
 interface State {
   name: string;
   color: number;
+  loadingCreateList: boolean;
 }
 
 const colorData = [
@@ -45,10 +47,12 @@ class AddList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { name: "", color: 0 };
+    this.state = { name: "", color: 0, loadingCreateList: false };
   }
 
   handleSubmit = async () => {
+    this.setState({ loadingCreateList: true });
+
     const { name, color } = this.state;
     const { token, userId } = this.context.value;
     const response = await fetch(`${API_ROOT}/lists`, {
@@ -65,8 +69,9 @@ class AddList extends React.Component<Props, State> {
 
     const body = await response.json();
 
+    this.setState({ loadingCreateList: false });
+
     if (response.ok) {
-      Alert.alert("Hurray!", body.message ?? "Your List has been added.");
       this.props.route.params.fetchLists();
       this.props.navigation.pop();
     } else {
@@ -162,20 +167,14 @@ class AddList extends React.Component<Props, State> {
           />
         </View>
 
-        <View style={styles.createListButtonView}>
-          <TouchableOpacity
-            onPress={this.handleSubmit} // key for color stored in "selectedColor" variable
-            style={[styles.AddListButton, { flexDirection: "row" }]}
-          >
-            <Icon
-              name="plus"
-              size={30}
-              color="#FFFFFF"
-              style={styles.AddListIcon}
-            />
-            <Text style={styles.AddListText}>Create List</Text>
-          </TouchableOpacity>
-        </View>
+        <FAB
+          disabled={!this.state.name}
+          icon="plus"
+          label="Create List"
+          loading={this.state.loadingCreateList}
+          onPress={this.handleSubmit}
+        />
+
       </View>
     );
   }
@@ -242,27 +241,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "80%",
     justifyContent: "flex-end",
-  },
-
-  AddListButton: {
-    marginTop: "30%",
-    backgroundColor: "#6EA8FF",
-    width: 180,
-    height: 60,
-    borderRadius: 43,
-  },
-
-  AddListIcon: {
-    marginLeft: RFValue(12),
-    marginTop: RFValue(13),
-  },
-
-  AddListText: {
-    marginTop: RFValue(16),
-    marginLeft: RFValue(6),
-    fontWeight: "800",
-    color: "#FFFFFF",
-    fontSize: 22,
   },
 });
 

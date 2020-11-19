@@ -17,6 +17,7 @@ import { API_ROOT } from "../lib/constants";
 import { Contact } from "./myListsScreen";
 import { UserContext, UserState } from "../contexts/UserContext";
 import { RFValue } from "react-native-responsive-fontsize";
+import { FAB } from "../components";
 
 interface Props {
   navigation: any;
@@ -30,6 +31,7 @@ interface Props {
 }
 
 interface State {
+  loadingAddContact: boolean;
   name: string;
   image: {
     data: string;
@@ -48,6 +50,7 @@ class HoodatBudsList extends React.Component<Props, State> {
     super(props);
     const { listId, contacts, fetchLists } = this.props.route.params;
     this.state = {
+      loadingAddContact: false,
       name: "",
       image: { data: "", fileType: "", name: "" },
       listId,
@@ -115,6 +118,8 @@ class HoodatBudsList extends React.Component<Props, State> {
   };
 
   handleSubmit = async () => {
+    this.setState({ loadingAddContact: true });
+
     const { name, image } = this.state;
     const { token, userId } = this.context.value;
 
@@ -138,10 +143,9 @@ class HoodatBudsList extends React.Component<Props, State> {
     const body = await response.json();
 
     if (response.ok) {
-      Alert.alert("Hurray!", body.message ?? "Your contact has been added.");
       await this.props.route.params.fetchLists();
+      this.setState({ loadingAddContact: false });
       this.props.navigation.pop(2);
-      //await this.props.route.params.fetchLists();
     } else {
       Alert.alert("Uh oh!", body.message ?? "It didn't work.");
     }
@@ -209,27 +213,14 @@ class HoodatBudsList extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            width: "80%",
-            marginTop: "4%",
-            flex: 0,
-            flexDirection: "row-reverse",
-          }}
-        >
-          <TouchableOpacity
-            style={[styles.AddContactButton]}
-            onPress={this.handleSubmit}
-          >
-            <Icon
-              name="plus"
-              size={30}
-              color="#FFFFFF"
-              style={styles.AddContactIcon}
-            />
-            <Text style={styles.AddContactText}>Add Contact</Text>
-          </TouchableOpacity>
-        </View>
+        <FAB
+          disabled={!(this.state.image.data && this.state.name)}
+          icon="plus"
+          label="Add Contact"
+          loading={this.state.loadingAddContact}
+          onPress={this.handleSubmit}
+        />
+
       </View>
     );
   }
@@ -291,29 +282,6 @@ const styles = StyleSheet.create({
 
   optionsButton: {
     marginRight: 10,
-  },
-
-  AddContactButton: {
-    flex: 0,
-    flexDirection: "row",
-    marginTop: RFValue(20),
-    backgroundColor: "#6EA8FF",
-    width: 180,
-    height: 60,
-    borderRadius: 43,
-  },
-
-  AddContactIcon: {
-    marginLeft: 12,
-    marginTop: 14,
-  },
-
-  AddContactText: {
-    marginTop: 18,
-    marginLeft: 3,
-    fontWeight: "800",
-    color: "#FFFFFF",
-    fontSize: 20,
   },
 });
 
