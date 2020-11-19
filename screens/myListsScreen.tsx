@@ -65,11 +65,6 @@ class myListsScreen extends React.Component<Props, State> {
   }
   componentDidMount() {
     this.fetchLists();
-    setTimeout(() => {
-      this.setState({loading: false});
-    }, 250)
-    
-
   }
 
   fetchLists = async (): Promise<any> => {
@@ -103,6 +98,7 @@ class myListsScreen extends React.Component<Props, State> {
     );
 
     this.setState({ lists });
+    this.setState({loading: false});
     return Promise.resolve();
   };
 
