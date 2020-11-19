@@ -33,7 +33,7 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
     //         start={{ x: -0.2, y: 0.5 }}
     //         end={{ x: 1, y: 0.5 }}
     //         >
-    <View style = {styles.cardContainer}>
+    <View style={styles.cardContainer}>
       <View style={styles.contactContainer}>
         <Image
           style={styles.PeopleInListPicture}
@@ -54,7 +54,7 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
             </TouchableOpacity>
           }
         >
-          <Menu.Item icon="pencil" onPress={() => console.log('TODO')} title="Edit" disabled/>
+          <Menu.Item icon="pencil" onPress={() => console.log('TODO')} title="Edit" disabled />
           <Menu.Item icon="delete" onPress={handleRemoveContact} title="Remove" />
         </Menu>
       </View>

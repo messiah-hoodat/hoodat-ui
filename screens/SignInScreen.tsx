@@ -170,14 +170,14 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     marginTop: RFValue(15),
     fontSize: RFValue(12),
-    width: 130,
+    width: RFValue(170),
     color: "#3D3D3D",
   },
   forgotPasswordButton: {
     marginTop: RFValue(15),
-    textAlign: "center",
+    textAlign: "right",
     marginLeft: 8,
-    marginRight: 80,
+    marginRight: 0,
     fontSize: RFValue(12),
     fontWeight: "bold",
     color: "#6EA8FF",

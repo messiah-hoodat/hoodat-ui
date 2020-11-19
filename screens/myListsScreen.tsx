@@ -18,6 +18,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
 import MultipleListsCard from "../components/MultipleListsCard";
+import LoadingView from 'react-native-loading-view'
 
 export interface Contact {
   id: string;
@@ -46,6 +47,7 @@ interface Props {
 interface State {
   lists: List[];
   refreshing: boolean;
+  loading: boolean;
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -53,7 +55,7 @@ class myListsScreen extends React.Component<Props, State> {
   
   constructor(props: Props) {
     super(props);
-    this.state = { refreshing: false, lists: [], };
+    this.state = { refreshing: false, lists: [], loading: true };
   }
   _onRefresh = () => {
     this.setState({refreshing: true});
@@ -96,6 +98,7 @@ class myListsScreen extends React.Component<Props, State> {
     );
 
     this.setState({ lists });
+    this.setState({loading: false});
     return Promise.resolve();
   };
 
@@ -201,7 +204,7 @@ class myListsScreen extends React.Component<Props, State> {
           <Icon name="magnifying-glass" size={18} color="#828282" />
         </View>
 
-
+       <LoadingView loading={this.state.loading}>
         <ScrollView 
           style={{ width: "80%" }} 
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>}>
@@ -211,6 +214,8 @@ class myListsScreen extends React.Component<Props, State> {
           {this.state.lists.map((list: List) => <MultipleListsCard list={list} fetchLists={() => this.fetchLists()} removeList={() => this.removeList(list.id)}/> 
           )}
         </ScrollView>
+       </LoadingView>
+
       </View>
       </Provider>
     );
