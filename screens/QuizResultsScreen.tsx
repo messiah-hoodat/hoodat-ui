@@ -171,8 +171,8 @@ const styles = StyleSheet.create({
   },
   QuizResultsPagePersonImage: {
     borderRadius: 100,
-    width: RFValue(18),
-    height: RFValue(18),
+    width: RFValue(35),
+    height: RFValue(35),
   },
   namesInQuizResultPageText: {
     fontSize: RFValue(14),

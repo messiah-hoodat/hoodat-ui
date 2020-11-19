@@ -9,12 +9,11 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { Menu } from "react-native-paper";
 import { Provider } from "react-native-paper";
 import Icon from "react-native-vector-icons/Entypo";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Contact } from "./myListsScreen";
-import { ListDetailsContactCard } from "../components";
+import { FAB, ListDetailsContactCard } from "../components";
 import { API_ROOT } from "../lib/constants";
 import { UserContext } from "../contexts/UserContext";
 
@@ -79,9 +78,6 @@ class HoodatBudsList extends React.Component<Props, State> {
   }
 
   render() {
-    var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
-    var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
-    
     return (
       <Provider>
         <View style={styles.container}>
@@ -125,22 +121,13 @@ class HoodatBudsList extends React.Component<Props, State> {
             </ScrollView>
           </View>
 
-          
-          <View style={styles.QuizMeBtnView}>
-            <TouchableOpacity
-              style={[styles.QuizMeButton, { flex: 0, flexDirection: "row" }]}
-              onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, QuizListNames:ListNames, CurrentQuizQuestionNumber:CurrentQuestionNumber })}
-              >
-              <Icon
-                name="flash"
-                size={30}
-                color="#FFFFFF"
-                style={styles.QuizMeFlashIcon}
-              />
-              <Text style={styles.QuizMeText}>Quiz Me</Text>
-            </TouchableOpacity>
-          </View>
-          
+          <FAB
+            disabled={this.state.contacts.length < 5}
+            icon="flash"
+            label="Quiz Me"
+            onPress={() => this.props.navigation.navigate("Quiz Screen", { contacts: this.state.contacts, QuizTitleListName:this.state.listName, CurrentQuizQuestionNumber: 0 })}
+          />
+
         </View>
       </Provider>
     );
@@ -191,36 +178,6 @@ const styles = StyleSheet.create({
     top: 0,
     height: "58%",
     width: "80%",
-    
-  },
-
-  QuizMeBtnView:
-  { flex: 1, 
-    flexDirection: "row", 
-    position: "absolute", 
-    bottom: "6%", 
-    right: "7%",
-  },
-
-  QuizMeButton: {
-    marginLeft: 180,
-    backgroundColor: "#6EA8FF",
-    width: 140,
-    height: 60,
-    borderRadius: 43,
-  },
-
-  QuizMeFlashIcon: {
-    marginLeft: 12,
-    marginTop: 14,
-  },
-
-  QuizMeText: {
-    marginTop: RFValue(16),
-    marginLeft: 3,
-    fontWeight: "800",
-    color: "#FFFFFF",
-    fontSize: 20,
   },
 });
 
