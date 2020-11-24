@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
 
   myAddContactText: {
     fontSize: RFValue(30),
-    fontWeight: "800",
+    fontWeight: "bold",
   },
 
   InputLabel: {
@@ -265,14 +265,14 @@ const styles = StyleSheet.create({
 
   cameraRollbutton: {
     color: "#6EA8FF",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(14),
     marginBottom: RFValue(14),
   },
 
   takePicbutton: {
     color: "#6EA8FF",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(14),
   },
 

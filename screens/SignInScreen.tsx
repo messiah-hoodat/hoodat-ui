@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   LoginText: {
     marginTop: RFValue(40),
     fontSize: RFValue(28),
-    fontWeight: "800",
+    fontWeight: "bold",
     width: RFValue(230),
   },
 
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: "white",
     textAlign: "center",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: 25,
   },
 

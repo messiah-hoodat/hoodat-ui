@@ -232,20 +232,20 @@ const styles = StyleSheet.create({
   myListsText: {
     marginRight: RFValue(0),
     fontSize: RFValue(35),
-    fontWeight: "800",
+    fontWeight: "bold",
   },
 
   newListBtn: {
     marginTop: RFValue(15),
     fontSize: 15,
-    fontWeight: "800",
+    fontWeight: "bold",
     marginRight: 0,
     color: "#6EA8FF",
   },
   refreshBtn: {
     marginTop: RFValue(10),
     fontSize: 15,
-    fontWeight: "800",
+    fontWeight: "bold",
     marginRight: 0,
     color: "#6EA8FF",
     marginBottom: RFValue(-20),
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 25,
     color: "#494949",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: 20,
   },
 

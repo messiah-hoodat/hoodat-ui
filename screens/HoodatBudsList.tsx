@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   ListTitle: {
     marginTop: RFValue(20),
     fontSize: RFValue(30),
-    fontWeight: "800",
+    fontWeight: "bold",
     width: "80%",
   },
 
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 
   addMorePeopleButton: {
     color: "#6EA8FF",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(14),
     marginBottom: RFValue(18),
   },
