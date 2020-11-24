@@ -78,6 +78,20 @@ class HoodatBudsList extends React.Component<Props, State> {
     return Promise.resolve();
   }
 
+  searchList = (value: string) =>{
+    
+      const filteredList = this.state.contacts.filter((
+            contact) => {
+              let listLowercase = (contact.name).toLowerCase()
+      
+              let searchTermLowercase = value.toLowerCase()
+      
+              return listLowercase.indexOf(searchTermLowercase)> -1
+            }
+          )
+        this.setState({contacts: filteredList});
+  };
+
   render() {
     var CurrentQuestionNumber = 0 //Used for keeping track of quiz later on
     var ListNames = this.state.contacts.map((contact: Contact) => contact.name);
@@ -109,7 +123,20 @@ class HoodatBudsList extends React.Component<Props, State> {
 
 
           <View style={[styles.searchBar, { flex: 0, flexDirection: "row" }]}>
-            <TextInput style={styles.searchTextInput} placeholder="Search..." />
+            <TextInput 
+            style={styles.searchTextInput} 
+            placeholder="Search..." 
+            onChangeText={(value)=>
+               this.setState({value}, () => {
+                if(value == ''){
+                  this.props.route.params.contacts
+                }else{
+                  this.searchList(value)
+                }
+              }
+              )
+            }
+            />
             <Icon name="magnifying-glass" size={18} color="#828282" />
           </View>
 
