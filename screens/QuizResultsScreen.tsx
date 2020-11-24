@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#6EA8FF",
     color: "white",
     textAlign: "center",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(20),
     borderRadius: 20,
     overflow: "hidden",

@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
 
   QuizTitleListNameStyling: {
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(18),
     width: "85%",
     color: "#494949",
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
 
   QuizPersonName: {
     marginTop: 3,
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: RFValue(37),
     color: "#000000",
   },

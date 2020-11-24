@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   NewListText: {
     paddingVertical: RFValue(7),
     fontSize: RFValue(32),
-    fontWeight: "800",
+    fontWeight: "bold",
   },
 
   ListNameLabel: {

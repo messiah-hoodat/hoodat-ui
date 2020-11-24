@@ -258,13 +258,12 @@ const styles = StyleSheet.create({
   SignUpText: {
     marginTop: "20%",
     fontSize: RFValue(33),
-    fontWeight: "800",
+    fontWeight: "bold",
     width: RFValue(230),
     marginBottom: RFValue(18),
   },
   InputLabels: {
     marginTop: "5%",
-    //marginTop:RFValue(23),
     fontSize: RFValue(14),
     width: RFValue(230),
     fontWeight: "600",
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
   signUpButtonText: {
     color: "white",
     textAlign: "center",
-    fontWeight: "800",
+    fontWeight: "bold",
     fontSize: 25,
   },
 
