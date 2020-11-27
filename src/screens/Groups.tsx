@@ -1,7 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
-class Groups extends React.Component {
+interface Props {
+  navigation: any;
+}
+
+class Groups extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>

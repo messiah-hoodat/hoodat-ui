@@ -6,7 +6,7 @@ interface Props {
   navigation: any;
 }
 
-class splashScreen extends React.Component {
+class splashScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
