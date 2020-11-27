@@ -32,6 +32,7 @@ interface State {
   fetchLists: () => Promise<any>;
   listName: string;
   listId: string;
+  searchQuery: string;
 }
 
 class HoodatBudsList extends React.Component<Props, State> {
@@ -42,7 +43,7 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     const { contacts, listName, listId, fetchLists } = this.props.route.params;
 
-    this.state = { contacts, listName, listId, fetchLists };
+    this.state = { contacts, listName, listId, fetchLists, searchQuery: '' };
   }
 
   async removeContact(contactId: string, listId: string): Promise<void> {
@@ -91,7 +92,11 @@ class HoodatBudsList extends React.Component<Props, State> {
           </Text>
 
           <View style={[styles.searchBar, { flex: 0, flexDirection: 'row' }]}>
-            <TextInput style={styles.searchTextInput} placeholder="Search..." />
+            <TextInput
+              style={styles.searchTextInput}
+              placeholder="Search..."
+              onChangeText={(searchQuery) => this.setState({ searchQuery })}
+            />
             <Icon name="magnifying-glass" size={18} color="#828282" />
           </View>
 
@@ -109,14 +114,21 @@ class HoodatBudsList extends React.Component<Props, State> {
 
           <View style={styles.PeopleListScrollView}>
             <ScrollView>
-              {this.state.contacts.map((contact: Contact) => (
-                <ListDetailsContactCard
-                  contact={contact}
-                  removeContact={() =>
-                    this.removeContact(contact.id, this.state.listId)
-                  }
-                />
-              ))}
+              {this.state.contacts.map((contact: Contact) => {
+                const match: boolean = contact.name
+                  .toLowerCase()
+                  .includes(this.state.searchQuery.toLowerCase());
+                return (
+                  match && (
+                    <ListDetailsContactCard
+                      contact={contact}
+                      removeContact={() =>
+                        this.removeContact(contact.id, this.state.listId)
+                      }
+                    />
+                  )
+                );
+              })}
             </ScrollView>
           </View>
 

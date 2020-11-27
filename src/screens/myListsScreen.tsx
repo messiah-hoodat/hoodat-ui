@@ -30,6 +30,7 @@ interface State {
   lists: List[];
   refreshing: boolean;
   loading: boolean;
+  searchQuery: string;
 }
 
 class myListsScreen extends React.Component<Props, State> {
@@ -37,7 +38,12 @@ class myListsScreen extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { refreshing: false, lists: [], loading: true };
+    this.state = {
+      refreshing: false,
+      lists: [],
+      loading: true,
+      searchQuery: '',
+    };
   }
   _onRefresh = () => {
     this.setState({ refreshing: true });
@@ -78,22 +84,7 @@ class myListsScreen extends React.Component<Props, State> {
 
     return Promise.resolve();
   }
-
-  searchList = (value: any) => {
-    const filteredList = this.state.lists.filter((list) => {
-      let listLowercase = list.name.toLowerCase();
-
-      let searchTermLowercase = value.toLowerCase();
-
-      return listLowercase.indexOf(searchTermLowercase) > -1;
-    });
-    this.setState({ lists: filteredList });
-  };
-
   render() {
-    const listName = 'My Peeps';
-    const listLength = this.state.lists.length;
-    const ListName = 'hello';
     return (
       <Provider>
         <View style={styles.container}>
@@ -131,15 +122,7 @@ class myListsScreen extends React.Component<Props, State> {
             <TextInput
               style={styles.searchTextInput}
               placeholder="Search..."
-              onChangeText={(value) =>
-                this.setState(() => {
-                  if (value == '') {
-                    this.fetchLists();
-                  } else {
-                    this.searchList(value);
-                  }
-                })
-              }
+              onChangeText={(searchQuery) => this.setState({ searchQuery })}
             />
             <Icon name="magnifying-glass" size={18} color="#828282" />
           </View>
@@ -154,16 +137,20 @@ class myListsScreen extends React.Component<Props, State> {
                 />
               }
             >
-              {/* <TouchableOpacity>
-               <Icon name="dots-three-vertical" size={25} color="#636363" />
-             </TouchableOpacity> */}
-              {this.state.lists.map((list: List) => (
-                <MultipleListsCard
-                  list={list}
-                  fetchLists={() => this.fetchLists()}
-                  removeList={() => this.removeList(list.id)}
-                />
-              ))}
+              {this.state.lists.map((list: List) => {
+                const match: boolean = list.name
+                  .toLowerCase()
+                  .includes(this.state.searchQuery.toLowerCase());
+                return (
+                  match && (
+                    <MultipleListsCard
+                      list={list}
+                      fetchLists={() => this.fetchLists()}
+                      removeList={() => this.removeList(list.id)}
+                    />
+                  )
+                );
+              })}
             </ScrollView>
           </LoadingView>
         </View>
