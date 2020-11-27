@@ -30,7 +30,9 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npx prettier --check src/
+            - run:
+                name: Checking code format
+                command: npx prettier --check src/
 
   publish_to_expo_prod:
     environment:
@@ -42,6 +44,8 @@ workflows:
     jobs:
       - format
       - publish_to_expo_prod:
+          requires:
+            - format
           filters:
             branches:
               only: master
