@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -9,18 +9,18 @@ import {
   TouchableOpacity,
   Alert,
   CheckBox,
-} from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
-import { UserContext } from "../contexts/UserContext";
-import { API_ROOT } from "../lib/constants";
+} from 'react-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { UserContext } from '../contexts/UserContext';
+import { API_ROOT } from '../lib/constants';
 
 interface Props {
   navigation: any;
 }
 
 export default function LoginScreen(props: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
 
   const context = useContext(UserContext);
@@ -29,9 +29,9 @@ export default function LoginScreen(props: Props) {
     setLoginLoading(true);
 
     const response = await fetch(`${API_ROOT}/auth/token`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email,
@@ -45,9 +45,9 @@ export default function LoginScreen(props: Props) {
 
     if (body.statusCode == 200 && !body.error) {
       context?.setValue({ token: body.token, userId: body.userId });
-      props.navigation.navigate("My Lists");
+      props.navigation.navigate('My Lists');
     } else {
-      Alert.alert("Uh oh!", `${body.error}: ${body.message}`);
+      Alert.alert('Uh oh!', `${body.error}: ${body.message}`);
     }
     return Promise.resolve();
   }
@@ -56,7 +56,7 @@ export default function LoginScreen(props: Props) {
     <View style={styles.container}>
       <Image
         style={styles.HoodatLogo}
-        source={require("../assets/HoodatTextLogo.png")}
+        source={require('../../assets/HoodatTextLogo.png')}
         resizeMode="contain"
       />
       <Text style={styles.LoginText}>Log In</Text>
@@ -76,7 +76,7 @@ export default function LoginScreen(props: Props) {
 
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           width: RFValue(230),
           marginBottom: RFValue(40),
         }}
@@ -89,7 +89,7 @@ export default function LoginScreen(props: Props) {
 
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           width: RFValue(230),
           marginBottom: RFValue(10),
         }}
@@ -107,15 +107,15 @@ export default function LoginScreen(props: Props) {
           size="small"
           color="white"
           style={{
-            display: loginLoading ? "flex" : "none",
+            display: loginLoading ? 'flex' : 'none',
             ...styles.loadingButton,
           }}
         />
       </TouchableOpacity>
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: 'row' }}>
         <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate("Sign Up")}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Sign Up')}>
           <Text style={styles.signupButton}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -126,8 +126,8 @@ export default function LoginScreen(props: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 
   HoodatLogo: {
@@ -138,49 +138,49 @@ const styles = StyleSheet.create({
   LoginText: {
     marginTop: RFValue(40),
     fontSize: RFValue(28),
-    fontWeight: "bold",
+    fontWeight: 'bold',
     width: RFValue(230),
   },
 
   EmailText: {
     marginTop: RFValue(35),
     fontSize: RFValue(14),
-    fontWeight: "600",
+    fontWeight: '600',
     width: RFValue(230),
-    color: "#5F5F5F",
+    color: '#5F5F5F',
   },
   PasswordText: {
     marginTop: RFValue(20),
     fontSize: RFValue(14),
-    fontWeight: "600",
+    fontWeight: '600',
     width: RFValue(230),
-    color: "#5F5F5F",
+    color: '#5F5F5F',
   },
 
   inputUsernamePassword: {
     borderBottomWidth: 1,
-    borderColor: "#C4C4C4",
-    backgroundColor: "white",
+    borderColor: '#C4C4C4',
+    backgroundColor: 'white',
     paddingVertical: 8,
     margin: 7,
     width: RFValue(230),
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 
   forgotPasswordText: {
     marginTop: RFValue(15),
     fontSize: RFValue(12),
     width: RFValue(170),
-    color: "#3D3D3D",
+    color: '#3D3D3D',
   },
   forgotPasswordButton: {
     marginTop: RFValue(15),
-    textAlign: "right",
+    textAlign: 'right',
     marginLeft: 8,
     marginRight: 0,
     fontSize: RFValue(12),
-    fontWeight: "bold",
-    color: "#6EA8FF",
+    fontWeight: 'bold',
+    color: '#6EA8FF',
   },
 
   rememberMeCheckbox: {
@@ -188,35 +188,35 @@ const styles = StyleSheet.create({
     height: RFValue(15),
     width: RFValue(15),
     borderRadius: 5,
-    borderColor: "#6EA8FF",
-    backgroundColor: "#FFFFFF",
+    borderColor: '#6EA8FF',
+    backgroundColor: '#FFFFFF',
     marginRight: 10,
   },
   rememberMeText: {
     fontSize: RFValue(13),
-    color: "#3D3D3D",
-    fontWeight: "600",
+    color: '#3D3D3D',
+    fontWeight: '600',
   },
 
   loginButton: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 0,
     paddingHorizontal: 12,
     paddingVertical: 20,
     width: RFValue(230),
-    backgroundColor: "#6EA8FF",
+    backgroundColor: '#6EA8FF',
     borderRadius: 20,
-    overflow: "hidden",
+    overflow: 'hidden',
     marginBottom: 15,
   },
 
   loginButtonText: {
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontSize: 25,
   },
 
@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
     marginTop: 0,
     fontSize: RFValue(12),
     marginRight: 10,
-    color: "#3D3D3D",
+    color: '#3D3D3D',
   },
 
   signupButton: {
-    color: "#6EA8FF",
-    textAlign: "center",
-    fontWeight: "bold",
+    color: '#6EA8FF',
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontSize: RFValue(12),
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 });

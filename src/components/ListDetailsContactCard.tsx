@@ -1,38 +1,27 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
-import { Menu } from "react-native-paper";
-import { RFValue } from "react-native-responsive-fontsize";
-import { Contact } from "../screens/myListsScreen";
-import { LinearGradient } from "expo-linear-gradient";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import { Menu } from 'react-native-paper';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { Contact } from '../screens/myListsScreen';
 
 interface Props {
-  contact: Contact,
+  contact: Contact;
   removeContact: () => Promise<void>;
 }
 
-export default function ListDetailsContactCard({ contact, removeContact }: Props) {
-
+export default function ListDetailsContactCard({
+  contact,
+  removeContact,
+}: Props) {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleRemoveContact = async () => {
     setMenuVisible(false);
     await removeContact();
-  }
+  };
 
   return (
-    // <LinearGradient
-    //         colors={["#A7FFB0", "#A7ECFF"]}
-    //         style={styles.cardContainer}
-    //         start={{ x: -0.2, y: 0.5 }}
-    //         end={{ x: 1, y: 0.5 }}
-    //         >
     <View style={styles.cardContainer}>
       <View style={styles.contactContainer}>
         <Image
@@ -54,36 +43,44 @@ export default function ListDetailsContactCard({ contact, removeContact }: Props
             </TouchableOpacity>
           }
         >
-          <Menu.Item icon="pencil" onPress={() => console.log('TODO')} title="Edit" disabled />
-          <Menu.Item icon="delete" onPress={handleRemoveContact} title="Remove" />
+          <Menu.Item
+            icon="pencil"
+            onPress={() => console.log('TODO')}
+            title="Edit"
+            disabled
+          />
+          <Menu.Item
+            icon="delete"
+            onPress={handleRemoveContact}
+            title="Remove"
+          />
         </Menu>
       </View>
     </View>
-    // </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
     borderRadius: 20,
-    backgroundColor: "#F0EDED",
+    backgroundColor: '#F0EDED',
     marginBottom: RFValue(14),
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 14
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 14,
   },
 
   contactContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   optionsContainer: {
-    display: "flex",
+    display: 'flex',
   },
 
   PeopleInListPicture: {
@@ -94,9 +91,9 @@ const styles = StyleSheet.create({
 
   PeopleInListName: {
     marginLeft: RFValue(17),
-    fontWeight: "bold",
-    textAlignVertical: "center",
+    fontWeight: 'bold',
+    textAlignVertical: 'center',
     fontSize: 18,
-    color: "#494949",
+    color: '#494949',
   },
 });

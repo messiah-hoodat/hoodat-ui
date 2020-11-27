@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "format": "prettier --write src/",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "test": "jest",
@@ -52,6 +53,7 @@
     "@types/react-navigation": "^3.4.0",
     "babel-preset-expo": "~8.1.0",
     "jest": "^25.5.1",
+    "prettier": "^2.2.0",
     "typescript": "~3.8.3"
   },
   "private": true

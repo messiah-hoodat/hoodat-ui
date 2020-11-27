@@ -1,10 +1,7 @@
-import React from "react";
-import {
-  StyleSheet,
-  View,
-} from "react-native";
-import { FAB } from "react-native-paper";
-import { RFValue } from "react-native-responsive-fontsize";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { FAB } from 'react-native-paper';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface Props {
   icon: string;
@@ -14,7 +11,13 @@ interface Props {
   onPress?: () => any;
 }
 
-export default function FloatingActionButton({ icon, disabled, label, loading, onPress }: Props)  {
+export default function FloatingActionButton({
+  icon,
+  disabled,
+  label,
+  loading,
+  onPress,
+}: Props) {
   return (
     <View style={styles.container}>
       <FAB
@@ -34,16 +37,14 @@ export default function FloatingActionButton({ icon, disabled, label, loading, o
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
+    position: 'absolute',
     bottom: RFValue(20),
     right: RFValue(20),
   },
-
   fab: {
-    backgroundColor: "#6EA8FF"
+    backgroundColor: '#6EA8FF',
   },
-
   disabled: {
-    backgroundColor: "#B8D4FF"
-  }
+    backgroundColor: '#B8D4FF',
+  },
 });

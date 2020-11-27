@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -6,21 +6,20 @@ import {
   TouchableOpacity,
   Text,
   Alert,
-} from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
-import SelectableGrid from "react-native-selectable-grid";
-import { RFValue } from "react-native-responsive-fontsize";
-import { LinearGradient } from "expo-linear-gradient";
-import { UserContext } from "../contexts/UserContext";
-import { API_ROOT } from "../lib/constants";
-import { FAB } from "../components";
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import SelectableGrid from 'react-native-selectable-grid';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { UserContext } from '../contexts/UserContext';
+import { API_ROOT } from '../lib/constants';
+import { FAB } from '../components';
 
 interface Props {
   navigation: any;
   route: {
     params: {
       fetchLists: () => Promise<any>;
-    }
+    };
   };
 }
 
@@ -31,14 +30,14 @@ interface State {
 }
 
 const colorData = [
-  { label: "1", backgroundListColor: "#FFFF66" },
-  { label: "2", backgroundListColor: "#FFCF94" },
-  { label: "3", backgroundListColor: "#F4BAC2" },
-  { label: "4", backgroundListColor: "#D3AFE4" },
-  { label: "5", backgroundListColor: "#F08FF0" },
-  { label: "6", backgroundListColor: "#EDEDF4" },
-  { label: "7", backgroundListColor: "#A7F6D8" },
-  { label: "8", backgroundListColor: "#A7D1FF" },
+  { label: '1', backgroundListColor: '#FFFF66' },
+  { label: '2', backgroundListColor: '#FFCF94' },
+  { label: '3', backgroundListColor: '#F4BAC2' },
+  { label: '4', backgroundListColor: '#D3AFE4' },
+  { label: '5', backgroundListColor: '#F08FF0' },
+  { label: '6', backgroundListColor: '#EDEDF4' },
+  { label: '7', backgroundListColor: '#A7F6D8' },
+  { label: '8', backgroundListColor: '#A7D1FF' },
 ];
 
 class AddList extends React.Component<Props, State> {
@@ -47,7 +46,7 @@ class AddList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { name: "", color: 0, loadingCreateList: false };
+    this.state = { name: '', color: 0, loadingCreateList: false };
   }
 
   handleSubmit = async () => {
@@ -56,9 +55,9 @@ class AddList extends React.Component<Props, State> {
     const { name, color } = this.state;
     const { token, userId } = this.context.value;
     const response = await fetch(`${API_ROOT}/lists`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -75,7 +74,7 @@ class AddList extends React.Component<Props, State> {
       this.props.route.params.fetchLists();
       this.props.navigation.pop();
     } else {
-      Alert.alert("Uh oh!", body.message ?? "It didn't work.");
+      Alert.alert('Uh oh!', body.message ?? "It didn't work.");
     }
     return Promise.resolve();
   };
@@ -83,23 +82,23 @@ class AddList extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: RFValue(65), width: "80%" }}>
+        <View style={{ marginTop: RFValue(65), width: '80%' }}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("My Lists")}
+            onPress={() => this.props.navigation.navigate('My Lists')}
           >
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
         </View>
 
-        <View style={{ marginTop: RFValue(20), height: "10%", width: "79%" }}>
+        <View style={{ marginTop: RFValue(20), height: '10%', width: '79%' }}>
           <Text style={styles.NewListText}>New List</Text>
         </View>
 
-        <View style={{ marginTop: RFValue(8), width: "78%", borderWidth: 0 }}>
+        <View style={{ marginTop: RFValue(8), width: '78%', borderWidth: 0 }}>
           <Text style={styles.ListNameLabel}>Name</Text>
         </View>
 
-        <View style={{ width: "80%", borderWidth: 0 }}>
+        <View style={{ width: '80%', borderWidth: 0 }}>
           <TextInput
             style={styles.ListNameInput}
             placeholder="Hoodat Buds"
@@ -110,8 +109,8 @@ class AddList extends React.Component<Props, State> {
         <View
           style={{
             marginTop: RFValue(8),
-            height: "4%",
-            width: "78%",
+            height: '4%',
+            width: '78%',
             borderWidth: 0,
           }}
         >
@@ -122,8 +121,8 @@ class AddList extends React.Component<Props, State> {
           style={{
             marginTop: RFValue(13),
             marginLeft: -15,
-            height: "20%",
-            width: "78%",
+            height: '20%',
+            width: '78%',
             borderWidth: 0,
           }}
         >
@@ -137,8 +136,8 @@ class AddList extends React.Component<Props, State> {
               <View
                 style={{
                   borderRadius: 10,
-                  width: "100%",
-                  height: "100%",
+                  width: '100%',
+                  height: '100%',
                   backgroundColor: data.backgroundListColor,
                 }}
               ></View>
@@ -147,11 +146,11 @@ class AddList extends React.Component<Props, State> {
               <View
                 style={{
                   borderRadius: 10,
-                  width: "100%",
-                  height: "100%",
+                  width: '100%',
+                  height: '100%',
                   backgroundColor: data.backgroundListColor,
-                  alignItems: "center",
-                  justifyContent: "center",
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 <Icon
@@ -174,7 +173,6 @@ class AddList extends React.Component<Props, State> {
           loading={this.state.loadingCreateList}
           onPress={this.handleSubmit}
         />
-
       </View>
     );
   }
@@ -183,31 +181,31 @@ class AddList extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 
   NewListText: {
     paddingVertical: RFValue(7),
     fontSize: RFValue(32),
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   ListNameLabel: {
     paddingVertical: RFValue(7),
     fontSize: RFValue(16),
-    fontWeight: "600",
-    color: "#5F5F5F",
+    fontWeight: '600',
+    color: '#5F5F5F',
   },
 
   ListNameInput: {
     borderBottomWidth: 1,
-    borderColor: "#C4C4C4",
-    backgroundColor: "white",
+    borderColor: '#C4C4C4',
+    backgroundColor: 'white',
     marginTop: 7,
     marginLeft: 5,
-    width: "100%",
-    color: "#000000",
+    width: '100%',
+    color: '#000000',
     borderWidth: 0,
     height: RFValue(25),
   },
@@ -215,8 +213,8 @@ const styles = StyleSheet.create({
   ListColorLabels: {
     paddingVertical: RFValue(7),
     fontSize: RFValue(16),
-    fontWeight: "600",
-    color: "#5F5F5F",
+    fontWeight: '600',
+    color: '#5F5F5F',
   },
 
   unselectedColorBoxes: {
@@ -238,9 +236,9 @@ const styles = StyleSheet.create({
 
   createListButtonView: {
     flex: 1,
-    flexDirection: "row",
-    width: "80%",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    width: '80%',
+    justifyContent: 'flex-end',
   },
 });
 

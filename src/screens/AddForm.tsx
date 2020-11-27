@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -6,18 +6,17 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
-  Button,
   Text,
   Alert,
-} from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
-import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
-import { API_ROOT } from "../lib/constants";
-import { Contact } from "./myListsScreen";
-import { UserContext, UserState } from "../contexts/UserContext";
-import { RFValue } from "react-native-responsive-fontsize";
-import { FAB } from "../components";
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+import { API_ROOT } from '../lib/constants';
+import { Contact } from './myListsScreen';
+import { UserContext } from '../contexts/UserContext';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { FAB } from '../components';
 
 interface Props {
   navigation: any;
@@ -51,8 +50,8 @@ class HoodatBudsList extends React.Component<Props, State> {
     const { listId, contacts, fetchLists } = this.props.route.params;
     this.state = {
       loadingAddContact: false,
-      name: "",
-      image: { data: "", fileType: "", name: "" },
+      name: '',
+      image: { data: '', fileType: '', name: '' },
       listId,
       contacts,
       fetchLists,
@@ -64,11 +63,11 @@ class HoodatBudsList extends React.Component<Props, State> {
   }
 
   getPermissionAsync = async () => {
-    if (Platform.OS !== "web") {
+    if (Platform.OS !== 'web') {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
+      if (status !== 'granted') {
         Alert.alert(
-          "Sorry, we need camera roll permissions to make this work!"
+          'Sorry, we need camera roll permissions to make this work!'
         );
       }
     }
@@ -85,13 +84,13 @@ class HoodatBudsList extends React.Component<Props, State> {
       });
       const data = result.base64;
       const name = result.uri;
-      const fileExtension = name.split(".").pop();
+      const fileExtension = name.split('.').pop();
       const fileType = this.mapFileExtensionToFileType(fileExtension);
 
       if (!(data && name)) {
-        Alert.alert("Error picking image");
+        Alert.alert('Error picking image');
       } else if (!fileType) {
-        Alert.alert("Unsupported file type. Please try a different image.");
+        Alert.alert('Unsupported file type. Please try a different image.');
       } else {
         this.setState({
           image: {
@@ -102,17 +101,17 @@ class HoodatBudsList extends React.Component<Props, State> {
         });
       }
     } catch (error) {
-      Alert.alert("Error picking image");
+      Alert.alert('Error picking image');
       console.log(error);
     }
   };
 
   mapFileExtensionToFileType = (fileExtension: string) => {
-    if (["jpg", "jpeg"].includes(fileExtension)) {
-      return "image/jpeg";
+    if (['jpg', 'jpeg'].includes(fileExtension)) {
+      return 'image/jpeg';
     }
-    if (fileExtension === "png") {
-      return "image/png";
+    if (fileExtension === 'png') {
+      return 'image/png';
     }
     return undefined;
   };
@@ -126,9 +125,9 @@ class HoodatBudsList extends React.Component<Props, State> {
     const response = await fetch(
       `${API_ROOT}/lists/${this.state.listId}/contacts`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
@@ -147,7 +146,7 @@ class HoodatBudsList extends React.Component<Props, State> {
       this.setState({ loadingAddContact: false });
       this.props.navigation.pop(2);
     } else {
-      Alert.alert("Uh oh!", body.message ?? "It didn't work.");
+      Alert.alert('Uh oh!', body.message ?? "It didn't work.");
     }
     return Promise.resolve();
   };
@@ -157,19 +156,19 @@ class HoodatBudsList extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: RFValue(65), width: "80%" }}>
+        <View style={{ marginTop: RFValue(65), width: '80%' }}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("Hoodat Buds")}
+            onPress={() => this.props.navigation.navigate('Hoodat Buds')}
           >
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
         </View>
 
-        <View style={{ width: "80%", marginTop: RFValue(25) }}>
+        <View style={{ width: '80%', marginTop: RFValue(25) }}>
           <Text style={styles.myAddContactText}>Add Contact</Text>
         </View>
 
-        <View style={{ width: "79%" }}>
+        <View style={{ width: '79%' }}>
           <Text style={[styles.InputLabel]}>Name</Text>
           <TextInput
             style={styles.nameInput}
@@ -177,24 +176,24 @@ class HoodatBudsList extends React.Component<Props, State> {
             onChangeText={(name) => this.setState({ name })}
           />
         </View>
-        <View style={{ width: "79%", marginTop: "2%" }}>
+        <View style={{ width: '79%', marginTop: '2%' }}>
           <Text style={[styles.InputLabel]}>Image</Text>
           <View
             style={{
               width: RFValue(175),
               height: RFValue(175),
               borderWidth: 1,
-              marginTop: "4%",
+              marginTop: '4%',
               borderRadius: 16,
-              marginLeft: "2%",
+              marginLeft: '2%',
             }}
           >
             <Image
               style={{
-                width: "100%",
-                height: "100%",
+                width: '100%',
+                height: '100%',
                 borderRadius: 16,
-                display: image.data && image.fileType ? "flex" : "none",
+                display: image.data && image.fileType ? 'flex' : 'none',
               }}
               source={{
                 uri: `data:${this.state.image.fileType};base64,${image.data}`,
@@ -203,7 +202,7 @@ class HoodatBudsList extends React.Component<Props, State> {
           </View>
         </View>
 
-        <View style={{ width: "78%", marginTop: "4%" }}>
+        <View style={{ width: '78%', marginTop: '4%' }}>
           <TouchableOpacity onPress={this.pickImage}>
             <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
           </TouchableOpacity>
@@ -220,7 +219,6 @@ class HoodatBudsList extends React.Component<Props, State> {
           loading={this.state.loadingAddContact}
           onPress={this.handleSubmit}
         />
-
       </View>
     );
   }
@@ -229,50 +227,50 @@ class HoodatBudsList extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 
   myAddContactText: {
     fontSize: RFValue(30),
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   InputLabel: {
-    marginTop: "8%",
+    marginTop: '8%',
     fontSize: RFValue(14),
     width: RFValue(230),
-    fontWeight: "600",
-    color: "#5F5F5F",
+    fontWeight: '600',
+    color: '#5F5F5F',
   },
 
   nameInput: {
-    marginTop: "4%",
+    marginTop: '4%',
     borderBottomWidth: 1,
-    borderColor: "#C4C4C4",
-    backgroundColor: "white",
+    borderColor: '#C4C4C4',
+    backgroundColor: 'white',
     paddingVertical: RFValue(8),
-    width: "100%",
-    overflow: "hidden",
+    width: '100%',
+    overflow: 'hidden',
   },
 
   addName: {
     marginTop: 20,
     fontSize: 35,
-    fontWeight: "400",
+    fontWeight: '400',
     marginRight: 85,
   },
 
   cameraRollbutton: {
-    color: "#6EA8FF",
-    fontWeight: "bold",
+    color: '#6EA8FF',
+    fontWeight: 'bold',
     fontSize: RFValue(14),
     marginBottom: RFValue(14),
   },
 
   takePicbutton: {
-    color: "#6EA8FF",
-    fontWeight: "bold",
+    color: '#6EA8FF',
+    fontWeight: 'bold',
     fontSize: RFValue(14),
   },
 
