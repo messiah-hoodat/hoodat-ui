@@ -12,7 +12,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { API_ROOT } from '../lib/constants';
+import HoodatService from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -53,31 +53,17 @@ class SignUpScreen extends React.Component<Props, State> {
   async handleSignUp(): Promise<void> {
     this.setState({ signUpLoading: true });
 
-    const name = this.state.name;
-    const email = this.state.email;
-    const password = this.state.password;
+    const { name, email, password } = this.state;
 
-    const response = await fetch(`${API_ROOT}/auth/sign-up`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
-
-    const body = await response.json();
+    try {
+      await HoodatService.signUp(name, email, password);
+      Alert.alert('Hurray!', 'Successfully signed up.');
+      this.props.navigation.pop();
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
 
     this.setState({ signUpLoading: false });
-
-    if (body.statusCode == 200 && !body.error) {
-      Alert.alert('Hurray!', body.message);
-    } else {
-      Alert.alert('Uh oh!', `${body.error}: ${body.message}`);
-    }
     return Promise.resolve();
   }
 

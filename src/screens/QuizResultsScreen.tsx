@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Contact } from './myListsScreen';
 import Confetti from 'react-native-confetti';
+import { Contact } from '../services/HoodatService';
 
 export interface QuestionResult {
   contact: Contact;

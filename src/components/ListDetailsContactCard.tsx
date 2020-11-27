@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { Menu } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Contact } from '../screens/myListsScreen';
+import { Contact } from '../services/HoodatService';
 
 interface Props {
   contact: Contact;

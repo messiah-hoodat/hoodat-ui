@@ -11,10 +11,9 @@ import {
 import { Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Contact } from './myListsScreen';
 import { FAB, ListDetailsContactCard } from '../components';
-import { API_ROOT } from '../lib/constants';
 import { UserContext } from '../contexts/UserContext';
+import HoodatService, { Contact } from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -49,29 +48,17 @@ class HoodatBudsList extends React.Component<Props, State> {
   async removeContact(contactId: string, listId: string): Promise<void> {
     const { token, userId } = this.context.value;
 
-    const response = await fetch(
-      `${API_ROOT}/lists/${this.state.listId}/contacts/${contactId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      Alert.alert('Uh oh!', 'There was an error deleting the contact.');
-      return Promise.reject();
+    try {
+      await HoodatService.removeContactFromList(contactId, listId, token);
+      this.setState({
+        contacts: this.state.contacts.filter(
+          (contact: Contact) => contact.id !== contactId
+        ),
+      });
+      this.props.route.params.fetchLists();
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
     }
-
-    this.setState({
-      contacts: this.state.contacts.filter(
-        (contact: Contact) => contact.id !== contactId
-      ),
-    });
-
-    await this.props.route.params.fetchLists();
 
     return Promise.resolve();
   }

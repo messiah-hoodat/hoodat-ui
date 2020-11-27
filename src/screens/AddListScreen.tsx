@@ -11,8 +11,8 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SelectableGrid from 'react-native-selectable-grid';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
-import { API_ROOT } from '../lib/constants';
 import { FAB } from '../components';
+import HoodatService from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -54,28 +54,16 @@ class AddList extends React.Component<Props, State> {
 
     const { name, color } = this.state;
     const { token, userId } = this.context.value;
-    const response = await fetch(`${API_ROOT}/lists`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name,
-        color,
-      }),
-    });
 
-    const body = await response.json();
-
-    this.setState({ loadingCreateList: false });
-
-    if (response.ok) {
+    try {
+      await HoodatService.addList(name, color, token);
       this.props.route.params.fetchLists();
       this.props.navigation.pop();
-    } else {
-      Alert.alert('Uh oh!', body.message ?? "It didn't work.");
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
     }
+
+    this.setState({ loadingCreateList: false });
     return Promise.resolve();
   };
 

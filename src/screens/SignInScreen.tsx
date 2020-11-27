@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
-import { API_ROOT } from '../lib/constants';
+import HoodatService from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -28,27 +28,15 @@ export default function LoginScreen(props: Props) {
   async function handleLogin(): Promise<void> {
     setLoginLoading(true);
 
-    const response = await fetch(`${API_ROOT}/auth/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-
-    const body = await response.json();
+    try {
+      const res = await HoodatService.signIn(email, password);
+      context?.setValue({ token: res.token, userId: res.userId });
+      props.navigation.navigate('My Lists');
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
 
     setLoginLoading(false);
-
-    if (body.statusCode == 200 && !body.error) {
-      context?.setValue({ token: body.token, userId: body.userId });
-      props.navigation.navigate('My Lists');
-    } else {
-      Alert.alert('Uh oh!', `${body.error}: ${body.message}`);
-    }
     return Promise.resolve();
   }
 

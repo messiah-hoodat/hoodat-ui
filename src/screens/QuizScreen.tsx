@@ -10,8 +10,8 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import CircularTimer from 'react-native-circular-timer';
-import { Contact } from './myListsScreen';
 import { QuestionResult } from './QuizResultsScreen';
+import { Contact } from '../services/HoodatService';
 
 interface QuestionOption {
   contact: Contact;

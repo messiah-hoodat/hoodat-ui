@@ -12,25 +12,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { RefreshControl } from 'react-native';
 import { Provider } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { API_ROOT } from '../lib/constants';
 import { UserContext } from '../contexts/UserContext';
 import MultipleListsCard from '../components/MultipleListsCard';
 import LoadingView from 'react-native-loading-view';
-
-export interface Contact {
-  id: string;
-  name: string;
-  image: {
-    url: string;
-  };
-}
-
-export interface List {
-  id: string;
-  name: string;
-  color: number;
-  contacts: Contact[];
-}
+import HoodatService, { List } from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -67,34 +52,13 @@ class myListsScreen extends React.Component<Props, State> {
   fetchLists = async (): Promise<any> => {
     const { token, userId } = this.context.value;
 
-    const response = await fetch(`${API_ROOT}/users/${userId}/lists`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      Alert.alert(
-        'Uh oh!',
-        'There was an error fetching your lists from the database.'
-      );
-      return Promise.reject();
+    try {
+      const lists = await HoodatService.getLists(userId, token);
+      this.setState({ lists });
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
     }
 
-    const body = await response.json();
-
-    const lists: List[] = body.map(
-      (list: any): List => ({
-        id: list.id,
-        name: list.name,
-        color: list.color,
-        contacts: list.contacts,
-      })
-    );
-
-    this.setState({ lists });
     this.setState({ loading: false });
     return Promise.resolve();
   };
@@ -102,28 +66,15 @@ class myListsScreen extends React.Component<Props, State> {
   async removeList(listId: string): Promise<void> {
     const { token, userId } = this.context.value;
 
-    const response = await fetch(`${API_ROOT}/lists/${listId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    //alert(response.status)
-    const body = await response.json();
-    console.log(body.error);
-
-    if (!response.ok) {
-      Alert.alert('Uh oh!', 'There was an error deleting the contact.');
-      return Promise.reject();
+    try {
+      await HoodatService.removeList(listId, token);
+      this.setState({
+        lists: this.state.lists.filter((list: List) => list.id !== listId),
+      });
+      this.fetchLists();
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
     }
-
-    this.setState({
-      lists: this.state.lists.filter((list: List) => list.id !== listId),
-    });
-
-    await this.fetchLists();
 
     return Promise.resolve();
   }

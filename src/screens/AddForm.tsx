@@ -12,11 +12,10 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import { API_ROOT } from '../lib/constants';
-import { Contact } from './myListsScreen';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB } from '../components';
+import HoodatService, { Contact } from '../services/HoodatService';
 
 interface Props {
   navigation: any;
@@ -119,35 +118,18 @@ class HoodatBudsList extends React.Component<Props, State> {
   handleSubmit = async () => {
     this.setState({ loadingAddContact: true });
 
-    const { name, image } = this.state;
+    const { name, image, listId } = this.state;
     const { token, userId } = this.context.value;
 
-    const response = await fetch(
-      `${API_ROOT}/lists/${this.state.listId}/contacts`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          image: {
-            name: image.name,
-            data: image.data,
-          },
-        }),
-      }
-    );
-    const body = await response.json();
-
-    if (response.ok) {
-      await this.props.route.params.fetchLists();
-      this.setState({ loadingAddContact: false });
+    try {
+      await HoodatService.addContact(listId, name, image, token);
+      this.props.route.params.fetchLists();
       this.props.navigation.pop(2);
-    } else {
-      Alert.alert('Uh oh!', body.message ?? "It didn't work.");
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
     }
+
+    this.setState({ loadingAddContact: false });
     return Promise.resolve();
   };
 
