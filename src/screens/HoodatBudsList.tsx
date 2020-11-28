@@ -5,8 +5,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Alert,
+  FlatList,
 } from 'react-native';
 import { Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -113,23 +113,22 @@ class HoodatBudsList extends React.Component<Props, State> {
           </TouchableOpacity>
 
           <View style={styles.PeopleListScrollView}>
-            <ScrollView>
-              {this.state.contacts.map((contact: Contact) => {
-                const match: boolean = contact.name
-                  .toLowerCase()
-                  .includes(this.state.searchQuery.toLowerCase());
-                return (
-                  match && (
-                    <ListDetailsContactCard
-                      contact={contact}
-                      removeContact={() =>
-                        this.removeContact(contact.id, this.state.listId)
-                      }
-                    />
-                  )
-                );
-              })}
-            </ScrollView>
+            <FlatList
+              data={this.state.contacts}
+              keyExtractor={(contact) => contact.id}
+              renderItem={({ item }) => {
+                const contactName = item.name.toLowerCase();
+                const searchTerm = this.state.searchQuery.toLowerCase();
+                return contactName.includes(searchTerm) ? (
+                  <ListDetailsContactCard
+                    contact={item}
+                    removeContact={() =>
+                      this.removeContact(item.id, this.state.listId)
+                    }
+                  />
+                ) : null;
+              }}
+            />
           </View>
 
           <FAB

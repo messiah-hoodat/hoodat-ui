@@ -7,9 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  FlatList,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { RefreshControl } from 'react-native';
 import { Provider } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
@@ -128,30 +127,25 @@ class myListsScreen extends React.Component<Props, State> {
           </View>
 
           <LoadingView loading={this.state.loading}>
-            <ScrollView
-              style={{ width: '80%' }}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh}
-                />
-              }
-            >
-              {this.state.lists.map((list: List) => {
-                const match: boolean = list.name
-                  .toLowerCase()
-                  .includes(this.state.searchQuery.toLowerCase());
-                return (
-                  match && (
+            <View style={{ width: '80%' }}>
+              <FlatList
+                data={this.state.lists}
+                keyExtractor={(list) => list.id}
+                onRefresh={this._onRefresh}
+                refreshing={this.state.refreshing}
+                renderItem={({ item }) => {
+                  const listName = item.name.toLowerCase();
+                  const searchTerm = this.state.searchQuery.toLowerCase();
+                  return listName.includes(searchTerm) ? (
                     <MultipleListsCard
-                      list={list}
+                      list={item}
                       fetchLists={() => this.fetchLists()}
-                      removeList={() => this.removeList(list.id)}
+                      removeList={() => this.removeList(item.id)}
                     />
-                  )
-                );
-              })}
-            </ScrollView>
+                  ) : null;
+                }}
+              />
+            </View>
           </LoadingView>
         </View>
       </Provider>

@@ -107,6 +107,7 @@ export default function MultipleListsCard({
         <View style={styles.ListButtonImageScroll}>
           {list.contacts.map((contact) => (
             <Image
+              key={contact.id}
               style={styles.ListButtonContactImage}
               source={{
                 uri: contact.image.url,

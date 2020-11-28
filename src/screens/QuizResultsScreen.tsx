@@ -1,8 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { ScrollView } from 'react-native-gesture-handler';
 import Confetti from 'react-native-confetti';
 import { Contact } from '../services/HoodatService';
 
@@ -26,6 +32,12 @@ class QuizResultsScreen extends React.Component<Props> {
   componentDidMount() {
     if (this._confettiView) {
       this._confettiView.startConfetti();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._confettiView) {
+      this._confettiView.stopConfetti();
     }
   }
 
@@ -64,7 +76,6 @@ class QuizResultsScreen extends React.Component<Props> {
             width: '100%',
             marginTop: RFValue(3),
             alignItems: 'center',
-            borderWidth: 0.5,
             backgroundColor: '#F0F6FF',
             borderTopRightRadius: 20,
             borderTopLeftRadius: 20,
@@ -76,35 +87,39 @@ class QuizResultsScreen extends React.Component<Props> {
             </Text>
           </View>
           <View style={styles.QuizResultsScrollViewViewWrapper}>
-            <ScrollView style={styles.QuizResultsScrollView}>
-              {questionResults.map((questionResult) => (
-                <View style={styles.namesInQuizResultPage}>
-                  <Image
-                    style={styles.QuizResultsPagePersonImage}
-                    source={{
-                      uri: questionResult.contact.image.url,
-                    }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      color: questionResult.correct ? 'green' : 'red',
-                      ...styles.namesInQuizResultPageText,
-                    }}
-                  >
-                    {questionResult.contact.name}
-                  </Text>
-                  <Icon
-                    name={questionResult.correct ? 'check' : 'cross'}
-                    size={RFValue(14)}
-                    color={questionResult.correct ? 'green' : 'red'}
-                  />
-                </View>
-              ))}
-            </ScrollView>
+            <View style={styles.QuizResultsScrollView}>
+              <FlatList
+                data={questionResults}
+                keyExtractor={(result) => result.contact.id}
+                renderItem={({ item }) => (
+                  <View style={styles.namesInQuizResultPage}>
+                    <Image
+                      style={styles.QuizResultsPagePersonImage}
+                      source={{
+                        uri: item.contact.image.url,
+                      }}
+                      resizeMode="cover"
+                    />
+                    <Text
+                      style={{
+                        color: item.correct ? 'green' : 'red',
+                        ...styles.namesInQuizResultPageText,
+                      }}
+                    >
+                      {item.contact.name}
+                    </Text>
+                    <Icon
+                      name={item.correct ? 'check' : 'cross'}
+                      size={RFValue(14)}
+                      color={item.correct ? 'green' : 'red'}
+                    />
+                  </View>
+                )}
+              />
+            </View>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity style={styles.retakeQuizButton}>
             <Text
               onPress={() => {
                 this.props.route.params.restart();
@@ -113,7 +128,7 @@ class QuizResultsScreen extends React.Component<Props> {
                   CurrentQuizQuestionNumber: 0,
                 });
               }}
-              style={styles.retakeQuizButton}
+              style={styles.retakeQuizText}
             >
               Retake Quiz
             </Text>
@@ -163,9 +178,8 @@ const styles = StyleSheet.create({
     paddingVertical: RFValue(10),
     height: '100%',
     width: '100%',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'white',
     borderRadius: 10,
-    borderWidth: 0.5,
   },
   namesInQuizResultPage: {
     flex: 1,
@@ -177,9 +191,9 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(5),
   },
   QuizResultsPagePersonImage: {
-    borderRadius: 100,
-    width: RFValue(35),
-    height: RFValue(35),
+    width: 42,
+    height: 42,
+    borderRadius: 13,
   },
   namesInQuizResultPageText: {
     fontSize: RFValue(14),
@@ -188,16 +202,20 @@ const styles = StyleSheet.create({
     marginRight: RFValue(5),
   },
   retakeQuizButton: {
-    marginTop: '2%',
+    marginTop: '5%',
     paddingVertical: RFValue(15),
-    width: RFValue(250),
+    width: '85%',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#6EA8FF',
-    color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: RFValue(20),
     borderRadius: 20,
     overflow: 'hidden',
+  },
+  retakeQuizText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: RFValue(20),
   },
 });
 
