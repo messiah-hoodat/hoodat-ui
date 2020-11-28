@@ -15,7 +15,7 @@
     }
   },
   "lint-staged": {
-    "src/*": "prettier --check"
+    "src/*": "prettier --write"
   },
   "jest": {
     "preset": "react-native"
