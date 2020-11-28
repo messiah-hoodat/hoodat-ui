@@ -5,7 +5,7 @@ interface Props {
   navigation: any;
 }
 
-class QuizAll extends React.Component<Props> {
+class QuizAllScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuizAll;
+export default QuizAllScreen;

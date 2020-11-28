@@ -5,17 +5,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from './src/screens/SplashScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
-import myListsScreen from './src/screens/myListsScreen';
+import MyListsScreen from './src/screens/MyListsScreen';
 import AddList from './src/screens/AddListScreen';
-import HoodatBudsList from './src/screens/HoodatBudsList';
-import AddForm from './src/screens/AddForm';
+import ListDetailsScreen from './src/screens/ListDetailsScreen';
+import AddContactScreen from './src/screens/AddContactScreen';
 import QuizScreen from './src/screens/QuizScreen';
 import QuizResultsScreen from './src/screens/QuizResultsScreen';
 import TestMultipleList from './src/screens/TestMultipleList';
-import sharedWithMe from './src/screens/sharedWithMe';
-import QuizAll from './src/screens/QuizAll';
-import Groups from './src/screens/Groups';
-import Settings from './src/screens/Settings';
+import SharedWithMeScreen from './src/screens/SharedWithMeScreen';
+import QuizAllScreen from './src/screens/QuizAllScreen';
+import GroupsScreen from './src/screens/GroupsScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import TestScreen from './src/screens/TestScreen';
 import { AntDesign } from '@expo/vector-icons';
 import 'react-native-gesture-handler';
@@ -23,7 +23,7 @@ import React, { useState } from 'react';
 
 import { UserContext, UserState } from './src/contexts/UserContext';
 
-const getTabBarVisibility = (route) => {
+const getTabBarVisibility = (route: any) => {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
     : '';
@@ -65,7 +65,7 @@ function LoggedInTabNavScreen() {
         inactiveTintColor: 'gray',
       }}
     >
-      <LoggedInTabNav.Screen name="My Lists" component={myListsScreen} />
+      <LoggedInTabNav.Screen name="My Lists" component={MyListsScreen} />
       <LoggedInTabNav.Screen
         name="Shared With Me"
         component={SharedWithMeStackScreen}
@@ -105,13 +105,10 @@ function myListsStackScreen() {
         component={TestMultipleList}
       />
       <myListsStack.Screen name="Add List" component={AddList} />
-      <myListsStack.Screen name="Hoodat Buds" component={HoodatBudsList} />
-      <myListsStack.Screen name="Quiz Screen" component={QuizScreen} />
-      <myListsStack.Screen
-        name="Quiz Results Screen"
-        component={QuizResultsScreen}
-      />
-      <myListsStack.Screen name="Add Form" component={AddForm} />
+      <myListsStack.Screen name="List Details" component={ListDetailsScreen} />
+      <myListsStack.Screen name="Quiz" component={QuizScreen} />
+      <myListsStack.Screen name="Quiz Results" component={QuizResultsScreen} />
+      <myListsStack.Screen name="Add Contact" component={AddContactScreen} />
     </myListsStack.Navigator>
   );
 }
@@ -125,7 +122,7 @@ function SharedWithMeStackScreen() {
     >
       <sharedWithMeStack.Screen
         name="Shared With Me"
-        component={sharedWithMe}
+        component={SharedWithMeScreen}
       />
       <sharedWithMeStack.Screen name="Test Screen" component={TestScreen} />
     </sharedWithMeStack.Navigator>
@@ -139,7 +136,7 @@ function QuizAllStack() {
       headerMode="none"
       screenOptions={{ gestureEnabled: false }}
     >
-      <quizAllStack.Screen name="Quiz All" component={QuizAll} />
+      <quizAllStack.Screen name="Quiz All" component={QuizAllScreen} />
       <quizAllStack.Screen name="Test Screen" component={TestScreen} />
     </quizAllStack.Navigator>
   );
@@ -152,7 +149,7 @@ function GroupsStackScreen() {
       headerMode="none"
       screenOptions={{ gestureEnabled: false }}
     >
-      <groupsStack.Screen name="Groups" component={Groups} />
+      <groupsStack.Screen name="Groups" component={GroupsScreen} />
       <groupsStack.Screen
         options={{ headerShown: false }}
         name="Test Screen"
@@ -169,7 +166,7 @@ function SettingsStackScreen() {
       headerMode="none"
       screenOptions={{ gestureEnabled: false }}
     >
-      <settingsStack.Screen name="Settings" component={Settings} />
+      <settingsStack.Screen name="Settings" component={SettingsScreen} />
       <settingsStack.Screen name="Test Screen" component={TestScreen} />
     </settingsStack.Navigator>
   );

@@ -18,7 +18,7 @@ interface Props {
   navigation: any;
 }
 
-export default function LoginScreen(props: Props) {
+export default function SignInScreen(props: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);

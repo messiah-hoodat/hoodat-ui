@@ -40,7 +40,7 @@ const colorData = [
   { label: '8', backgroundListColor: '#A7D1FF' },
 ];
 
-class AddList extends React.Component<Props, State> {
+class AddListScreen extends React.Component<Props, State> {
   static contextType = UserContext;
 
   constructor(props: Props) {
@@ -89,7 +89,7 @@ class AddList extends React.Component<Props, State> {
         <View style={{ width: '80%', borderWidth: 0 }}>
           <TextInput
             style={styles.ListNameInput}
-            placeholder="Hoodat Buds"
+            placeholder="List Details"
             onChangeText={(name) => this.setState({ name })}
           />
         </View>
@@ -230,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddList;
+export default AddListScreen;

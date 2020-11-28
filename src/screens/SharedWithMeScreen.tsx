@@ -5,11 +5,11 @@ interface Props {
   navigation: any;
 }
 
-class Settings extends React.Component<Props> {
+class SharedWithMeScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ marginTop: 200 }}>Settings Screen</Text>
+        <Text style={{ marginTop: 200 }}>Shared With Me Screen</Text>
         <Button
           title="Next"
           onPress={() => this.props.navigation.navigate('Test Screen')}
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Settings;
+export default SharedWithMeScreen;

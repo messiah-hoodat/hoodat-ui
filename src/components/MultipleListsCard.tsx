@@ -61,7 +61,7 @@ export default function MultipleListsCard({
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('Hoodat Buds', {
+        navigation.navigate('List Details', {
           contacts: list.contacts,
           listName,
           listId,
@@ -123,11 +123,10 @@ export default function MultipleListsCard({
 
 const styles = StyleSheet.create({
   ListButton: {
-    marginTop: 15,
     width: '100%',
     height: 140,
     borderRadius: 25,
-    marginBottom: 15,
+    marginBottom: 25,
   },
 
   ListButtonTitle: {

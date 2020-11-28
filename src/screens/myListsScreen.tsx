@@ -32,7 +32,7 @@ interface State {
   searchQuery: string;
 }
 
-class myListsScreen extends React.Component<Props, State> {
+class MyListsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
 
   constructor(props: Props) {
@@ -127,7 +127,7 @@ class myListsScreen extends React.Component<Props, State> {
           </View>
 
           <LoadingView loading={this.state.loading}>
-            <View style={{ width: '80%' }}>
+            <View style={styles.listsFlatList}>
               <FlatList
                 data={this.state.lists}
                 keyExtractor={(list) => list.id}
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: '#F0F0F0',
     borderRadius: 20,
-    marginBottom: 30,
+    marginBottom: 25,
   },
 
   searchTextInput: {
@@ -199,42 +199,10 @@ const styles = StyleSheet.create({
     color: '#828282',
   },
 
-  ListButton: {
-    width: '100%',
-    height: 140,
-    borderRadius: 25,
-  },
-
-  ListButtonTitle: {
-    marginTop: 20,
-    marginLeft: 25,
-    color: '#494949',
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-
-  ListButtonSubtitle: {
-    marginTop: 10,
-    marginLeft: 27,
-    color: '#494949',
-    fontWeight: '500',
-    fontSize: 14,
-  },
-
-  ListButtonImageScroll: {
-    marginTop: 15,
-    marginLeft: 26,
-    width: 300,
-  },
-
-  ListButtonContactImage: {
-    width: 42,
-    height: 42,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 12,
-    borderColor: 'lightgrey',
+  listsFlatList: {
+    flex: 1,
+    width: '80%',
   },
 });
 
-export default myListsScreen;
+export default MyListsScreen;

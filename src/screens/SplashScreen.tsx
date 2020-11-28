@@ -6,14 +6,14 @@ interface Props {
   navigation: any;
 }
 
-class splashScreen extends React.Component<Props> {
+class SplashScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
   async componentDidMount() {
     setTimeout(() => {
       this.props.navigation.navigate('Sign In');
-    }, 2000);
+    }, 500);
   }
 
   render() {
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     width: RFValue(170),
   },
 });
-export default splashScreen;
+export default SplashScreen;

@@ -53,7 +53,7 @@ class QuizResultsScreen extends React.Component<Props> {
         <View style={{ flex: 44, width: '100%', alignItems: 'center' }}>
           <Confetti ref={(node: any) => (this._confettiView = node)} />
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Hoodat Buds')}
+            onPress={() => this.props.navigation.navigate('List Details')}
             style={styles.exitButton}
           >
             <Icon name="cross" size={30} color="#636363" />
@@ -123,7 +123,7 @@ class QuizResultsScreen extends React.Component<Props> {
             <Text
               onPress={() => {
                 this.props.route.params.restart();
-                this.props.navigation.navigate('Quiz Screen', {
+                this.props.navigation.navigate('Quiz', {
                   questionResults: [],
                   CurrentQuizQuestionNumber: 0,
                 });

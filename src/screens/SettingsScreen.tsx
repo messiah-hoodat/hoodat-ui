@@ -5,11 +5,11 @@ interface Props {
   navigation: any;
 }
 
-class Groups extends React.Component<Props> {
+class SettingsScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ marginTop: 200 }}>Groups Screen</Text>
+        <Text style={{ marginTop: 200 }}>Settings Screen</Text>
         <Button
           title="Next"
           onPress={() => this.props.navigation.navigate('Test Screen')}
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Groups;
+export default SettingsScreen;

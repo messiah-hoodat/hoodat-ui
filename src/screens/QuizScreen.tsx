@@ -31,6 +31,8 @@ interface Props {
 }
 
 class QuizScreen extends React.Component<Props> {
+  private _timerRef: any;
+
   _restartTimer = () => {
     if (this._timerRef) this._timerRef.restart();
   };
@@ -93,7 +95,7 @@ class QuizScreen extends React.Component<Props> {
             {QuizTitleListName}
           </Text>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Hoodat Buds')}
+            onPress={() => this.props.navigation.navigate('List Details')}
           >
             <Icon name="cross" size={25} color="#636363" />
           </TouchableOpacity>
@@ -129,7 +131,7 @@ class QuizScreen extends React.Component<Props> {
                     contact: correctContact,
                     correct: false,
                   });
-                  this.props.navigation.navigate('Quiz Screen', {
+                  this.props.navigation.navigate('Quiz', {
                     questionResults,
                     CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                   });
@@ -165,12 +167,12 @@ class QuizScreen extends React.Component<Props> {
                     if (
                       CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions
                     ) {
-                      this.props.navigation.navigate('Quiz Screen', {
+                      this.props.navigation.navigate('Quiz', {
                         questionResults,
                         CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                       });
                     } else {
-                      this.props.navigation.navigate('Quiz Results Screen', {
+                      this.props.navigation.navigate('Quiz Results', {
                         questionResults,
                         CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                         restart: this._restartTimer,

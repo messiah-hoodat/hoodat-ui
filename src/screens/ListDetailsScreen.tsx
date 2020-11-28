@@ -35,7 +35,7 @@ interface State {
   searchQuery: string;
 }
 
-class HoodatBudsList extends React.Component<Props, State> {
+class ListDetailsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
 
   constructor(props: Props) {
@@ -82,9 +82,6 @@ class HoodatBudsList extends React.Component<Props, State> {
             >
               <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Icon name="dots-three-vertical" size={25} color="#636363" />
-            </TouchableOpacity>
           </View>
 
           <Text style={styles.ListTitle}>
@@ -102,7 +99,7 @@ class HoodatBudsList extends React.Component<Props, State> {
 
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('Add Form', {
+              this.props.navigation.navigate('Add Contact', {
                 listId: this.state.listId,
                 Contacts: this.state.contacts,
                 fetchLists: this.state.fetchLists,
@@ -136,7 +133,7 @@ class HoodatBudsList extends React.Component<Props, State> {
             icon="flash"
             label="Quiz Me"
             onPress={() =>
-              this.props.navigation.navigate('Quiz Screen', {
+              this.props.navigation.navigate('Quiz', {
                 contacts: this.state.contacts,
                 QuizTitleListName: this.state.listName,
                 CurrentQuizQuestionNumber: 0,
@@ -195,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HoodatBudsList;
+export default ListDetailsScreen;

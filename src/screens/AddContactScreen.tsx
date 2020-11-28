@@ -41,7 +41,7 @@ interface State {
   fetchLists: () => Promise<any>;
 }
 
-class HoodatBudsList extends React.Component<Props, State> {
+class AddContactScreen extends React.Component<Props, State> {
   static contextType = UserContext;
 
   constructor(props: Props) {
@@ -140,7 +140,7 @@ class HoodatBudsList extends React.Component<Props, State> {
       <View style={styles.container}>
         <View style={{ marginTop: RFValue(65), width: '80%' }}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Hoodat Buds')}
+            onPress={() => this.props.navigation.navigate('List Details')}
           >
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
@@ -265,4 +265,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HoodatBudsList;
+export default AddContactScreen;

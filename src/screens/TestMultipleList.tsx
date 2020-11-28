@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import MultipleListsCard from '../components/MultipleListsCard';
+import { MultipleListsCard } from '../components';
 import { API_ROOT } from '../lib/constants';
 import { UserContext } from '../contexts/UserContext';
 
