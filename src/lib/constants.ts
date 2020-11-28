@@ -1,1 +1,1 @@
-export const API_ROOT = 'https://hoodat-api.herokuapp.com/api';
+export const API_ROOT = 'https://hoodat-api.herokuapp.com/api'
