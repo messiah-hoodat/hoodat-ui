@@ -11,7 +11,7 @@ import {
 import { Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { FAB, ListDetailsContactCard } from '../components';
+import { FAB, ListDetailsContactCard, ScreenTitle } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService, { Contact } from '../services/HoodatService';
 import { SearchBar } from '../components';
@@ -85,9 +85,9 @@ class ListDetailsScreen extends React.Component<Props, State> {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.ListTitle}>
-            {this.state.listName ?? 'My People'}
-          </Text>
+          <View style={{ width: '80%', marginTop: 20 }}>
+            <ScreenTitle title={this.state.listName} />
+          </View>
 
           <SearchBar
             onChangeText={(searchQuery) => this.setState({ searchQuery })}
@@ -148,13 +148,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-  },
-
-  ListTitle: {
-    marginTop: RFValue(20),
-    fontSize: RFValue(30),
-    fontWeight: 'bold',
-    width: '80%',
   },
 
   searchBar: {

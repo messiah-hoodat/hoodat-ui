@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SelectableGrid from 'react-native-selectable-grid';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
-import { FAB } from '../components';
+import { FAB, ScreenTitle } from '../components';
 import HoodatService from '../services/HoodatService';
 
 interface Props {
@@ -79,7 +79,7 @@ class AddListScreen extends React.Component<Props, State> {
         </View>
 
         <View style={{ marginTop: RFValue(20), height: '10%', width: '79%' }}>
-          <Text style={styles.NewListText}>New List</Text>
+          <ScreenTitle title="New List" />
         </View>
 
         <View style={{ marginTop: RFValue(8), width: '78%', borderWidth: 0 }}>
@@ -171,12 +171,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-  },
-
-  NewListText: {
-    paddingVertical: RFValue(7),
-    fontSize: RFValue(32),
-    fontWeight: 'bold',
   },
 
   ListNameLabel: {

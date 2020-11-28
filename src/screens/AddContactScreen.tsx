@@ -14,7 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { FAB } from '../components';
+import { FAB, ScreenTitle } from '../components';
 import HoodatService, { Contact } from '../services/HoodatService';
 
 interface Props {
@@ -147,7 +147,7 @@ class AddContactScreen extends React.Component<Props, State> {
         </View>
 
         <View style={{ width: '80%', marginTop: RFValue(25) }}>
-          <Text style={styles.myAddContactText}>Add Contact</Text>
+          <ScreenTitle title="Add Contact" />
         </View>
 
         <View style={{ width: '79%' }}>
@@ -211,11 +211,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-  },
-
-  myAddContactText: {
-    fontSize: RFValue(30),
-    fontWeight: 'bold',
   },
 
   InputLabel: {

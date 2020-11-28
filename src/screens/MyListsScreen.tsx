@@ -12,7 +12,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
 import LoadingView from 'react-native-loading-view';
 import HoodatService, { List } from '../services/HoodatService';
-import { SearchBar, MultipleListsCard } from '../components';
+import { SearchBar, MultipleListsCard, ScreenTitle } from '../components';
 
 interface Props {
   navigation: any;
@@ -94,7 +94,7 @@ class MyListsScreen extends React.Component<Props, State> {
               marginTop: RFValue(100),
             }}
           >
-            <Text style={styles.myListsText}>My Lists</Text>
+            <ScreenTitle title="My Lists" />
 
             <TouchableOpacity
               onPress={() =>
@@ -152,12 +152,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-  },
-
-  myListsText: {
-    marginRight: RFValue(0),
-    fontSize: RFValue(35),
-    fontWeight: 'bold',
   },
 
   newListBtn: {
