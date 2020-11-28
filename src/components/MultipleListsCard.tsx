@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 140,
     borderRadius: 25,
-    marginBottom: 25,
+    marginTop: 10,
+    marginBottom: 15,
   },
 
   ListButtonTitle: {

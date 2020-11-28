@@ -14,6 +14,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, ListDetailsContactCard } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService, { Contact } from '../services/HoodatService';
+import { SearchBar } from '../components';
 
 interface Props {
   navigation: any;
@@ -88,14 +89,9 @@ class ListDetailsScreen extends React.Component<Props, State> {
             {this.state.listName ?? 'My People'}
           </Text>
 
-          <View style={[styles.searchBar, { flex: 0, flexDirection: 'row' }]}>
-            <TextInput
-              style={styles.searchTextInput}
-              placeholder="Search..."
-              onChangeText={(searchQuery) => this.setState({ searchQuery })}
-            />
-            <Icon name="magnifying-glass" size={18} color="#828282" />
-          </View>
+          <SearchBar
+            onChangeText={(searchQuery) => this.setState({ searchQuery })}
+          />
 
           <TouchableOpacity
             onPress={() =>
@@ -125,6 +121,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
                   />
                 ) : null;
               }}
+              showsVerticalScrollIndicator={false}
             />
           </View>
 

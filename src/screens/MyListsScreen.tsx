@@ -1,10 +1,8 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Entypo';
 import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Alert,
   FlatList,
@@ -12,9 +10,9 @@ import {
 import { Provider } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
-import MultipleListsCard from '../components/MultipleListsCard';
 import LoadingView from 'react-native-loading-view';
 import HoodatService, { List } from '../services/HoodatService';
+import { SearchBar, MultipleListsCard } from '../components';
 
 interface Props {
   navigation: any;
@@ -117,14 +115,9 @@ class MyListsScreen extends React.Component<Props, State> {
             }}
           ></View>
 
-          <View style={[styles.searchBar, { flex: 0, flexDirection: 'row' }]}>
-            <TextInput
-              style={styles.searchTextInput}
-              placeholder="Search..."
-              onChangeText={(searchQuery) => this.setState({ searchQuery })}
-            />
-            <Icon name="magnifying-glass" size={18} color="#828282" />
-          </View>
+          <SearchBar
+            onChangeText={(searchQuery) => this.setState({ searchQuery })}
+          />
 
           <LoadingView loading={this.state.loading}>
             <View style={styles.listsFlatList}>
@@ -144,6 +137,7 @@ class MyListsScreen extends React.Component<Props, State> {
                     />
                   ) : null;
                 }}
+                showsVerticalScrollIndicator={false}
               />
             </View>
           </LoadingView>
@@ -180,23 +174,6 @@ const styles = StyleSheet.create({
     marginRight: 0,
     color: '#6EA8FF',
     marginBottom: RFValue(-20),
-  },
-
-  searchBar: {
-    marginTop: RFValue(40),
-    paddingVertical: 15,
-    paddingLeft: RFValue(22),
-    width: '80%',
-    backgroundColor: '#F0F0F0',
-    borderRadius: 20,
-    marginBottom: 25,
-  },
-
-  searchTextInput: {
-    fontWeight: '500',
-    fontSize: 20,
-    width: '85%',
-    color: '#828282',
   },
 
   listsFlatList: {
