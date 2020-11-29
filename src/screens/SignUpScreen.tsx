@@ -2,14 +2,13 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   Text,
   Alert,
   ActivityIndicator,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { KeyboardShift } from '../components';
+import { KeyboardShift, TextField } from '../components';
 import HoodatService from '../services/HoodatService';
 
 interface Props {
@@ -68,7 +67,7 @@ class SignUpScreen extends React.Component<Props, State> {
   validateName = (name: string) => {
     var i = /^[a-zA-Z ,.'-]+$/;
     if (!name.match(i)) {
-      this.setState({ nameError: "Please only use letters, spaces, and -'.," });
+      this.setState({ nameError: 'Invalid character in name' });
       return false;
     } else {
       this.setState({ nameError: '' });
@@ -107,28 +106,19 @@ class SignUpScreen extends React.Component<Props, State> {
           <View style={styles.container}>
             <Text style={styles.SignUpText}>Sign Up</Text>
 
-            <Text style={[styles.InputLabels]}>Name</Text>
-            <TextInput
-              style={styles.signUpInputs}
+            <TextField
+              errorMessage={this.state.nameError}
+              label="Name"
               placeholder="John Doe"
               onChangeText={(name) => {
                 this.setState({ name });
                 this.validateName(this.state.name);
               }}
             />
-            <Text
-              style={{
-                color: 'red',
-                width: RFValue(230),
-                fontSize: RFValue(11),
-              }}
-            >
-              {this.state.nameError}
-            </Text>
 
-            <Text style={[styles.InputLabels]}>Email</Text>
-            <TextInput
-              style={styles.signUpInputs}
+            <TextField
+              errorMessage={this.state.emailError}
+              label="Email"
               placeholder="john.doe@gmail.com"
               keyboardType={'email-address'}
               onChangeText={(email) => {
@@ -140,42 +130,23 @@ class SignUpScreen extends React.Component<Props, State> {
                   }
                 });
               }}
-              value={this.state.email}
             />
-            <Text
-              style={{
-                color: 'red',
-                width: RFValue(230),
-                fontSize: RFValue(11),
-              }}
-            >
-              {this.state.emailError}
-            </Text>
 
-            <Text style={[styles.InputLabels]}>Password</Text>
-            <TextInput
+            <TextField
+              errorMessage={this.state.passwordError}
+              label="Password"
               secureTextEntry={true}
-              style={[styles.signUpInputs]}
               placeholder="• • • • • • • •"
               onChangeText={(password) => {
                 this.setState({ password });
                 this.validatePassword(this.state.password);
               }}
             />
-            <Text
-              style={{
-                color: 'red',
-                width: RFValue(230),
-                fontSize: RFValue(11),
-              }}
-            >
-              {this.state.passwordError}
-            </Text>
 
-            <Text style={[styles.InputLabels]}>Re-enter Password</Text>
-            <TextInput
+            <TextField
+              errorMessage={this.state.confirmPasswordError}
+              label="Re-enter password"
               secureTextEntry={true}
-              style={styles.signUpInputs}
               placeholder="• • • • • • • •"
               onChangeText={(confirmPassword) => {
                 this.setState({ confirmPassword }, () => {
@@ -193,17 +164,7 @@ class SignUpScreen extends React.Component<Props, State> {
                   }
                 });
               }}
-              value={this.state.confirmPassword}
             />
-            <Text
-              style={{
-                color: 'red',
-                width: RFValue(230),
-                fontSize: RFValue(11),
-              }}
-            >
-              {this.state.confirmPasswordError}
-            </Text>
 
             <TouchableOpacity
               style={styles.signUpButton}
@@ -245,27 +206,11 @@ const styles = StyleSheet.create({
   },
 
   SignUpText: {
-    marginTop: '20%',
+    marginTop: 90,
     fontSize: RFValue(33),
     fontWeight: 'bold',
     width: RFValue(230),
-    marginBottom: RFValue(18),
-  },
-  InputLabels: {
-    marginTop: '5%',
-    fontSize: RFValue(14),
-    width: RFValue(230),
-    fontWeight: '600',
-    color: '#5F5F5F',
-  },
-  signUpInputs: {
-    borderBottomWidth: 1,
-    borderColor: '#C4C4C4',
-    backgroundColor: 'white',
-    paddingVertical: RFValue(0),
-    margin: 7,
-    width: RFValue(230),
-    overflow: 'hidden',
+    marginBottom: RFValue(10),
   },
 
   signUpButton: {
@@ -273,13 +218,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 0,
     paddingHorizontal: 12,
     paddingVertical: 20,
     width: RFValue(230),
     backgroundColor: '#6EA8FF',
     borderRadius: 20,
     overflow: 'hidden',
+    marginTop: 5,
     marginBottom: 15,
   },
 
@@ -295,18 +240,16 @@ const styles = StyleSheet.create({
   },
 
   AlrHaveAnAcctText: {
-    marginTop: RFValue(5),
-    fontSize: 14,
+    fontSize: 12,
     marginRight: 10,
     color: '#3D3D3D',
   },
 
   signInBtn: {
-    marginTop: RFValue(5),
     color: '#6EA8FF',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 12,
     overflow: 'hidden',
   },
 

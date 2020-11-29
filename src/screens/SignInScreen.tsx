@@ -5,14 +5,12 @@ import {
   Text,
   View,
   Image,
-  TextInput,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Switch } from 'react-native-paper';
 
-import { KeyboardShift } from '../components';
+import { KeyboardShift, TextField } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService from '../services/HoodatService';
 
@@ -53,29 +51,17 @@ export default function SignInScreen(props: Props) {
             resizeMode="contain"
           />
           <Text style={styles.LoginText}>Log In</Text>
-          <Text style={styles.EmailText}>Email</Text>
-          <TextInput
-            style={styles.inputUsernamePassword}
-            placeholder="example@gmail.com"
+          <TextField
+            label="Email"
             onChangeText={(email) => setEmail(email)}
+            placeholder="example@gmail.com"
           />
-          <Text style={styles.PasswordText}>Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.inputUsernamePassword}
-            placeholder="• • • • • • • •"
+          <TextField
+            label="Password"
             onChangeText={(password) => setPassword(password)}
+            placeholder="• • • • • • • •"
+            secureTextEntry={true}
           />
-
-          <View style={styles.rememberMeContainer}>
-            <Text style={styles.rememberMeText}>Remember Me</Text>
-            <Switch
-              color="#6EA8FF"
-              value={rememberMe}
-              onValueChange={(newVal) => setRememberMe(newVal)}
-              style={styles.rememberMeSwitch}
-            />
-          </View>
 
           <TouchableOpacity
             style={styles.loginButton}
@@ -122,53 +108,10 @@ const styles = StyleSheet.create({
 
   LoginText: {
     marginTop: RFValue(40),
+    marginBottom: 20,
     fontSize: RFValue(28),
     fontWeight: 'bold',
     width: RFValue(230),
-  },
-
-  EmailText: {
-    marginTop: RFValue(35),
-    fontSize: RFValue(14),
-    fontWeight: '600',
-    width: RFValue(230),
-    color: '#5F5F5F',
-  },
-  PasswordText: {
-    marginTop: RFValue(20),
-    fontSize: RFValue(14),
-    fontWeight: '600',
-    width: RFValue(230),
-    color: '#5F5F5F',
-  },
-
-  inputUsernamePassword: {
-    borderBottomWidth: 1,
-    borderColor: '#C4C4C4',
-    backgroundColor: 'white',
-    paddingVertical: 8,
-    margin: 7,
-    width: RFValue(230),
-    overflow: 'hidden',
-  },
-
-  rememberMeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: RFValue(230),
-    marginTop: RFValue(30),
-    marginBottom: RFValue(15),
-  },
-
-  rememberMeSwitch: {
-    marginLeft: RFValue(10),
-  },
-
-  rememberMeText: {
-    fontSize: RFValue(13),
-    color: '#3D3D3D',
-    fontWeight: '600',
   },
 
   loginButton: {
@@ -176,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 0,
+    marginTop: 20,
     paddingHorizontal: 12,
     paddingVertical: 20,
     width: RFValue(230),

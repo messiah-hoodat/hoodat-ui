@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Image,
-  TextInput,
   TouchableOpacity,
   Platform,
   Text,
@@ -14,7 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { FAB, ScreenTitle } from '../components';
+import { FAB, KeyboardShift, ScreenTitle, TextField } from '../components';
 import HoodatService, { Contact } from '../services/HoodatService';
 
 interface Props {
@@ -137,71 +136,72 @@ class AddContactScreen extends React.Component<Props, State> {
     const { image } = this.state;
 
     return (
-      <View style={styles.container}>
-        <View style={{ marginTop: RFValue(65), width: '80%' }}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('List Details')}
-          >
-            <Icon name="chevron-thin-left" size={25} color="#828282" />
-          </TouchableOpacity>
-        </View>
+      <KeyboardShift>
+        {() => (
+          <View style={styles.container}>
+            <View style={{ marginTop: RFValue(65), width: '80%' }}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('List Details')}
+              >
+                <Icon name="chevron-thin-left" size={25} color="#828282" />
+              </TouchableOpacity>
+            </View>
 
-        <View style={{ width: '80%', marginTop: RFValue(25) }}>
-          <ScreenTitle title="Add Contact" />
-        </View>
+            <View style={{ width: '80%', marginTop: RFValue(25) }}>
+              <ScreenTitle title="Add Contact" />
+            </View>
 
-        <View style={{ width: '79%' }}>
-          <Text style={[styles.InputLabel]}>Name</Text>
-          <TextInput
-            style={styles.nameInput}
-            placeholder="John Doe"
-            onChangeText={(name) => this.setState({ name })}
-          />
-        </View>
-        <View style={{ width: '79%', marginTop: '2%' }}>
-          <Text style={[styles.InputLabel]}>Image</Text>
-          <View
-            style={{
-              width: RFValue(175),
-              height: RFValue(175),
-              borderWidth: 1,
-              marginTop: '4%',
-              borderRadius: 16,
-              marginLeft: '2%',
-            }}
-          >
-            <Image
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 16,
-                display: image.data && image.fileType ? 'flex' : 'none',
-              }}
-              source={{
-                uri: `data:${this.state.image.fileType};base64,${image.data}`,
-              }}
+            <View style={{ width: '80%', marginTop: 40, marginBottom: 10 }}>
+              <View
+                style={{
+                  width: RFValue(175),
+                  height: RFValue(175),
+                  borderRadius: 16,
+                }}
+              >
+                <Image
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 16,
+                  }}
+                  source={
+                    image.data && image.fileType
+                      ? {
+                          uri: `data:${this.state.image.fileType};base64,${image.data}`,
+                        }
+                      : require('../../assets/QuizQuestionImagePlaceholder.png')
+                  }
+                />
+              </View>
+            </View>
+
+            <View style={{ width: '80%', marginTop: 15 }}>
+              <TouchableOpacity onPress={this.pickImage}>
+                <Text style={styles.cameraRollbutton}>
+                  Choose from camera roll
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ width: '80%' }}>
+              <TextField
+                label="Name"
+                placeholder="John Doe"
+                onChangeText={(name) => this.setState({ name })}
+              />
+            </View>
+
+            <FAB
+              disabled={!(this.state.image.data && this.state.name)}
+              icon="plus"
+              label="Add Contact"
+              loading={this.state.loadingAddContact}
+              onPress={this.handleSubmit}
             />
           </View>
-        </View>
-
-        <View style={{ width: '78%', marginTop: '4%' }}>
-          <TouchableOpacity onPress={this.pickImage}>
-            <Text style={styles.cameraRollbutton}>Choose from camera roll</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={this.pickImage}>
-            <Text style={styles.takePicbutton}>Take a picture</Text>
-          </TouchableOpacity>
-        </View>
-
-        <FAB
-          disabled={!(this.state.image.data && this.state.name)}
-          icon="plus"
-          label="Add Contact"
-          loading={this.state.loadingAddContact}
-          onPress={this.handleSubmit}
-        />
-      </View>
+        )}
+      </KeyboardShift>
     );
   }
 }
@@ -209,26 +209,10 @@ class AddContactScreen extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
     backgroundColor: 'white',
     alignItems: 'center',
-  },
-
-  InputLabel: {
-    marginTop: '8%',
-    fontSize: RFValue(14),
-    width: RFValue(230),
-    fontWeight: '600',
-    color: '#5F5F5F',
-  },
-
-  nameInput: {
-    marginTop: '4%',
-    borderBottomWidth: 1,
-    borderColor: '#C4C4C4',
-    backgroundColor: 'white',
-    paddingVertical: RFValue(8),
-    width: '100%',
-    overflow: 'hidden',
+    position: 'relative',
   },
 
   addName: {
@@ -243,12 +227,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: RFValue(14),
     marginBottom: RFValue(14),
-  },
-
-  takePicbutton: {
-    color: '#6EA8FF',
-    fontWeight: 'bold',
-    fontSize: RFValue(14),
   },
 
   backButton: {

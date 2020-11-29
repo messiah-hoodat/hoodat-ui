@@ -39,6 +39,10 @@ const getTabBarVisibility = (route: any) => {
   return true;
 };
 
+const sharedOptions: StackNavigationOptions = {
+  cardStyle: { backgroundColor: 'white' },
+};
+
 const LoggedInTabNav = createBottomTabNavigator();
 function LoggedInTabNavScreen() {
   return (
@@ -111,7 +115,11 @@ function myListsStackScreen() {
       <myListsStack.Screen name="List Details" component={ListDetailsScreen} />
       <myListsStack.Screen name="Quiz" component={QuizScreen} />
       <myListsStack.Screen name="Quiz Results" component={QuizResultsScreen} />
-      <myListsStack.Screen name="Add Contact" component={AddContactScreen} />
+      <myListsStack.Screen
+        name="Add Contact"
+        component={AddContactScreen}
+        options={sharedOptions}
+      />
     </myListsStack.Navigator>
   );
 }
@@ -178,10 +186,6 @@ function SettingsStackScreen() {
 const fullAppStack = createStackNavigator();
 export default function App() {
   const [value, setValue] = useState<UserState>({ token: '', userId: '' });
-
-  const sharedOptions: StackNavigationOptions = {
-    cardStyle: { backgroundColor: 'white' },
-  };
 
   return (
     <UserContext.Provider value={{ value, setValue }}>

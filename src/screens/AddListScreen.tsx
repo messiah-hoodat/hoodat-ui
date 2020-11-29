@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  Alert,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SelectableGrid from 'react-native-selectable-grid';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
-import { FAB, ScreenTitle } from '../components';
+import { FAB, ScreenTitle, TextField } from '../components';
 import HoodatService from '../services/HoodatService';
 
 interface Props {
@@ -78,18 +71,14 @@ class AddListScreen extends React.Component<Props, State> {
           </TouchableOpacity>
         </View>
 
-        <View style={{ marginTop: RFValue(20), height: '10%', width: '79%' }}>
+        <View style={{ marginTop: RFValue(20), width: '80%' }}>
           <ScreenTitle title="New List" />
         </View>
 
-        <View style={{ marginTop: RFValue(8), width: '78%', borderWidth: 0 }}>
-          <Text style={styles.ListNameLabel}>Name</Text>
-        </View>
-
         <View style={{ width: '80%', borderWidth: 0 }}>
-          <TextInput
-            style={styles.ListNameInput}
-            placeholder="List Details"
+          <TextField
+            label="Name"
+            placeholder="Yoga squad"
             onChangeText={(name) => this.setState({ name })}
           />
         </View>
@@ -97,9 +86,7 @@ class AddListScreen extends React.Component<Props, State> {
         <View
           style={{
             marginTop: RFValue(8),
-            height: '4%',
-            width: '78%',
-            borderWidth: 0,
+            width: '80%',
           }}
         >
           <Text style={styles.ListColorLabels}>Color</Text>
@@ -108,10 +95,7 @@ class AddListScreen extends React.Component<Props, State> {
         <View
           style={{
             marginTop: RFValue(13),
-            marginLeft: -15,
-            height: '20%',
-            width: '78%',
-            borderWidth: 0,
+            width: '80%',
           }}
         >
           <SelectableGrid
@@ -149,8 +133,8 @@ class AddListScreen extends React.Component<Props, State> {
                 />
               </View>
             )}
-            unselectedStyle={styles.unselectedColorBoxes}
-            selectedStyle={styles.selectedColorBoxes}
+            unselectedStyle={styles.colorBox}
+            selectedStyle={styles.colorBox}
           />
         </View>
 
@@ -193,27 +177,17 @@ const styles = StyleSheet.create({
   },
 
   ListColorLabels: {
-    paddingVertical: RFValue(7),
-    fontSize: RFValue(16),
+    marginTop: RFValue(35),
+    fontSize: RFValue(14),
     fontWeight: '600',
+    width: RFValue(230),
     color: '#5F5F5F',
   },
 
-  unselectedColorBoxes: {
+  colorBox: {
     borderRadius: 10,
-    marginTop: 0,
-    marginRight: 12,
-    marginLeft: 12,
-    marginBottom: 12,
-  },
-
-  selectedColorBoxes: {
-    borderWidth: 3,
-    borderRadius: 10,
-    marginTop: -3,
-    marginRight: 9,
-    marginLeft: 9,
-    marginBottom: 9,
+    marginVertical: 10,
+    marginRight: 20,
   },
 
   createListButtonView: {
