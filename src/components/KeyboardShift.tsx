@@ -18,6 +18,15 @@ interface State {
   shift: Animated.Value;
 }
 
+/**
+ * KeyboardShift
+ *
+ * A wrapper component that enables the screen to shift
+ * when the on-screen keyboard blocks a TextInput.
+ *
+ * Article: https://codeburst.io/react-native-keyboard-covering-inputs-72a9d3072689
+ * Example: https://github.com/larkintuckerllc/hello-react-native-keyboard
+ */
 export default class KeyboardShift extends Component<Props, State> {
   private keyboardDidShowSub: any;
   private keyboardDidHideSub: any;
