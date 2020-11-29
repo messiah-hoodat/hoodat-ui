@@ -7,11 +7,9 @@ import {
   Text,
   Alert,
   ActivityIndicator,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { KeyboardShift } from '../components';
 import HoodatService from '../services/HoodatService';
 
 interface Props {
@@ -104,13 +102,8 @@ class SignUpScreen extends React.Component<Props, State> {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={-220}
-        behavior="position"
-        contentContainerStyle={styles.fix}
-        style={styles.container}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardShift>
+        {() => (
           <View style={styles.container}>
             <Text style={styles.SignUpText}>Sign Up</Text>
 
@@ -238,8 +231,8 @@ class SignUpScreen extends React.Component<Props, State> {
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+        )}
+      </KeyboardShift>
     );
   }
 }
@@ -247,12 +240,6 @@ class SignUpScreen extends React.Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-  },
-
-  fix: {
-    flex: 0,
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
   },

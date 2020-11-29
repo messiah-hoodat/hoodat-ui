@@ -56,7 +56,6 @@
     "@types/react": "~16.9.23",
     "@types/react-native": "~0.61.17",
     "@types/react-native-vector-icons": "^6.4.6",
-    "@types/react-navigation": "^3.4.0",
     "babel-preset-expo": "~8.1.0",
     "husky": "^4.3.0",
     "jest": "^25.5.1",

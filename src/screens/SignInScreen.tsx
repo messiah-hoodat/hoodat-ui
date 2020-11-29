@@ -8,9 +8,11 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  CheckBox,
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { Switch } from 'react-native-paper';
+
+import { KeyboardShift } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService from '../services/HoodatService';
 
@@ -22,6 +24,7 @@ export default function SignInScreen(props: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   const context = useContext(UserContext);
 
@@ -41,73 +44,67 @@ export default function SignInScreen(props: Props) {
   }
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.HoodatLogo}
-        source={require('../../assets/HoodatTextLogo.png')}
-        resizeMode="contain"
-      />
-      <Text style={styles.LoginText}>Log In</Text>
-      <Text style={styles.EmailText}>Email</Text>
-      <TextInput
-        style={styles.inputUsernamePassword}
-        placeholder="example@gmail.com"
-        onChangeText={(email) => setEmail(email)}
-      />
-      <Text style={styles.PasswordText}>Password</Text>
-      <TextInput
-        secureTextEntry={true}
-        style={styles.inputUsernamePassword}
-        placeholder="• • • • • • • •"
-        onChangeText={(password) => setPassword(password)}
-      />
+    <KeyboardShift>
+      {() => (
+        <View style={styles.container}>
+          <Image
+            style={styles.HoodatLogo}
+            source={require('../../assets/HoodatTextLogo.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.LoginText}>Log In</Text>
+          <Text style={styles.EmailText}>Email</Text>
+          <TextInput
+            style={styles.inputUsernamePassword}
+            placeholder="example@gmail.com"
+            onChangeText={(email) => setEmail(email)}
+          />
+          <Text style={styles.PasswordText}>Password</Text>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.inputUsernamePassword}
+            placeholder="• • • • • • • •"
+            onChangeText={(password) => setPassword(password)}
+          />
 
-      <View
-        style={{
-          flexDirection: 'row',
-          width: RFValue(230),
-          marginBottom: RFValue(40),
-        }}
-      >
-        <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordButton}>Reset It</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.rememberMeContainer}>
+            <Text style={styles.rememberMeText}>Remember Me</Text>
+            <Switch
+              color="#6EA8FF"
+              value={rememberMe}
+              onValueChange={(newVal) => setRememberMe(newVal)}
+              style={styles.rememberMeSwitch}
+            />
+          </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          width: RFValue(230),
-          marginBottom: RFValue(10),
-        }}
-      >
-        <CheckBox style={styles.rememberMeCheckbox} />
-        <Text style={styles.rememberMeText}>Remember Me</Text>
-      </View>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={() => handleLogin()}
+          >
+            <Text style={styles.loginButtonText}>Log In</Text>
+            <ActivityIndicator
+              size="small"
+              color="white"
+              style={{
+                display: loginLoading ? 'flex' : 'none',
+                ...styles.loadingButton,
+              }}
+            />
+          </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => handleLogin()}
-      >
-        <Text style={styles.loginButtonText}>Log In</Text>
-        <ActivityIndicator
-          size="small"
-          color="white"
-          style={{
-            display: loginLoading ? 'flex' : 'none',
-            ...styles.loadingButton,
-          }}
-        />
-      </TouchableOpacity>
-
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.dontHaveAccountText}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Sign Up')}>
-          <Text style={styles.signupButton}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.dontHaveAccountText}>
+              Don't have an account?
+            </Text>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Sign Up')}
+            >
+              <Text style={styles.signupButton}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </KeyboardShift>
   );
 }
 
@@ -155,31 +152,19 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  forgotPasswordText: {
-    marginTop: RFValue(15),
-    fontSize: RFValue(12),
-    width: RFValue(170),
-    color: '#3D3D3D',
-  },
-  forgotPasswordButton: {
-    marginTop: RFValue(15),
-    textAlign: 'right',
-    marginLeft: 8,
-    marginRight: 0,
-    fontSize: RFValue(12),
-    fontWeight: 'bold',
-    color: '#6EA8FF',
+  rememberMeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: RFValue(230),
+    marginTop: RFValue(30),
+    marginBottom: RFValue(15),
   },
 
-  rememberMeCheckbox: {
-    borderWidth: 2,
-    height: RFValue(15),
-    width: RFValue(15),
-    borderRadius: 5,
-    borderColor: '#6EA8FF',
-    backgroundColor: '#FFFFFF',
-    marginRight: 10,
+  rememberMeSwitch: {
+    marginLeft: RFValue(10),
   },
+
   rememberMeText: {
     fontSize: RFValue(13),
     color: '#3D3D3D',

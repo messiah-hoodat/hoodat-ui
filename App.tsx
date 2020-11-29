@@ -1,6 +1,9 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from './src/screens/SplashScreen';
 import SignInScreen from './src/screens/SignInScreen';
@@ -175,7 +178,11 @@ function SettingsStackScreen() {
 const fullAppStack = createStackNavigator();
 export default function App() {
   const [value, setValue] = useState<UserState>({ token: '', userId: '' });
-  console.disableYellowBox = true;
+
+  const sharedOptions: StackNavigationOptions = {
+    cardStyle: { backgroundColor: 'white' },
+  };
+
   return (
     <UserContext.Provider value={{ value, setValue }}>
       <NavigationContainer>
@@ -184,8 +191,16 @@ export default function App() {
           screenOptions={{ gestureEnabled: false }}
         >
           <fullAppStack.Screen name="Splash Screen" component={SplashScreen} />
-          <fullAppStack.Screen name="Sign In" component={SignInScreen} />
-          <fullAppStack.Screen name="Sign Up" component={SignUpScreen} />
+          <fullAppStack.Screen
+            name="Sign In"
+            component={SignInScreen}
+            options={sharedOptions}
+          />
+          <fullAppStack.Screen
+            name="Sign Up"
+            component={SignUpScreen}
+            options={sharedOptions}
+          />
           <fullAppStack.Screen name="My Lists" component={myListsStackScreen} />
         </fullAppStack.Navigator>
       </NavigationContainer>
