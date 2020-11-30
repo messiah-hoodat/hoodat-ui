@@ -78,9 +78,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
               justifyContent: 'space-between',
             }}
           >
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('My Lists')}
-            >
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
           </View>
