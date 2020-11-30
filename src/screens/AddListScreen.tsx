@@ -64,9 +64,7 @@ class AddListScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <View style={{ marginTop: RFValue(65), width: '80%' }}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('My Lists')}
-          >
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Icon name="chevron-thin-left" size={25} color="#828282" />
           </TouchableOpacity>
         </View>

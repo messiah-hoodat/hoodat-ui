@@ -87,9 +87,7 @@ class TestMultipleList extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <Text style={{ marginTop: 200 }}>Hello World</Text>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('My Lists')}
-        >
+        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
           <Icon name="chevron-thin-left" size={25} color="#828282" />
         </TouchableOpacity>
         <Text>Length: {listLength}</Text>

@@ -32,7 +32,7 @@ export default function SignInScreen(props: Props) {
     try {
       const res = await HoodatService.signIn(email, password);
       context?.setValue({ token: res.token, userId: res.userId });
-      props.navigation.navigate('My Lists');
+      props.navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
     }
