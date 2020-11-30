@@ -3,11 +3,12 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
+
 import SplashScreen from '../screens/SplashScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import 'react-native-gesture-handler';
-import BottomTabNavigator from './BottomTabNavigator';
+import SignedInStack from './SignedInStack';
 
 const sharedOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: 'white' },
@@ -31,7 +32,7 @@ export default function AppStack() {
         component={SignUpScreen}
         options={sharedOptions}
       />
-      <Stack.Screen name="Home" component={BottomTabNavigator} />
+      <Stack.Screen name="Home" component={SignedInStack} />
     </Stack.Navigator>
   );
 }
