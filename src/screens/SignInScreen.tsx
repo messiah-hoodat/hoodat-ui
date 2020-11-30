@@ -22,7 +22,6 @@ export default function SignInScreen(props: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
 
   const context = useContext(UserContext);
 
@@ -32,12 +31,11 @@ export default function SignInScreen(props: Props) {
     try {
       const res = await HoodatService.signIn(email, password);
       context?.setValue({ token: res.token, userId: res.userId });
-      props.navigation.navigate('Home');
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
+      setLoginLoading(false);
     }
 
-    setLoginLoading(false);
     return Promise.resolve();
   }
 

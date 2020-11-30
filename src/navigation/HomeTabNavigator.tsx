@@ -17,7 +17,7 @@ const iconMap = {
 };
 
 const Tab = createBottomTabNavigator();
-export default function HomeTabs() {
+export default function HomeTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

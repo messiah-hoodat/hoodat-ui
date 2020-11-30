@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 
-import HomeTabs from './HomeTabs';
+import HomeTabNavigator from './HomeTabNavigator';
 import ListDetailsScreen from '../screens/ListDetailsScreen';
 import AddContactScreen from '../screens/AddContactScreen';
 import AddListScreen from '../screens/AddListScreen';
@@ -19,13 +19,13 @@ const sharedOptions: StackNavigationOptions = {
 };
 
 const Stack = createStackNavigator();
-export default function SignedInStack() {
+export default function SignedInStackNavigator() {
   return (
     <Stack.Navigator
       headerMode="none"
       screenOptions={{ gestureEnabled: false }}
     >
-      <Stack.Screen name="Home" component={HomeTabs} />
+      <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Screen
         name="Add Contact"
         component={AddContactScreen}
