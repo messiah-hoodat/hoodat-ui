@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import { UserContext } from '../contexts/UserContext';
+import SecureStoreService from '../services/SecureStoreService';
 
 interface Props {
   navigation: any;
@@ -10,6 +11,7 @@ class SettingsScreen extends React.Component<Props> {
   static contextType = UserContext;
 
   logout() {
+    SecureStoreService.deleteStoredCredentials();
     this.context?.setValue({ token: '', userId: '' });
   }
 

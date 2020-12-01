@@ -5,7 +5,7 @@ export interface UserState {
   userId: string;
 }
 
-interface UserContext {
+export interface UserContext {
   value: UserState;
   setValue: React.Dispatch<React.SetStateAction<UserState>>;
 }

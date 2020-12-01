@@ -13,6 +13,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardShift, TextField } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService from '../services/HoodatService';
+import SecureStoreService from '../services/SecureStoreService';
 
 interface Props {
   navigation: any;
@@ -30,6 +31,7 @@ export default function SignInScreen(props: Props) {
 
     try {
       const res = await HoodatService.signIn(email, password);
+      SecureStoreService.storeCredentials(email, password);
       context?.setValue({ token: res.token, userId: res.userId });
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
