@@ -9,14 +9,9 @@ import { List } from '../services/HoodatService';
 interface Props {
   list: List;
   fetchLists: () => Promise<void>;
-  removeList: () => Promise<void>;
 }
 
-export default function MultipleListsCard({
-  list,
-  fetchLists,
-  removeList,
-}: Props) {
+export default function MultipleListsCard({ list, fetchLists }: Props) {
   var color1 = '';
   var color2 = '';
 
@@ -54,10 +49,6 @@ export default function MultipleListsCard({
   const listId = list.id;
   const [menuVisible, setMenuVisible] = useState(false);
 
-  const handleRemoveList = async () => {
-    setMenuVisible(false);
-    await removeList();
-  };
   return (
     <TouchableOpacity
       onPress={() =>
@@ -77,29 +68,6 @@ export default function MultipleListsCard({
       >
         <View style={styles.cardContainer}>
           <Text style={styles.ListButtonTitle}>{list.name}</Text>
-          <View style={styles.optionsContainer}>
-            <Menu
-              visible={menuVisible}
-              onDismiss={() => setMenuVisible(false)}
-              anchor={
-                <TouchableOpacity onPress={() => setMenuVisible(true)}>
-                  <Icon name="dots-three-vertical" size={20} color="#636363" />
-                </TouchableOpacity>
-              }
-            >
-              <Menu.Item
-                icon="pencil"
-                onPress={() => console.log('TODO')}
-                title="Edit"
-                disabled
-              />
-              <Menu.Item
-                icon="delete"
-                onPress={handleRemoveList}
-                title="Remove"
-              />
-            </Menu>
-          </View>
         </View>
         <Text style={styles.ListButtonSubtitle}>
           {list.contacts.length} contacts

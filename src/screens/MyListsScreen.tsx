@@ -66,21 +66,6 @@ class MyListsScreen extends React.Component<Props, State> {
     return Promise.resolve();
   };
 
-  async removeList(listId: string): Promise<void> {
-    const { token, userId } = this.context.value;
-
-    try {
-      await HoodatService.removeList(listId, token);
-      this.setState({
-        lists: this.state.lists.filter((list: List) => list.id !== listId),
-      });
-      this.fetchLists();
-    } catch (error) {
-      Alert.alert('Uh oh!', error.toString());
-    }
-
-    return Promise.resolve();
-  }
   render() {
     return (
       <Provider>
@@ -133,7 +118,6 @@ class MyListsScreen extends React.Component<Props, State> {
                     <MultipleListsCard
                       list={item}
                       fetchLists={() => this.fetchLists()}
-                      removeList={() => this.removeList(item.id)}
                     />
                   ) : null;
                 }}

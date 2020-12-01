@@ -3,12 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Alert,
   FlatList,
 } from 'react-native';
-import { Provider } from 'react-native-paper';
+import { Menu, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, ListDetailsContactCard, ScreenTitle } from '../components';
@@ -33,6 +32,7 @@ interface State {
   fetchLists: () => Promise<any>;
   listName: string;
   listId: string;
+  menuVisible: boolean;
   searchQuery: string;
 }
 
@@ -44,7 +44,28 @@ class ListDetailsScreen extends React.Component<Props, State> {
 
     const { contacts, listName, listId, fetchLists } = this.props.route.params;
 
-    this.state = { contacts, listName, listId, fetchLists, searchQuery: '' };
+    this.state = {
+      contacts,
+      listName,
+      listId,
+      fetchLists,
+      menuVisible: false,
+      searchQuery: '',
+    };
+  }
+
+  async removeList(): Promise<void> {
+    const { token, userId } = this.context.value;
+
+    try {
+      await HoodatService.removeList(this.state.listId, token);
+      this.state.fetchLists();
+      this.props.navigation.goBack();
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
+
+    return Promise.resolve();
   }
 
   async removeContact(contactId: string, listId: string): Promise<void> {
@@ -81,6 +102,41 @@ class ListDetailsScreen extends React.Component<Props, State> {
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Icon name="chevron-thin-left" size={25} color="#828282" />
             </TouchableOpacity>
+            <Menu
+              visible={this.state.menuVisible}
+              onDismiss={() => this.setState({ menuVisible: false })}
+              anchor={
+                <TouchableOpacity
+                  onPress={() => this.setState({ menuVisible: true })}
+                >
+                  <Icon name="dots-three-vertical" size={20} color="#636363" />
+                </TouchableOpacity>
+              }
+            >
+              <Menu.Item
+                icon="plus"
+                onPress={() => {
+                  this.setState({ menuVisible: false });
+                  this.props.navigation.navigate('Add Contact', {
+                    listId: this.state.listId,
+                    Contacts: this.state.contacts,
+                    fetchLists: this.state.fetchLists,
+                  });
+                }}
+                title="Add Contact"
+              />
+              <Menu.Item
+                icon="pencil"
+                onPress={() => console.log('TODO')}
+                title="Edit"
+                disabled
+              />
+              <Menu.Item
+                icon="delete"
+                onPress={() => this.removeList()}
+                title="Remove"
+              />
+            </Menu>
           </View>
 
           <View style={{ width: '80%', marginTop: 20 }}>
@@ -91,21 +147,25 @@ class ListDetailsScreen extends React.Component<Props, State> {
             onChangeText={(searchQuery) => this.setState({ searchQuery })}
           />
 
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Add Contact', {
-                listId: this.state.listId,
-                Contacts: this.state.contacts,
-                fetchLists: this.state.fetchLists,
-              })
-            }
-          >
-            <Text style={styles.addMorePeopleButton}>+ Add More People</Text>
-          </TouchableOpacity>
-
           <View style={styles.PeopleListScrollView}>
             <FlatList
               data={this.state.contacts}
+              ListFooterComponent={
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('Add Contact', {
+                      listId: this.state.listId,
+                      Contacts: this.state.contacts,
+                      fetchLists: this.state.fetchLists,
+                    })
+                  }
+                  style={styles.addMorePeopleButton}
+                >
+                  <Text style={styles.addMorePeopleText}>
+                    + Add More People
+                  </Text>
+                </TouchableOpacity>
+              }
               keyExtractor={(contact) => contact.id}
               renderItem={({ item }) => {
                 const contactName = item.name.toLowerCase();
@@ -166,17 +226,21 @@ const styles = StyleSheet.create({
   },
 
   addMorePeopleButton: {
+    marginTop: 10,
+    marginBottom: 150,
+    alignSelf: 'center',
+  },
+
+  addMorePeopleText: {
     color: '#6EA8FF',
     fontWeight: 'bold',
     fontSize: RFValue(14),
-    marginBottom: RFValue(18),
   },
 
   PeopleListScrollView: {
-    position: 'relative',
-    top: 0,
-    height: '58%',
+    flex: 1,
     width: '80%',
+    marginTop: 5,
   },
 });
 
