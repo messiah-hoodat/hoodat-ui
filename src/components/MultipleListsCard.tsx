@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { Menu } from 'react-native-paper';
 import { List } from '../services/HoodatService';
+import getListColors from '../lib/getListColors';
 
 interface Props {
   list: List;
@@ -12,48 +11,19 @@ interface Props {
 }
 
 export default function MultipleListsCard({ list, fetchLists }: Props) {
-  var color1 = '';
-  var color2 = '';
-
-  if (list.color == 0) {
-    color1 = '#FFFFCC';
-    color2 = '#FFFF00';
-  } else if (list.color == 1) {
-    color1 = '#FFE2AB';
-    color2 = '#FFBC7C';
-  } else if (list.color == 2) {
-    color1 = '#FFD9DE';
-    color2 = '#E99BA6';
-  } else if (list.color == 3) {
-    color1 = '#B3A7FF';
-    color2 = '#f3b6c9';
-  } else if (list.color == 4) {
-    color1 = '#FFB4E1';
-    color2 = '#E16AFF';
-  } else if (list.color == 5) {
-    color1 = '#DCF8EF';
-    color2 = '#FEE2F8';
-  } else if (list.color == 6) {
-    color1 = '#A7FFB0';
-    color2 = '#A7ECFF';
-  } else if (list.color == 7) {
-    color1 = '#A7F4FF';
-    color2 = '#A7AEFF';
-  } else {
-    color1 = '#F894A4';
-    color2 = '#F9D1B7';
-  }
+  const colors = getListColors(list.color);
 
   const navigation = useNavigation();
   const listName = list.name;
   const listId = list.id;
-  const [menuVisible, setMenuVisible] = useState(false);
+  const listColor = list.color;
 
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('List Details', {
           contacts: list.contacts,
+          listColor,
           listName,
           listId,
           fetchLists,
@@ -61,7 +31,7 @@ export default function MultipleListsCard({ list, fetchLists }: Props) {
       }
     >
       <LinearGradient
-        colors={[color1, color2]}
+        colors={colors}
         style={styles.ListButton}
         start={{ x: -0.2, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
@@ -133,7 +103,6 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    //marginBottom: RFValue(14),
     alignItems: 'center',
     justifyContent: 'space-between',
   },

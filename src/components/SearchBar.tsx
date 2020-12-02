@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import React from 'react';
+import {
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 interface Props {
   onChangeText: (newText: string) => any;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function SearchBar(props: Props) {
   return (
-    <View style={[styles.searchBar, { flex: 0, flexDirection: 'row' }]}>
+    <View
+      style={[styles.searchBar, { flex: 0, flexDirection: 'row' }, props.style]}
+    >
       <TextInput
         style={styles.searchTextInput}
         placeholder="Search..."
@@ -24,18 +33,15 @@ const styles = StyleSheet.create({
   searchBar: {
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 40,
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 22,
-    width: '80%',
+    marginVertical: 20,
     backgroundColor: '#F0F0F0',
     borderRadius: 20,
-    marginBottom: 10,
   },
   searchTextInput: {
-    fontWeight: '500',
-    fontSize: 20,
-    width: '85%',
+    fontWeight: 'bold',
+    fontSize: 18,
     color: 'black',
   },
 });

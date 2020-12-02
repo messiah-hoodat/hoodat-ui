@@ -102,6 +102,7 @@ class MyListsScreen extends React.Component<Props, State> {
 
           <SearchBar
             onChangeText={(searchQuery) => this.setState({ searchQuery })}
+            style={{ width: '80%' }}
           />
 
           <LoadingView loading={this.state.loading}>

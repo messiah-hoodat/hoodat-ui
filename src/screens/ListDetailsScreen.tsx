@@ -14,6 +14,7 @@ import { FAB, ListDetailsContactCard, ScreenTitle } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService, { Contact } from '../services/HoodatService';
 import { SearchBar } from '../components';
+import getListColors from '../lib/getListColors';
 
 interface Props {
   navigation: any;
@@ -21,6 +22,7 @@ interface Props {
     params: {
       contacts: Contact[];
       fetchLists: () => Promise<any>;
+      listColor: number;
       listName: string;
       listId: string;
     };
@@ -91,97 +93,108 @@ class ListDetailsScreen extends React.Component<Props, State> {
       <Provider>
         <View style={styles.container}>
           <View
-            style={{
-              flex: 0,
-              flexDirection: 'row',
-              marginTop: RFValue(65),
-              width: '80%',
-              justifyContent: 'space-between',
-            }}
+            style={[
+              styles.header,
+              {
+                backgroundColor: getListColors(
+                  this.props.route.params.listColor
+                )[0],
+              },
+            ]}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <Icon name="chevron-thin-left" size={25} color="#828282" />
-            </TouchableOpacity>
-            <Menu
-              visible={this.state.menuVisible}
-              onDismiss={() => this.setState({ menuVisible: false })}
-              anchor={
-                <TouchableOpacity
-                  onPress={() => this.setState({ menuVisible: true })}
-                >
-                  <Icon name="dots-three-vertical" size={20} color="#636363" />
-                </TouchableOpacity>
-              }
+            <View
+              style={{
+                flex: 0,
+                flexDirection: 'row',
+                marginTop: RFValue(25),
+                justifyContent: 'space-between',
+                marginBottom: 20,
+              }}
             >
-              <Menu.Item
-                icon="plus"
-                onPress={() => {
-                  this.setState({ menuVisible: false });
-                  this.props.navigation.navigate('Add Contact', {
-                    listId: this.state.listId,
-                    Contacts: this.state.contacts,
-                    fetchLists: this.state.fetchLists,
-                  });
-                }}
-                title="Add Contact"
-              />
-              <Menu.Item
-                icon="pencil"
-                onPress={() => console.log('TODO')}
-                title="Edit"
-                disabled
-              />
-              <Menu.Item
-                icon="delete"
-                onPress={() => this.removeList()}
-                title="Remove"
-              />
-            </Menu>
-          </View>
-
-          <View style={{ width: '80%', marginTop: 20 }}>
-            <ScreenTitle title={this.state.listName} />
-          </View>
-
-          <SearchBar
-            onChangeText={(searchQuery) => this.setState({ searchQuery })}
-          />
-
-          <View style={styles.PeopleListScrollView}>
-            <FlatList
-              data={this.state.contacts}
-              ListFooterComponent={
-                <TouchableOpacity
-                  onPress={() =>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Icon name="chevron-thin-left" size={25} color="#828282" />
+              </TouchableOpacity>
+              <Menu
+                visible={this.state.menuVisible}
+                onDismiss={() => this.setState({ menuVisible: false })}
+                anchor={
+                  <TouchableOpacity
+                    onPress={() => this.setState({ menuVisible: true })}
+                  >
+                    <Icon
+                      name="dots-three-vertical"
+                      size={20}
+                      color="#636363"
+                    />
+                  </TouchableOpacity>
+                }
+              >
+                <Menu.Item
+                  icon="plus"
+                  onPress={() => {
+                    this.setState({ menuVisible: false });
                     this.props.navigation.navigate('Add Contact', {
                       listId: this.state.listId,
                       Contacts: this.state.contacts,
                       fetchLists: this.state.fetchLists,
-                    })
-                  }
-                  style={styles.addMorePeopleButton}
-                >
-                  <Text style={styles.addMorePeopleText}>
-                    + Add More People
-                  </Text>
-                </TouchableOpacity>
-              }
-              keyExtractor={(contact) => contact.id}
-              renderItem={({ item }) => {
-                const contactName = item.name.toLowerCase();
-                const searchTerm = this.state.searchQuery.toLowerCase();
-                return contactName.includes(searchTerm) ? (
-                  <ListDetailsContactCard
-                    contact={item}
-                    removeContact={() =>
-                      this.removeContact(item.id, this.state.listId)
-                    }
-                  />
-                ) : null;
-              }}
-              showsVerticalScrollIndicator={false}
-            />
+                    });
+                  }}
+                  title="Add Contact"
+                />
+                <Menu.Item
+                  icon="pencil"
+                  onPress={() => console.log('TODO')}
+                  title="Edit"
+                  disabled
+                />
+                <Menu.Item
+                  icon="delete"
+                  onPress={() => this.removeList()}
+                  title="Remove"
+                />
+              </Menu>
+            </View>
+
+            <ScreenTitle title={this.state.listName} />
           </View>
+
+          <FlatList
+            style={styles.PeopleListScrollView}
+            data={this.state.contacts}
+            ListHeaderComponent={
+              <SearchBar
+                onChangeText={(searchQuery) => this.setState({ searchQuery })}
+              />
+            }
+            ListFooterComponent={
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('Add Contact', {
+                    listId: this.state.listId,
+                    Contacts: this.state.contacts,
+                    fetchLists: this.state.fetchLists,
+                  })
+                }
+                style={styles.addMorePeopleButton}
+              >
+                <Text style={styles.addMorePeopleText}>+ Add More People</Text>
+              </TouchableOpacity>
+            }
+            keyExtractor={(contact) => contact.id}
+            renderItem={({ item }) => {
+              const contactName = item.name.toLowerCase();
+              const searchTerm = this.state.searchQuery.toLowerCase();
+              return contactName.includes(searchTerm) ? (
+                <ListDetailsContactCard
+                  contact={item}
+                  removeContact={() =>
+                    this.removeContact(item.id, this.state.listId)
+                  }
+                />
+              ) : null;
+            }}
+            showsVerticalScrollIndicator={false}
+          />
 
           <FAB
             disabled={this.state.contacts.length < 5}
@@ -208,21 +221,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  searchBar: {
-    marginTop: 30,
-    paddingVertical: RFValue(10),
-    paddingLeft: 22,
-    width: '80%',
-    backgroundColor: '#F0F0F0',
-    borderRadius: 20,
-    marginBottom: RFValue(18),
-  },
-
-  searchTextInput: {
-    fontWeight: '500',
-    fontSize: 20,
-    width: '85%',
-    color: '#828282',
+  header: {
+    width: '100%',
+    paddingHorizontal: '10%',
+    paddingTop: 25,
+    paddingBottom: 15,
+    backgroundColor: '#A7F4FF',
   },
 
   addMorePeopleButton: {
@@ -239,8 +243,8 @@ const styles = StyleSheet.create({
 
   PeopleListScrollView: {
     flex: 1,
-    width: '80%',
-    marginTop: 5,
+    width: '100%',
+    paddingHorizontal: '10%',
   },
 });
 
