@@ -15,9 +15,7 @@ interface Props {
 
 export default function SearchBar(props: Props) {
   return (
-    <View
-      style={[styles.searchBar, { flex: 0, flexDirection: 'row' }, props.style]}
-    >
+    <View style={[styles.searchBar, props.style]}>
       <TextInput
         style={styles.searchTextInput}
         placeholder="Search..."
@@ -31,6 +29,7 @@ export default function SearchBar(props: Props) {
 
 const styles = StyleSheet.create({
   searchBar: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 10,
@@ -40,6 +39,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   searchTextInput: {
+    flex: 1,
+    width: '100%',
     fontWeight: 'bold',
     fontSize: 18,
     color: 'black',
