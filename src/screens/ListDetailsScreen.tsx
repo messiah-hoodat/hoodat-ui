@@ -167,19 +167,40 @@ class ListDetailsScreen extends React.Component<Props, State> {
               />
             }
             ListFooterComponent={
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('Add Contact', {
-                    listId: this.state.listId,
-                    Contacts: this.state.contacts,
-                    fetchLists: this.state.fetchLists,
-                  })
-                }
-                style={styles.addMorePeopleButton}
-              >
-                <Text style={styles.addMorePeopleText}>+ Add More People</Text>
-              </TouchableOpacity>
+              <View style={{ alignItems: 'center' }}>
+                {this.state.contacts.length < 5 && (
+                  <View>
+                    <Text
+                      style={{
+                        marginVertical: 5,
+                        color: '#828282',
+                        fontSize: 14,
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+                      }}
+                    >
+                      Add {Math.abs(this.state.contacts.length - 5)} more people
+                      to begin testing your memory by quiz.
+                    </Text>
+                  </View>
+                )}
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('Add Contact', {
+                      listId: this.state.listId,
+                      Contacts: this.state.contacts,
+                      fetchLists: this.state.fetchLists,
+                    })
+                  }
+                  style={styles.addMorePeopleButton}
+                >
+                  <Text style={styles.addMorePeopleText}>
+                    + Add More People
+                  </Text>
+                </TouchableOpacity>
+              </View>
             }
+            ListFooterComponentStyle={{ marginBottom: 150 }}
             keyExtractor={(contact) => contact.id}
             renderItem={({ item }) => {
               const contactName = item.name.toLowerCase();
@@ -231,8 +252,6 @@ const styles = StyleSheet.create({
 
   addMorePeopleButton: {
     marginTop: 10,
-    marginBottom: 150,
-    alignSelf: 'center',
   },
 
   addMorePeopleText: {
