@@ -174,7 +174,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
                       }}
                     >
                       Add {Math.abs(this.state.contacts.length - 5)} more people
-                      to begin testing your memory by quiz.
+                      to begin quizzing.
                     </Text>
                   </View>
                 )}
