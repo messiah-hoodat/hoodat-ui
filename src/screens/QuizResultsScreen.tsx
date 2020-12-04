@@ -22,7 +22,6 @@ interface Props {
   route: {
     params: {
       questionResults: QuestionResult[];
-      restart: () => void;
     };
   };
 }
@@ -122,7 +121,6 @@ class QuizResultsScreen extends React.Component<Props> {
           <TouchableOpacity style={styles.retakeQuizButton}>
             <Text
               onPress={() => {
-                this.props.route.params.restart();
                 this.props.navigation.navigate('Quiz', {
                   questionResults: [],
                   CurrentQuizQuestionNumber: 0,

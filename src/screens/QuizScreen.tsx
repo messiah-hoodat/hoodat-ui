@@ -31,11 +31,22 @@ interface Props {
 }
 
 class QuizScreen extends React.Component<Props> {
-  private _timerRef: any;
+  private timer: CircularTimer | null;
 
-  _restartTimer = () => {
-    if (this._timerRef) this._timerRef.restart();
-  };
+  constructor(props: Props) {
+    super(props);
+    this.timer = null;
+  }
+
+  restartTimer() {
+    if (this.timer) {
+      this.timer.restart();
+    }
+  }
+
+  componentDidUpdate() {
+    this.restartTimer();
+  }
 
   render() {
     const screenWidth = Math.round(Dimensions.get('window').width);
@@ -46,7 +57,6 @@ class QuizScreen extends React.Component<Props> {
     CurrentQuizQuestionNumber = CurrentQuizQuestionNumber + 1;
     var ProgressBarWidth =
       (CurrentQuizQuestionNumber / QuizTotalNumberOfQuestions) * screenWidth;
-    var TotalQuizTime = 10;
 
     const correctContactIndex = CurrentQuizQuestionNumber - 1;
     const correctContact = contacts[correctContactIndex];
@@ -118,7 +128,7 @@ class QuizScreen extends React.Component<Props> {
             }}
           >
             <CircularTimer
-              ref={(refs) => (this._timerRef = refs)}
+              ref={(timer) => (this.timer = timer)}
               seconds={10}
               radius={RFValue(37)}
               borderWidth={RFValue(6)}
@@ -126,7 +136,6 @@ class QuizScreen extends React.Component<Props> {
               borderColor={'#DDDDDD'}
               onTimeElapsed={() => {
                 if (CurrentQuizQuestionNumber != QuizTotalNumberOfQuestions) {
-                  this._restartTimer();
                   questionResults.push({
                     contact: correctContact,
                     correct: false,
@@ -144,8 +153,9 @@ class QuizScreen extends React.Component<Props> {
 
           <View style={{ flex: 5.5, width: '87%' }}>
             {(() => {
-              const wrapper = (children: any) => (
+              const wrapper = (children: any, key: number) => (
                 <View
+                  key={key}
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -158,8 +168,8 @@ class QuizScreen extends React.Component<Props> {
 
               const option = (index: number) => (
                 <TouchableOpacity
+                  key={index}
                   onPress={() => {
-                    this._restartTimer();
                     questionResults.push({
                       contact: correctContact,
                       correct: questionOptions[index].isCorrect,
@@ -175,7 +185,6 @@ class QuizScreen extends React.Component<Props> {
                       this.props.navigation.navigate('Quiz Results', {
                         questionResults,
                         CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                        restart: this._restartTimer,
                       });
                     }
                   }}
@@ -200,8 +209,8 @@ class QuizScreen extends React.Component<Props> {
               return (
                 <View>
                   {[
-                    wrapper([option(0), option(1)]),
-                    wrapper([option(2), option(3)]),
+                    wrapper([option(0), option(1)], 0),
+                    wrapper([option(2), option(3)], 1),
                   ]}
                 </View>
               );
