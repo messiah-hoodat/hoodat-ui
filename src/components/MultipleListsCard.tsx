@@ -7,10 +7,9 @@ import getListColors from '../lib/getListColors';
 
 interface Props {
   list: List;
-  fetchLists: () => Promise<void>;
 }
 
-export default function MultipleListsCard({ list, fetchLists }: Props) {
+export default function MultipleListsCard({ list }: Props) {
   const colors = getListColors(list.color);
 
   const navigation = useNavigation();
@@ -26,7 +25,6 @@ export default function MultipleListsCard({ list, fetchLists }: Props) {
           listColor,
           listName,
           listId,
-          fetchLists,
         })
       }
     >

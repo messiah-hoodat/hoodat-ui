@@ -9,11 +9,6 @@ import HoodatService from '../services/HoodatService';
 
 interface Props {
   navigation: any;
-  route: {
-    params: {
-      fetchLists: () => Promise<any>;
-    };
-  };
 }
 
 interface State {
@@ -50,8 +45,7 @@ class AddListScreen extends React.Component<Props, State> {
 
     try {
       await HoodatService.addList(name, color, token);
-      this.props.route.params.fetchLists();
-      this.props.navigation.pop();
+      this.props.navigation.goBack();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
     }

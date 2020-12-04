@@ -42,11 +42,6 @@ export default function SignedInStackNavigator() {
         options={sharedOptions}
       />
       <Stack.Screen
-        name="My Lists"
-        component={MyListsScreen}
-        options={sharedOptions}
-      />
-      <Stack.Screen
         name="Quiz"
         component={QuizScreen}
         options={sharedOptions}

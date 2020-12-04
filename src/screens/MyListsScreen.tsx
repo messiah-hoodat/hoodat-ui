@@ -16,11 +16,6 @@ import { SearchBar, MultipleListsCard, ScreenTitle } from '../components';
 
 interface Props {
   navigation: any;
-  route: {
-    params: {
-      fetchContacts: () => Promise<any>;
-    };
-  };
 }
 
 interface State {
@@ -32,6 +27,7 @@ interface State {
 
 class MyListsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
+  private _unsubscribe = () => {};
 
   constructor(props: Props) {
     super(props);
@@ -42,14 +38,23 @@ class MyListsScreen extends React.Component<Props, State> {
       searchQuery: '',
     };
   }
-  _onRefresh = () => {
+
+  refresh() {
     this.setState({ refreshing: true });
     this.fetchLists().then(() => {
       this.setState({ refreshing: false });
     });
-  };
+  }
+
   componentDidMount() {
-    this.fetchLists();
+    this.refresh();
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.fetchLists();
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   fetchLists = async (): Promise<any> => {
@@ -82,11 +87,7 @@ class MyListsScreen extends React.Component<Props, State> {
             <ScreenTitle title="My Lists" />
 
             <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('Add List', {
-                  fetchLists: this.fetchLists,
-                })
-              }
+              onPress={() => this.props.navigation.navigate('Add List')}
             >
               <Text style={styles.newListBtn}>+ New List</Text>
             </TouchableOpacity>
@@ -110,16 +111,13 @@ class MyListsScreen extends React.Component<Props, State> {
               <FlatList
                 data={this.state.lists}
                 keyExtractor={(list) => list.id}
-                onRefresh={this._onRefresh}
+                onRefresh={() => this.refresh()}
                 refreshing={this.state.refreshing}
                 renderItem={({ item }) => {
                   const listName = item.name.toLowerCase();
                   const searchTerm = this.state.searchQuery.toLowerCase();
                   return listName.includes(searchTerm) ? (
-                    <MultipleListsCard
-                      list={item}
-                      fetchLists={() => this.fetchLists()}
-                    />
+                    <MultipleListsCard list={item} />
                   ) : null;
                 }}
                 showsVerticalScrollIndicator={false}

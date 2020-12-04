@@ -21,7 +21,6 @@ interface Props {
   route: {
     params: {
       contacts: Contact[];
-      fetchLists: () => Promise<any>;
       listColor: number;
       listName: string;
       listId: string;
@@ -31,7 +30,6 @@ interface Props {
 
 interface State {
   contacts: Contact[];
-  fetchLists: () => Promise<any>;
   listName: string;
   listId: string;
   menuVisible: boolean;
@@ -44,13 +42,12 @@ class ListDetailsScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { contacts, listName, listId, fetchLists } = this.props.route.params;
+    const { contacts, listName, listId } = this.props.route.params;
 
     this.state = {
       contacts,
       listName,
       listId,
-      fetchLists,
       menuVisible: false,
       searchQuery: '',
     };
@@ -61,7 +58,6 @@ class ListDetailsScreen extends React.Component<Props, State> {
 
     try {
       await HoodatService.removeList(this.state.listId, token);
-      this.state.fetchLists();
       this.props.navigation.goBack();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
@@ -80,7 +76,6 @@ class ListDetailsScreen extends React.Component<Props, State> {
           (contact: Contact) => contact.id !== contactId
         ),
       });
-      this.props.route.params.fetchLists();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
     }
@@ -136,7 +131,6 @@ class ListDetailsScreen extends React.Component<Props, State> {
                     this.props.navigation.navigate('Add Contact', {
                       listId: this.state.listId,
                       Contacts: this.state.contacts,
-                      fetchLists: this.state.fetchLists,
                     });
                   }}
                   title="Add Contact"
@@ -189,7 +183,6 @@ class ListDetailsScreen extends React.Component<Props, State> {
                     this.props.navigation.navigate('Add Contact', {
                       listId: this.state.listId,
                       Contacts: this.state.contacts,
-                      fetchLists: this.state.fetchLists,
                     })
                   }
                   style={styles.addMorePeopleButton}

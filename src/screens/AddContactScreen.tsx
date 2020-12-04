@@ -22,7 +22,6 @@ interface Props {
     params: {
       contacts: Contact[];
       listId: string;
-      fetchLists: () => Promise<any>;
     };
   };
 }
@@ -37,7 +36,6 @@ interface State {
   };
   listId: string;
   contacts: Contact[];
-  fetchLists: () => Promise<any>;
 }
 
 class AddContactScreen extends React.Component<Props, State> {
@@ -45,14 +43,13 @@ class AddContactScreen extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { listId, contacts, fetchLists } = this.props.route.params;
+    const { listId, contacts } = this.props.route.params;
     this.state = {
       loadingAddContact: false,
       name: '',
       image: { data: '', fileType: '', name: '' },
       listId,
       contacts,
-      fetchLists,
     };
   }
 
@@ -122,7 +119,6 @@ class AddContactScreen extends React.Component<Props, State> {
 
     try {
       await HoodatService.addContact(listId, name, image, token);
-      this.props.route.params.fetchLists();
       this.props.navigation.pop(2);
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
