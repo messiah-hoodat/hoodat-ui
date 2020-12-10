@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardShift, TextField } from '../components';
+import { UserContext } from '../contexts/UserContext';
 import HoodatService from '../services/HoodatService';
 
 interface Props {
@@ -30,6 +31,8 @@ interface State {
 }
 
 class SignUpScreen extends React.Component<Props, State> {
+  static contextType = UserContext;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -53,9 +56,9 @@ class SignUpScreen extends React.Component<Props, State> {
     const { name, email, password } = this.state;
 
     try {
-      await HoodatService.signUp(name, email, password);
+      const res = await HoodatService.signUp(name, email, password);
       Alert.alert('Hurray!', 'Successfully signed up.');
-      this.props.navigation.pop();
+      this.context.setValue({ token: res.token, userId: res.userId });
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
     }

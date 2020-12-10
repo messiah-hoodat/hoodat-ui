@@ -17,17 +17,9 @@ export interface Contact {
   };
 }
 
-interface SignInResponse {
-  statusCode: number;
-  message: string;
+interface TokenResponse {
   userId: string;
   token: string;
-}
-
-interface SignUpResponse {
-  statusCode: number;
-  message: string;
-  userId: string;
 }
 
 /**
@@ -159,7 +151,7 @@ class HoodatService {
     return;
   }
 
-  async signIn(email: string, password: string): Promise<SignInResponse> {
+  async signIn(email: string, password: string): Promise<TokenResponse> {
     const response = await fetch(`${this.BASE_URL}/auth/token`, {
       method: 'POST',
       headers: {
@@ -184,7 +176,7 @@ class HoodatService {
     name: string,
     email: string,
     password: string
-  ): Promise<SignUpResponse> {
+  ): Promise<TokenResponse> {
     const response = await fetch(`${this.BASE_URL}/auth/sign-up`, {
       method: 'POST',
       headers: {

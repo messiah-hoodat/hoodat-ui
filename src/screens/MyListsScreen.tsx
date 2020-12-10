@@ -111,6 +111,13 @@ class MyListsScreen extends React.Component<Props, State> {
               <FlatList
                 data={this.state.lists}
                 keyExtractor={(list) => list.id}
+                ListEmptyComponent={
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={{ color: '#666' }}>
+                      Add a new list to get started.
+                    </Text>
+                  </View>
+                }
                 onRefresh={() => this.refresh()}
                 refreshing={this.state.refreshing}
                 renderItem={({ item }) => {
