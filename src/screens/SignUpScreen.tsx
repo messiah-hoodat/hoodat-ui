@@ -11,6 +11,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardShift, TextField } from '../components';
 import { UserContext } from '../contexts/UserContext';
 import HoodatService from '../services/HoodatService';
+import SecureStoreService from '../services/SecureStoreService';
 
 interface Props {
   navigation: any;
@@ -57,7 +58,7 @@ class SignUpScreen extends React.Component<Props, State> {
 
     try {
       const res = await HoodatService.signUp(name, email, password);
-      Alert.alert('Hurray!', 'Successfully signed up.');
+      SecureStoreService.storeCredentials(email, password);
       this.context.setValue({ token: res.token, userId: res.userId });
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
