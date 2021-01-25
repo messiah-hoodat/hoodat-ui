@@ -15,6 +15,7 @@ import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, KeyboardShift, ScreenTitle, TextField } from '../components';
 import HoodatService, { Contact } from '../services/HoodatService';
+import { addOfflineContact, getOfflineContacts } from '../lib/OfflineState';
 
 interface Props {
   navigation: any;
@@ -36,6 +37,7 @@ interface State {
   };
   listId: string;
   contacts: Contact[];
+  uri: string;
 }
 
 class AddContactScreen extends React.Component<Props, State> {
@@ -50,11 +52,17 @@ class AddContactScreen extends React.Component<Props, State> {
       image: { data: '', fileType: '', name: '' },
       listId,
       contacts,
+      uri: '',
     };
   }
 
   componentDidMount() {
     this.getPermissionAsync();
+    getOfflineContacts().then((contacts) => {
+      const lastContact = contacts[0];
+      const uri = lastContact.uri;
+      this.setState({ uri });
+    });
   }
 
   getPermissionAsync = async () => {
@@ -118,7 +126,8 @@ class AddContactScreen extends React.Component<Props, State> {
     const { token, userId } = this.context.value;
 
     try {
-      await HoodatService.addContact(listId, name, image, token);
+      // await HoodatService.addContact(listId, name, image, token);
+      addOfflineContact({ name, uri: image.name });
       this.props.navigation.pop(2);
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
@@ -159,13 +168,7 @@ class AddContactScreen extends React.Component<Props, State> {
                     height: '100%',
                     borderRadius: 16,
                   }}
-                  source={
-                    image.data && image.fileType
-                      ? {
-                          uri: `data:${this.state.image.fileType};base64,${image.data}`,
-                        }
-                      : require('../../assets/QuizQuestionImagePlaceholder.png')
-                  }
+                  source={{ uri: this.state.uri }}
                 />
               </View>
             </View>
