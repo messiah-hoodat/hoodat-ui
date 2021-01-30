@@ -6,6 +6,9 @@ import {
 
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import MyListsNoAcctScreen from '../screens/myListsNoAcctScreen';
+import ListDetailsNoAcctScreen from '../screens/ListDetailsNoAcctScreen';
+import AddContactNoAcctScreen from '../screens/AddContactNoAcctScreen';
 
 const sharedOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: 'white' },
@@ -21,6 +24,21 @@ export default function AuthStackNavigator() {
       <Stack.Screen
         name="Sign In"
         component={SignInScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="My Lists No Account"
+        component={MyListsNoAcctScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="List Details No Account"
+        component={ListDetailsNoAcctScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Add Contact No Account"
+        component={AddContactNoAcctScreen}
         options={sharedOptions}
       />
       <Stack.Screen

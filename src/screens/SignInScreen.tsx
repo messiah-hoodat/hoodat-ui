@@ -88,6 +88,16 @@ export default function SignInScreen(props: Props) {
               <Text style={styles.signupButton}>Sign Up</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('My Lists No Account')}
+            >
+              <Text style={styles.continueWithoutAccount}>
+                Continue Without Signing Up
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </KeyboardShift>
@@ -152,6 +162,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: RFValue(12),
+    overflow: 'hidden',
+  },
+
+  continueWithoutAccount: {
+    color: '#6EA8FF',
+    marginTop: 15,
+    textAlign: 'center',
+    //fontWeight: 'bold',
+    fontSize: RFValue(10),
     overflow: 'hidden',
   },
 });
