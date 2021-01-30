@@ -24,6 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.hoodat.hoodat",
+      "versionCode": 1
     }
   }
 }
