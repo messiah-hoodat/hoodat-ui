@@ -6,6 +6,7 @@ import {
 
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 const sharedOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: 'white' },
@@ -26,6 +27,11 @@ export default function AuthStackNavigator() {
       <Stack.Screen
         name="Sign Up"
         component={SignUpScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Forgot Password"
+        component={ForgotPasswordScreen}
         options={sharedOptions}
       />
     </Stack.Navigator>
