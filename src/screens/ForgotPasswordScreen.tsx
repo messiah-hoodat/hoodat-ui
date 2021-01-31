@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { KeyboardShift, TextField } from '../components';
 import { UserContext } from '../contexts/UserContext';
@@ -11,6 +18,7 @@ interface Props {
 
 interface State {
   email: string;
+  loading: boolean;
 }
 
 class ForgotPasswordScreen extends React.Component<Props, State> {
@@ -20,17 +28,21 @@ class ForgotPasswordScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       email: '',
+      loading: false,
     };
   }
 
   async submit(): Promise<void> {
+    this.setState({ loading: true });
     const { email } = this.state;
     try {
       await HoodatService.sendForgotPasswordEmail(email);
     } catch (error) {
+      this.setState({ loading: false });
       Alert.alert('Uh oh!', error.toString());
       return Promise.resolve();
     }
+    this.setState({ loading: false });
     this.props.navigation.pop();
     Alert.alert(
       'Success!',
@@ -65,6 +77,14 @@ class ForgotPasswordScreen extends React.Component<Props, State> {
               onPress={() => this.submit()}
             >
               <Text style={styles.buttonText}>Send Email</Text>
+              <ActivityIndicator
+                size="small"
+                color="white"
+                style={{
+                  display: this.state.loading ? 'flex' : 'none',
+                  marginLeft: 10,
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
