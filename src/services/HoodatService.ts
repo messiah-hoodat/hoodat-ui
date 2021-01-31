@@ -208,7 +208,7 @@ class HoodatService {
     });
 
     if (!response.ok) {
-      throw new Error(response.statusText.toString());
+      throw new Error(await response.text());
     }
 
     return;
