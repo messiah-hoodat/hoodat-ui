@@ -48,10 +48,10 @@ export default function NoAcctStackNavigator() {
         options={sharedOptions}
       />
       <Stack.Screen
-         name="Forgot Password"
-         component={ForgotPasswordScreen}
-         options={sharedOptions}
-       />
+        name="Forgot Password"
+        component={ForgotPasswordScreen}
+        options={sharedOptions}
+      />
     </Stack.Navigator>
   );
 }
