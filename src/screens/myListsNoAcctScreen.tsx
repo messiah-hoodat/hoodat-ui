@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Alert,
+  Modal,
+  TouchableHighlight,
   FlatList,
 } from 'react-native';
 import { Provider } from 'react-native-paper';
@@ -20,17 +22,49 @@ interface Props {
   navigation: any;
 }
 
-interface State {
-  lists: List[];
-  refreshing: boolean;
-  loading: boolean;
-  searchQuery: string;
-}
-
-class myListsNoAcctScreen extends React.Component<Props, State> {
+class myListsNoAcctScreen extends React.Component<Props> {
+  state = {
+    isVisible: true,
+  };
+  displayModal(show: boolean) {
+    this.setState({ isVisible: show });
+  }
   render() {
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.isVisible}
+        >
+          <View style={styles.modalBackgroundView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Hello World!</Text>
+
+              <TouchableOpacity
+                style={{
+                  ...styles.modalSignUpNowBtn,
+                  backgroundColor: '#2196F3',
+                }}
+                onPress={() => {
+                  this.displayModal(!this.state.isVisible);
+                  this.props.navigation.navigate('Sign Up');
+                }}
+              >
+                <Text style={styles.modalSignUpNowText}>Sign Up Now</Text>
+              </TouchableOpacity>
+              <Text
+                style={styles.modalNotNow}
+                onPress={() => {
+                  this.displayModal(!this.state.isVisible);
+                }}
+              >
+                Not now
+              </Text>
+            </View>
+          </View>
+        </Modal>
+
         <View
           style={{
             flex: 0,
@@ -57,7 +91,9 @@ class myListsNoAcctScreen extends React.Component<Props, State> {
           <ScreenTitle title="My Lists" />
 
           <TouchableOpacity
-          //onPress={() => this.props.navigation.navigate('Add List')}
+            onPress={() => {
+              this.displayModal(!this.state.isVisible);
+            }}
           >
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
@@ -186,6 +222,51 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 18,
     color: '#494949',
+  },
+  modalBackgroundView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalView: {
+    width: '85%',
+    height: '70%',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalSignUpNowText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 20,
+    paddingHorizontal: RFValue(10),
+  },
+  modalNotNow: {
+    color: 'grey',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: RFValue(5),
+  },
+  modalSignUpNowBtn: {
+    backgroundColor: '#F194FF',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
   },
 });
 
