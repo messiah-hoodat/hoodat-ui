@@ -22,14 +22,12 @@ interface Props {
   navigation: any;
 }
 
-
 class myListsNoAcctScreen extends React.Component<Props> {
-
   state = {
-    isVisible: true
+    isVisible: true,
   };
-  displayModal(show:boolean){
-    this.setState({isVisible: show})
+  displayModal(show: boolean) {
+    this.setState({ isVisible: show });
   }
   render() {
     return (
@@ -44,18 +42,28 @@ class myListsNoAcctScreen extends React.Component<Props> {
               <Text style={styles.modalText}>Hello World!</Text>
 
               <TouchableOpacity
-                style={{ ...styles.modalSignUpNowBtn, backgroundColor: "#2196F3" }}
+                style={{
+                  ...styles.modalSignUpNowBtn,
+                  backgroundColor: '#2196F3',
+                }}
                 onPress={() => {
                   this.displayModal(!this.state.isVisible);
-                  this.props.navigation.navigate("Sign Up")}}
+                  this.props.navigation.navigate('Sign Up');
+                }}
               >
                 <Text style={styles.modalSignUpNowText}>Sign Up Now</Text>
               </TouchableOpacity>
-              <Text style={styles.modalNotNow}onPress={() => {this.displayModal(!this.state.isVisible);}}>Not now</Text>
+              <Text
+                style={styles.modalNotNow}
+                onPress={() => {
+                  this.displayModal(!this.state.isVisible);
+                }}
+              >
+                Not now
+              </Text>
             </View>
           </View>
         </Modal>
-
 
         <View
           style={{
@@ -83,7 +91,9 @@ class myListsNoAcctScreen extends React.Component<Props> {
           <ScreenTitle title="My Lists" />
 
           <TouchableOpacity
-            onPress={() => {this.displayModal(!this.state.isVisible);}}
+            onPress={() => {
+              this.displayModal(!this.state.isVisible);
+            }}
           >
             <Text style={styles.newListBtn}>+ New List</Text>
           </TouchableOpacity>
@@ -215,48 +225,48 @@ const styles = StyleSheet.create({
   },
   modalBackgroundView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    width:"85%",
-    height:"70%",
-    backgroundColor: "white",
+    width: '85%',
+    height: '70%',
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
-  }, 
+    textAlign: 'center',
+  },
   modalSignUpNowText: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
     fontSize: 20,
-    paddingHorizontal:RFValue(10),
+    paddingHorizontal: RFValue(10),
   },
   modalNotNow: {
-    color: "grey",
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop:RFValue(5),
+    color: 'grey',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: RFValue(5),
   },
   modalSignUpNowBtn: {
-    backgroundColor: "#F194FF",
+    backgroundColor: '#F194FF',
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
 });
 
