@@ -197,6 +197,22 @@ class HoodatService {
 
     return body;
   }
+
+  async sendForgotPasswordEmail(email: string): Promise<void> {
+    const response = await fetch(`${this.BASE_URL}/mail/forgot-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    return;
+  }
 }
 
 export default new HoodatService(API_ROOT);

@@ -64,6 +64,13 @@ export default function SignInScreen(props: Props) {
           />
 
           <TouchableOpacity
+            style={styles.forgotPasswordButton}
+            onPress={() => props.navigation.navigate('Forgot Password')}
+          >
+            <Text style={styles.signupButton}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={styles.loginButton}
             onPress={() => handleLogin()}
           >
@@ -122,6 +129,11 @@ const styles = StyleSheet.create({
     fontSize: RFValue(28),
     fontWeight: 'bold',
     width: RFValue(230),
+  },
+
+  forgotPasswordButton: {
+    width: RFValue(230),
+    alignItems: 'flex-end',
   },
 
   loginButton: {
