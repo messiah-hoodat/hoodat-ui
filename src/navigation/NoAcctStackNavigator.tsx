@@ -15,7 +15,7 @@ const sharedOptions: StackNavigationOptions = {
 };
 
 const Stack = createStackNavigator();
-export default function AuthStackNavigator() {
+export default function NoAcctStackNavigator() {
   return (
     <Stack.Navigator
       headerMode="none"

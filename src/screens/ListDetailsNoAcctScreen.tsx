@@ -116,7 +116,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               <View style={styles.contactContainer}>
                 <Image
                   style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Wesley.png')}
+                  source={require('../assets/Wesley.png')}
                   resizeMode="cover"
                 />
                 <Text style={styles.PeopleInListName}>Wesley Chong</Text>
@@ -126,7 +126,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               <View style={styles.contactContainer}>
                 <Image
                   style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Eric.png')}
+                  source={require('../assets/Eric.png')}
                   resizeMode="cover"
                 />
                 <Text style={styles.PeopleInListName}>Eric Weischedel</Text>
@@ -136,7 +136,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               <View style={styles.contactContainer}>
                 <Image
                   style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Belosan.png')}
+                  source={require('../assets/Belosan.png')}
                   resizeMode="cover"
                 />
                 <Text style={styles.PeopleInListName}>Belosan Jekale</Text>
@@ -146,7 +146,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               <View style={styles.contactContainer}>
                 <Image
                   style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Billy.png')}
+                  source={require('../assets/Billy.png')}
                   resizeMode="cover"
                 />
                 <Text style={styles.PeopleInListName}>Billy Park</Text>
