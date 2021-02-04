@@ -6,6 +6,7 @@ import {
 
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import MyListsNoAcctScreen from '../screens/myListsNoAcctScreen';
 import ListDetailsNoAcctScreen from '../screens/ListDetailsNoAcctScreen';
 import AddContactNoAcctScreen from '../screens/AddContactNoAcctScreen';
@@ -44,6 +45,11 @@ export default function NoAcctStackNavigator() {
       <Stack.Screen
         name="Sign Up"
         component={SignUpScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Forgot Password"
+        component={ForgotPasswordScreen}
         options={sharedOptions}
       />
     </Stack.Navigator>
