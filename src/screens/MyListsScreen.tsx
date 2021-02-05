@@ -59,7 +59,7 @@ class MyListsScreen extends React.Component<Props, State> {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
       shouldDuckAndroid: true,
       staysActiveInBackground: true,
-      playThroughEarpieceAndroid: true,
+      playThroughEarpieceAndroid: false,
     });
 
     this.sound = new Audio.Sound();
@@ -73,10 +73,6 @@ class MyListsScreen extends React.Component<Props, State> {
       status,
       true
     );
-  }
-
-  playSound() {
-    this.sound.playAsync();
   }
 
   componentWillUnmount() {
