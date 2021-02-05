@@ -156,7 +156,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               <View style={styles.contactContainer}>
                 <Image
                   style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Trevor.png')}
+                  source={require('../assets/Trevor.png')}
                   resizeMode="cover"
                 />
                 <Text style={styles.PeopleInListName}>Trevor Bunch</Text>
