@@ -8,14 +8,12 @@ import {
   Modal,
   TouchableHighlight,
   FlatList,
+  SafeAreaView,
+  Animated,
 } from 'react-native';
-import { Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { UserContext } from '../contexts/UserContext';
-import LoadingView from 'react-native-loading-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import HoodatService, { List } from '../services/HoodatService';
 import { SearchBar, MultipleListsCard, ScreenTitle } from '../components';
 
 interface Props {
@@ -39,22 +37,77 @@ class myListsNoAcctScreen extends React.Component<Props> {
         >
           <View style={styles.modalBackgroundView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
+              <View style={styles.modalCrossButton}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.displayModal(!this.state.isVisible);
+                  }}
+                >
+                  <Icon name="cross" size={20} color="black" />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.modalPrimaryText}>Sign Up Now!</Text>
+              <Text style={styles.modalSecondaryText}>
+                to unlock this feature, and so much more!
+              </Text>
+
+              <View style={styles.modalBodyView}>
+                <View style={styles.modalBodyInner}>
+                  <View style={styles.modalIndividualBodyInner}>
+                    <Icon name="add-to-list" size={70} color="#6EA8FF" />
+                    <Text style={styles.modalIndividualBodyPrimaryText}>
+                      Create New Lists
+                    </Text>
+                    <Text style={styles.modalIndividualBodySecondaryText}>
+                      Create different lists for different contacts groups
+                    </Text>
+                  </View>
+                  <View style={styles.modalIndividualBodyInner}>
+                    <Icon name="share" size={70} color="#6EA8FF" />
+                    <Text style={styles.modalIndividualBodyPrimaryText}>
+                      Share your Lists
+                    </Text>
+                    <Text style={styles.modalIndividualBodySecondaryText}>
+                      Share your lists with{'\n'}friends {'&'} family
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.modalBodyInner}>
+                  <View style={styles.modalIndividualBodyInner}>
+                    <Icon name="flash" size={70} color="#6EA8FF" />
+                    <Text style={styles.modalIndividualBodyPrimaryText}>
+                      Quiz All Function
+                    </Text>
+                    <Text style={styles.modalIndividualBodySecondaryText}>
+                      Get quizzed on all contacts{'\n'}in all contact lists
+                    </Text>
+                  </View>
+                  <View style={styles.modalIndividualBodyInner}>
+                    <Icon name="download" size={70} color="#6EA8FF" />
+                    <Text style={styles.modalIndividualBodyPrimaryText}>
+                      Import Contacts
+                    </Text>
+                    <Text style={styles.modalIndividualBodySecondaryText}>
+                      Import your phone contacts directly into Hoodat
+                    </Text>
+                  </View>
+                </View>
+              </View>
 
               <TouchableOpacity
                 style={{
                   ...styles.modalSignUpNowBtn,
-                  backgroundColor: '#2196F3',
+                  backgroundColor: '#6EA8FF',
                 }}
                 onPress={() => {
                   this.displayModal(!this.state.isVisible);
                   this.props.navigation.navigate('Sign Up');
                 }}
               >
-                <Text style={styles.modalSignUpNowText}>Sign Up Now</Text>
+                <Text style={styles.modalSignUpNowText}>Take me there</Text>
               </TouchableOpacity>
               <Text
-                style={styles.modalNotNow}
+                style={styles.modalSecondaryText}
                 onPress={() => {
                   this.displayModal(!this.state.isVisible);
                 }}
@@ -230,8 +283,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    width: '85%',
-    height: '70%',
+    width: '90%',
+    height: '80%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -245,26 +298,69 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  modalText: {
-    marginBottom: 15,
+  modalCrossButton: {
+    flex: 0,
+    flexDirection: 'row-reverse',
+    width: '100%',
+    marginTop: RFValue(0),
+  },
+  modalPrimaryText: {
+    color: 'black',
+    fontSize: RFValue(25),
+    fontWeight: '800',
     textAlign: 'center',
+    marginTop: RFValue(5),
+  },
+  modalBodyView: {
+    height: '60%',
+    width: '100%',
+    marginBottom: RFValue(30),
+  },
+  modalBodyInner: {
+    height: '50%',
+    width: '100%',
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalIndividualBodyInner: {
+    height: '100%',
+    width: '50%',
+    borderWidth: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalIndividualBodyPrimaryText: {
+    color: 'black',
+    fontSize: RFValue(12),
+    fontWeight: '700',
+    textAlign: 'center',
+    marginTop: RFValue(5),
+  },
+  modalIndividualBodySecondaryText: {
+    color: 'grey',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: RFValue(4),
+    fontSize: RFValue(7),
   },
   modalSignUpNowText: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
     paddingHorizontal: RFValue(10),
   },
-  modalNotNow: {
-    color: 'grey',
+  modalSecondaryText: {
+    color: '#494949',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: RFValue(5),
+    marginTop: RFValue(8),
+    marginBottom: RFValue(10),
   },
   modalSignUpNowBtn: {
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
+    backgroundColor: '#6EA8FF',
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
   },
