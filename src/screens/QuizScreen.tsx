@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -174,6 +175,13 @@ class QuizScreen extends React.Component<Props> {
                       contact: correctContact,
                       correct: questionOptions[index].isCorrect,
                     });
+                    if (questionOptions[index].isCorrect == true) {
+                      //                                                 place good sound effect here
+                      <View style={{ backgroundColor: 'green' }}></View>;
+                    } else {
+                      //                                                 place bad  sound effect here
+                      <View style={{ backgroundColor: 'red' }}></View>;
+                    }
                     if (
                       CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions
                     ) {
