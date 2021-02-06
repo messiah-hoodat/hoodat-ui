@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
+import { Audio } from 'expo-av';
 import { Provider } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { UserContext } from '../contexts/UserContext';
@@ -46,11 +47,32 @@ class MyListsScreen extends React.Component<Props, State> {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.refresh();
     this._unsubscribe = this.props.navigation.addListener('focus', () => {
       this.fetchLists();
     });
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      playsInSilentModeIOS: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+      shouldDuckAndroid: true,
+      staysActiveInBackground: true,
+      playThroughEarpieceAndroid: false,
+    });
+
+    this.sound = new Audio.Sound();
+
+    const status = {
+      shouldPlay: true,
+    };
+
+    this.sound.loadAsync(
+      require('../../assets/sounds/bubble.mp3'),
+      status,
+      true
+    );
   }
 
   componentWillUnmount() {
