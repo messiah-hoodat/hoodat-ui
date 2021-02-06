@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 
-import AuthStackNavigator from './AuthStackNavigator';
+import NoAcctStackNavigator from './NoAcctStackNavigator';
 import SignedInStackNavigator from './SignedInStackNavigator';
 import { UserContext } from '../contexts/UserContext';
 import SecureStoreService from '../services/SecureStoreService';
@@ -17,7 +17,7 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {isSignedIn ? <SignedInStackNavigator /> : <AuthStackNavigator />}
+      {isSignedIn ? <SignedInStackNavigator /> : <NoAcctStackNavigator />}
     </NavigationContainer>
   );
 }

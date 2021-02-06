@@ -64,6 +64,13 @@ export default function SignInScreen(props: Props) {
           />
 
           <TouchableOpacity
+            style={styles.forgotPasswordButton}
+            onPress={() => props.navigation.navigate('Forgot Password')}
+          >
+            <Text style={styles.signupButton}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             style={styles.loginButton}
             onPress={() => handleLogin()}
           >
@@ -86,6 +93,16 @@ export default function SignInScreen(props: Props) {
               onPress={() => props.navigation.navigate('Sign Up')}
             >
               <Text style={styles.signupButton}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('My Lists No Account')}
+            >
+              <Text style={styles.continueWithoutAccount}>
+                Continue Without Signing Up
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -112,6 +129,11 @@ const styles = StyleSheet.create({
     fontSize: RFValue(28),
     fontWeight: 'bold',
     width: RFValue(230),
+  },
+
+  forgotPasswordButton: {
+    width: RFValue(230),
+    alignItems: 'flex-end',
   },
 
   loginButton: {
@@ -152,6 +174,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: RFValue(12),
+    overflow: 'hidden',
+  },
+
+  continueWithoutAccount: {
+    color: '#6EA8FF',
+    marginTop: 15,
+    textAlign: 'center',
+    //fontWeight: 'bold',
+    fontSize: RFValue(10),
     overflow: 'hidden',
   },
 });
