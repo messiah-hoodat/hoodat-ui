@@ -21,7 +21,6 @@ export default function ShareListScreen({ navigation, route }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [email, setEmail] = useState('');
 
-
   const handleSubmit = async () => {
     setSubmitting(true);
 
@@ -39,13 +38,18 @@ export default function ShareListScreen({ navigation, route }: Props) {
 
     setSubmitting(false);
     return Promise.resolve();
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={{ marginTop: RFValue(65), width: '80%' }}>
         <TouchableOpacity>
-          <Icon name="chevron-thin-left" size={25} color="#828282" onPress={navigation.goBack} />
+          <Icon
+            name="chevron-thin-left"
+            size={25}
+            color="#828282"
+            onPress={navigation.goBack}
+          />
         </TouchableOpacity>
       </View>
 

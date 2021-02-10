@@ -109,13 +109,16 @@ class HoodatService {
   }
 
   async getSharedLists(userId: string, token: string): Promise<List[]> {
-    const response = await fetch(`${this.BASE_URL}/users/${userId}/shared-lists`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${this.BASE_URL}/users/${userId}/shared-lists`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const body = await response.json();
 
@@ -126,16 +129,20 @@ class HoodatService {
     return body;
   }
 
-  async addViewerToList(listId: string, email: string, token: string): Promise<List> {
+  async addViewerToList(
+    listId: string,
+    email: string,
+    token: string
+  ): Promise<List> {
     const response = await fetch(`${this.BASE_URL}/lists/${listId}/viewers`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        email
-      })
+        email,
+      }),
     });
 
     const body = await response.json();

@@ -28,7 +28,7 @@ interface State {
 
 class MyListsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
-  private _unsubscribe = () => { };
+  private _unsubscribe = () => {};
 
   constructor(props: Props) {
     super(props);
