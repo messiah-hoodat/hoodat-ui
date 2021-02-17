@@ -53,7 +53,6 @@
     "react-navigation-tabs": "^2.10.1",
     "react-navigator": "0.0.0-0",
     "validate.js": "^0.13.1",
-    "expo-secure-store": "~8.1.0",
     "expo-av": "~8.1.0"
   },
   "devDependencies": {
