@@ -122,46 +122,6 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
                 <Text style={styles.PeopleInListName}>Wesley Chong</Text>
               </View>
             </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Eric.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Eric Weischedel</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Belosan.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Belosan Jekale</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Billy.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Billy Park</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Trevor.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Trevor Bunch</Text>
-              </View>
-            </View>
           </ScrollView>
 
           <FAB

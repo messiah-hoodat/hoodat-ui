@@ -112,17 +112,16 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
   };
 
   handleSubmit = async () => {
-    // this.setState({ loadingAddContact: true });
-    // const { name, image, listId } = this.state;
-    // const { token, userId } = this.context.value;
-    // try {
-    //   await HoodatService.addContact(listId, name, image, token);
-    //   this.props.navigation.pop(2);
-    // } catch (error) {
-    //   Alert.alert('Uh oh!', error.toString());
-    // }
-    // this.setState({ loadingAddContact: false });
-    // return Promise.resolve();
+    this.setState({ loadingAddContact: true });
+    const { name, image } = this.state;
+    try {
+      FS.writeAsStringAsync(this.state.image.data, this.state.name);
+      this.props.navigation.pop(2);
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
+    this.setState({ loadingAddContact: false });
+    return Promise.resolve();
   };
 
   render() {
@@ -140,6 +139,7 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
 
             <View style={{ width: '80%', marginTop: RFValue(25) }}>
               <ScreenTitle title="Add Contact" />
+              <Text>{this.state.image.data}</Text>
             </View>
 
             <View style={{ width: '80%', marginTop: 40, marginBottom: 10 }}>
@@ -188,7 +188,7 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
               icon="plus"
               label="Add Contact"
               loading={this.state.loadingAddContact}
-              // onPress= Add contact to non-logged in user
+              onPress={this.handleSubmit}
             />
           </View>
         )}
