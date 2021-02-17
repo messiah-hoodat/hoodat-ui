@@ -17,6 +17,10 @@ import HoodatService, { Contact } from '../services/HoodatService';
 import { SearchBar } from '../components';
 import getListColors from '../lib/getListColors';
 import { ScrollView } from 'react-native-gesture-handler';
+import { readOfflineState } from './noAcctHelperFunctions';
+import { writeOfflineState } from './noAcctHelperFunctions';
+import { addOfflineContact } from './noAcctHelperFunctions';
+import { getOfflineContacts } from './noAcctHelperFunctions';
 
 interface Props {
   navigation: any;
@@ -122,58 +126,12 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
                 <Text style={styles.PeopleInListName}>Wesley Chong</Text>
               </View>
             </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Eric.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Eric Weischedel</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Belosan.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Belosan Jekale</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Billy.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Billy Park</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Trevor.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Trevor Bunch</Text>
-              </View>
-            </View>
           </ScrollView>
 
           <FAB
             icon="flash"
             label="Quiz Me"
-            onPress={() =>
-              this.props.navigation.navigate('Quiz', {
-                contacts: this.state.contacts,
-                QuizTitleListName: this.state.listName,
-                CurrentQuizQuestionNumber: 0,
-              })
-            }
+            onPress={() => console.log(getOfflineContacts)}
           />
         </View>
       </Provider>
