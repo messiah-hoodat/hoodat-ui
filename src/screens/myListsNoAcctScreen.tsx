@@ -218,7 +218,7 @@ class myListsNoAcctScreen extends React.Component<Props, State> {
                   {this.state.contacts.length} contacts
                 </Text>
                 <View style={styles.ListButtonImageScroll}>
-                  {this.state.contacts.map((contact) => (
+                  {this.state.contacts.map((contact: OfflineContact) => (
                     <Image
                       key={contact.name}
                       style={styles.ListButtonContactImage}
