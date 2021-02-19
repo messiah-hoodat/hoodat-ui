@@ -11,28 +11,23 @@ import {
 import { Menu, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { FAB, ListDetailsContactCard, ScreenTitle } from '../components';
-import { UserContext } from '../contexts/UserContext';
-import HoodatService, { Contact } from '../services/HoodatService';
+import { FAB, ScreenTitle } from '../components';
+import ListDetailsContactCardNoAcct from '../components/ListDetailsContactCardNoAcct';
 import { SearchBar } from '../components';
-import getListColors from '../lib/getListColors';
-import { ScrollView } from 'react-native-gesture-handler';
+import { getOfflineContacts } from './noAcctHelperFunctions';
+import { OfflineContact } from './noAcctHelperFunctions';
+import LoadingView from 'react-native-loading-view';
 
 interface Props {
   navigation: any;
-  route: {
-    params: {
-      contacts: Contact[];
-      listColor: number;
-      listName: string;
-      listId: string;
-    };
-  };
 }
 
 interface State {
   menuVisible: boolean;
   searchQuery: string;
+  contacts: OfflineContact[];
+  loading: boolean;
+  refreshing: boolean;
 }
 
 class ListDetailsNoAcctScreen extends React.Component<Props, State> {
@@ -42,8 +37,26 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
     this.state = {
       menuVisible: false,
       searchQuery: '',
+      contacts: [],
+      loading: true,
+      refreshing: false,
     };
   }
+
+  fetchContacts = async (): Promise<any> => {
+    try {
+      const contacts = await getOfflineContacts();
+      this.setState({ contacts });
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
+    this.setState({ loading: false });
+    return Promise.resolve();
+  };
+  componentDidMount() {
+    this.fetchContacts();
+  }
+
   render() {
     return (
       <Provider>
@@ -110,70 +123,61 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               style={{ width: '100%' }}
             />
           </View>
-
-          <ScrollView style={styles.PeopleListScrollView}>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Wesley.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Wesley Chong</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Eric.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Eric Weischedel</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Belosan.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Belosan Jekale</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('../assets/Billy.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Billy Park</Text>
-              </View>
-            </View>
-            <View style={styles.cardContainer}>
-              <View style={styles.contactContainer}>
-                <Image
-                  style={styles.PeopleInListPicture}
-                  source={require('/Users/wesleychong/Hoodat/hoodat-ui-1/assets/Trevor.png')}
-                  resizeMode="cover"
-                />
-                <Text style={styles.PeopleInListName}>Trevor Bunch</Text>
-              </View>
-            </View>
-          </ScrollView>
-
+          <LoadingView loading={this.state.loading}>
+            <FlatList
+              style={styles.PeopleListScrollView}
+              data={this.state.contacts}
+              ListFooterComponent={
+                <View style={{ alignItems: 'center' }}>
+                  {this.state.contacts.length < 5 && (
+                    <View>
+                      <Text
+                        style={{
+                          marginVertical: 5,
+                          color: '#828282',
+                          fontSize: 14,
+                          textAlign: 'center',
+                          textAlignVertical: 'center',
+                        }}
+                      >
+                        Add {Math.abs(this.state.contacts.length - 5)} more
+                        people to begin quizzing.
+                      </Text>
+                    </View>
+                  )}
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate(
+                        'Add Contact No Account',
+                        {}
+                      )
+                    }
+                    style={styles.addMorePeopleButton}
+                  >
+                    <Text style={styles.addMorePeopleText}>
+                      + Add More People
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
+              ListFooterComponentStyle={{ marginBottom: 150 }}
+              keyExtractor={(contact) => contact.uri}
+              onRefresh={() => this.fetchContacts()}
+              refreshing={this.state.refreshing}
+              renderItem={({ item }) => {
+                const contactName = item.name.toLowerCase();
+                const searchTerm = this.state.searchQuery.toLowerCase();
+                return contactName.includes(searchTerm) ? (
+                  <ListDetailsContactCardNoAcct contact={item} />
+                ) : null;
+              }}
+              showsVerticalScrollIndicator={false}
+            />
+          </LoadingView>
           <FAB
             icon="flash"
             label="Quiz Me"
-            onPress={() =>
-              this.props.navigation.navigate('Quiz', {
-                contacts: this.state.contacts,
-                QuizTitleListName: this.state.listName,
-                CurrentQuizQuestionNumber: 0,
-              })
-            }
+            //onPress= quiz me!
           />
         </View>
       </Provider>

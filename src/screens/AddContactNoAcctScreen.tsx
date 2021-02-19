@@ -14,7 +14,9 @@ import * as Permissions from 'expo-permissions';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, KeyboardShift, ScreenTitle, TextField } from '../components';
-import HoodatService, { Contact } from '../services/HoodatService';
+import { Contact } from '../services/HoodatService';
+import { addOfflineContact } from './noAcctHelperFunctions';
+import { getOfflineContacts } from './noAcctHelperFunctions';
 
 interface Props {
   navigation: any;
@@ -24,6 +26,15 @@ interface Props {
       listId: string;
     };
   };
+}
+
+interface OfflineContact {
+  uri: string;
+  name: string;
+}
+
+interface OfflineState {
+  contacts: OfflineContact[];
 }
 
 interface State {
@@ -112,17 +123,20 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
   };
 
   handleSubmit = async () => {
-    // this.setState({ loadingAddContact: true });
-    // const { name, image, listId } = this.state;
-    // const { token, userId } = this.context.value;
-    // try {
-    //   await HoodatService.addContact(listId, name, image, token);
-    //   this.props.navigation.pop(2);
-    // } catch (error) {
-    //   Alert.alert('Uh oh!', error.toString());
-    // }
-    // this.setState({ loadingAddContact: false });
-    // return Promise.resolve();
+    this.setState({ loadingAddContact: true });
+    const { name, image } = this.state;
+    const contactToBeAdded: OfflineContact = {
+      uri: image.name,
+      name: name,
+    };
+    try {
+      addOfflineContact(contactToBeAdded);
+      this.props.navigation.pop(2);
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
+    this.setState({ loadingAddContact: false });
+    return Promise.resolve();
   };
 
   render() {
@@ -188,7 +202,7 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
               icon="plus"
               label="Add Contact"
               loading={this.state.loadingAddContact}
-              // onPress= Add contact to non-logged in user
+              onPress={this.handleSubmit}
             />
           </View>
         )}
