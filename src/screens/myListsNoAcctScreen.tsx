@@ -191,7 +191,7 @@ class myListsNoAcctScreen extends React.Component<Props, State> {
           style={{ width: '80%' }}
         />
         <ScrollView
-          contentContainerStyle={styles.scrollView}
+          style={styles.scrollView}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
   listsFlatList: {
     flex: 1,
     width: '80%',
+    alignSelf: 'center',
   },
 
   scrollView: {
