@@ -26,8 +26,8 @@ interface State {
   menuVisible: boolean;
   searchQuery: string;
   contacts: OfflineContact[];
-  loading: Boolean;
-  refreshing: Boolean;
+  loading: boolean;
+  refreshing: boolean;
 }
 
 class ListDetailsNoAcctScreen extends React.Component<Props, State> {
