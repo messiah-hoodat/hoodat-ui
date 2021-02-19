@@ -154,7 +154,6 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
 
             <View style={{ width: '80%', marginTop: RFValue(25) }}>
               <ScreenTitle title="Add Contact" />
-              <Text>{this.state.image.data}</Text>
             </View>
 
             <View style={{ width: '80%', marginTop: 40, marginBottom: 10 }}>
