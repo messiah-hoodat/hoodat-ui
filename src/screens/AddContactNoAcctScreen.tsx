@@ -14,7 +14,9 @@ import * as Permissions from 'expo-permissions';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, KeyboardShift, ScreenTitle, TextField } from '../components';
-import HoodatService, { Contact } from '../services/HoodatService';
+import { Contact } from '../services/HoodatService';
+import { addOfflineContact } from './noAcctHelperFunctions';
+import { getOfflineContacts } from './noAcctHelperFunctions';
 
 interface Props {
   navigation: any;
@@ -24,6 +26,15 @@ interface Props {
       listId: string;
     };
   };
+}
+
+interface OfflineContact {
+  uri: string;
+  name: string;
+}
+
+interface OfflineState {
+  contacts: OfflineContact[];
 }
 
 interface State {
@@ -114,8 +125,12 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
   handleSubmit = async () => {
     this.setState({ loadingAddContact: true });
     const { name, image } = this.state;
+    const contactToBeAdded: OfflineContact = {
+      uri: image.name,
+      name: name,
+    };
     try {
-      FS.writeAsStringAsync(this.state.image.data, this.state.name);
+      addOfflineContact(contactToBeAdded);
       this.props.navigation.pop(2);
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
@@ -139,7 +154,6 @@ class AddContactNoAcctScreen extends React.Component<Props, State> {
 
             <View style={{ width: '80%', marginTop: RFValue(25) }}>
               <ScreenTitle title="Add Contact" />
-              <Text>{this.state.image.data}</Text>
             </View>
 
             <View style={{ width: '80%', marginTop: 40, marginBottom: 10 }}>
