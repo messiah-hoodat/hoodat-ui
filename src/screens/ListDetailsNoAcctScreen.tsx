@@ -174,6 +174,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               showsVerticalScrollIndicator={false}
             />
           </LoadingView>
+
           <FAB
             icon="flash"
             label="Quiz Me"

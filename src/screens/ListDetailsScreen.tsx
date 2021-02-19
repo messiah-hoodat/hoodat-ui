@@ -142,6 +142,16 @@ class ListDetailsScreen extends React.Component<Props, State> {
                   disabled
                 />
                 <Menu.Item
+                  icon="account-multiple-plus"
+                  onPress={() => {
+                    this.setState({ menuVisible: false });
+                    this.props.navigation.navigate('Share List', {
+                      listId: this.state.listId,
+                    });
+                  }}
+                  title="Share"
+                />
+                <Menu.Item
                   icon="delete"
                   onPress={() => this.removeList()}
                   title="Remove"

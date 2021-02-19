@@ -17,6 +17,7 @@ import { SearchBar, ScreenTitle } from '../components';
 import { getOfflineContacts } from './noAcctHelperFunctions';
 import { OfflineContact } from './noAcctHelperFunctions';
 
+
 interface Props {
   navigation: any;
 }

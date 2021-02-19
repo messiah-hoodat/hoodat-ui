@@ -13,6 +13,7 @@ import QuizScreen from '../screens/QuizScreen';
 import QuizResultsScreen from '../screens/QuizResultsScreen';
 import MyListsScreen from '../screens/MyListsScreen';
 import TestScreen from '../screens/TestScreen';
+import ShareListScreen from '../screens/ShareListScreen';
 
 const sharedOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: 'white' },
@@ -39,6 +40,11 @@ export default function SignedInStackNavigator() {
       <Stack.Screen
         name="List Details"
         component={ListDetailsScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Share List"
+        component={ShareListScreen}
         options={sharedOptions}
       />
       <Stack.Screen
