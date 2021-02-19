@@ -108,6 +108,52 @@ class HoodatService {
     return body;
   }
 
+  async getSharedLists(userId: string, token: string): Promise<List[]> {
+    const response = await fetch(
+      `${this.BASE_URL}/users/${userId}/shared-lists`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return body;
+  }
+
+  async addViewerToList(
+    listId: string,
+    email: string,
+    token: string
+  ): Promise<List> {
+    const response = await fetch(`${this.BASE_URL}/lists/${listId}/viewers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return body;
+  }
+
   async removeContactFromList(
     contactId: string,
     listId: string,
