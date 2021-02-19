@@ -2,12 +2,12 @@ import * as FS from 'expo-file-system';
 
 const OFFLINE_STATE_URI = `${FS.documentDirectory}/offline_state.txt`;
 
-interface OfflineContact {
+export interface OfflineContact {
   uri: string;
   name: string;
 }
 
-interface OfflineState {
+export interface OfflineState {
   contacts: OfflineContact[];
 }
 

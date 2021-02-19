@@ -4,28 +4,54 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Alert,
   Modal,
-  TouchableHighlight,
-  FlatList,
-  SafeAreaView,
-  Animated,
+  Alert,
+  Image,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SearchBar, MultipleListsCard, ScreenTitle } from '../components';
+import { SearchBar, ScreenTitle } from '../components';
+import { getOfflineContacts } from './noAcctHelperFunctions';
+import { OfflineContact } from './noAcctHelperFunctions';
 
 interface Props {
   navigation: any;
 }
+interface State {
+  isVisible: boolean;
+  contacts: OfflineContact[];
+  searchQuery: string;
+  loading: boolean;
+  refreshing: boolean;
+}
 
-class myListsNoAcctScreen extends React.Component<Props> {
+class myListsNoAcctScreen extends React.Component<Props, State> {
   state = {
     isVisible: true,
+    contacts: [],
+    searchQuery: '',
+    loading: true,
+    refreshing: false,
   };
   displayModal(show: boolean) {
     this.setState({ isVisible: show });
+  }
+
+  fetchContacts = async (): Promise<any> => {
+    try {
+      const contacts = await getOfflineContacts();
+      this.setState({ contacts });
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
+    this.setState({ loading: false });
+    return Promise.resolve();
+  };
+  componentDidMount() {
+    this.fetchContacts();
   }
   render() {
     return (
@@ -164,27 +190,49 @@ class myListsNoAcctScreen extends React.Component<Props> {
           onChangeText={(searchQuery) => this.setState({ searchQuery })}
           style={{ width: '80%' }}
         />
-
-        <View style={styles.listsFlatList}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('List Details No Account')
-            }
-          >
-            <LinearGradient
-              colors={['#FFFFCC', '#FFFF00']}
-              style={styles.ListButton}
-              start={{ x: -0.2, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.fetchContacts()}
+            />
+          }
+        >
+          <View style={styles.listsFlatList}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('List Details No Account')
+              }
             >
-              <View style={styles.cardContainer}>
-                <Text style={styles.ListButtonTitle}>My HooDat List</Text>
-              </View>
-              <Text style={styles.ListButtonSubtitle}>4 contacts</Text>
-              <View style={styles.ListButtonImageScroll}></View>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+              <LinearGradient
+                colors={['#FFFFCC', '#FFFF00']}
+                style={styles.ListButton}
+                start={{ x: -0.2, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+              >
+                <View style={styles.cardContainer}>
+                  <Text style={styles.ListButtonTitle}>My HooDat List</Text>
+                </View>
+                <Text style={styles.ListButtonSubtitle}>
+                  {this.state.contacts.length} contacts
+                </Text>
+                <View style={styles.ListButtonImageScroll}>
+                  {this.state.contacts.map((contact) => (
+                    <Image
+                      key={contact.name}
+                      style={styles.ListButtonContactImage}
+                      source={{
+                        uri: contact.uri,
+                      }}
+                      resizeMode="cover"
+                    />
+                  ))}
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -216,6 +264,11 @@ const styles = StyleSheet.create({
   listsFlatList: {
     flex: 1,
     width: '80%',
+  },
+
+  scrollView: {
+    flex: 1,
+    width: '100%',
   },
 
   ListButton: {

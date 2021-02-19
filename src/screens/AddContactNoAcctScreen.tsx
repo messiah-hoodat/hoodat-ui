@@ -14,9 +14,7 @@ import * as Permissions from 'expo-permissions';
 import { UserContext } from '../contexts/UserContext';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, KeyboardShift, ScreenTitle, TextField } from '../components';
-import HoodatService, { Contact } from '../services/HoodatService';
-import { readOfflineState } from './noAcctHelperFunctions';
-import { writeOfflineState } from './noAcctHelperFunctions';
+import { Contact } from '../services/HoodatService';
 import { addOfflineContact } from './noAcctHelperFunctions';
 import { getOfflineContacts } from './noAcctHelperFunctions';
 
