@@ -21,7 +21,6 @@ export default function FloatingActionButton({
   return (
     <View style={styles.container}>
       <FAB
-        accessibilityValue={label}
         color="white"
         disabled={disabled}
         focusable={true}
