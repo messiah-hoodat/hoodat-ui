@@ -54,7 +54,7 @@ export default function SignInScreen(props: Props) {
             <Text style={styles.LoginText}>Log In</Text>
             <TextField
               label="Email"
-              onChangeText={(email) => setEmail(email)}
+              onChangeText={(email) => setEmail(email.toLowerCase())}
               placeholder="example@gmail.com"
             />
             <TextField
