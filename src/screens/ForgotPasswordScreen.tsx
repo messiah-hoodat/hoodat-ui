@@ -62,15 +62,16 @@ class ForgotPasswordScreen extends React.Component<Props, State> {
               No worries. Let's get that reset for you. We can send you an email
               with instructions to reset it.
             </Text>
-
-            <TextField
-              label="Email"
-              placeholder="john.doe@gmail.com"
-              keyboardType={'email-address'}
-              onChangeText={(email) => {
-                this.setState({ email });
-              }}
-            />
+            <View style={{ width: '75%' }}>
+              <TextField
+                label="Email"
+                placeholder="john.doe@gmail.com"
+                keyboardType={'email-address'}
+                onChangeText={(email) => {
+                  this.setState({ email });
+                }}
+              />
+            </View>
 
             <TouchableOpacity
               style={styles.button}

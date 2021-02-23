@@ -41,7 +41,7 @@ export default function TextField(props: Props) {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    width: RFValue(230),
+    width: '100%',
   },
   label: {
     marginTop: RFValue(25),

@@ -108,68 +108,69 @@ class SignUpScreen extends React.Component<Props, State> {
       <KeyboardShift>
         {() => (
           <View style={styles.container}>
-            <Text style={styles.SignUpText}>Sign Up</Text>
+            <View style={{ width: '75%' }}>
+              <Text style={styles.SignUpText}>Sign Up</Text>
 
-            <TextField
-              errorMessage={this.state.nameError}
-              label="Name"
-              placeholder="John Doe"
-              onChangeText={(name) => {
-                this.setState({ name });
-                this.validateName(this.state.name);
-              }}
-            />
+              <TextField
+                errorMessage={this.state.nameError}
+                label="Name"
+                placeholder="John Doe"
+                onChangeText={(name) => {
+                  this.setState({ name });
+                  this.validateName(this.state.name);
+                }}
+              />
 
-            <TextField
-              errorMessage={this.state.emailError}
-              label="Email"
-              placeholder="john.doe@gmail.com"
-              keyboardType={'email-address'}
-              onChangeText={(email) => {
-                this.setState({ email }, () => {
-                  if (!this.validateEmail(this.state.email)) {
-                    this.setState({ emailError: 'Invalid email' });
-                  } else {
-                    this.setState({ emailError: '' });
-                  }
-                });
-              }}
-            />
+              <TextField
+                errorMessage={this.state.emailError}
+                label="Email"
+                placeholder="john.doe@gmail.com"
+                keyboardType={'email-address'}
+                onChangeText={(email) => {
+                  this.setState({ email }, () => {
+                    if (!this.validateEmail(this.state.email)) {
+                      this.setState({ emailError: 'Invalid email' });
+                    } else {
+                      this.setState({ emailError: '' });
+                    }
+                  });
+                }}
+              />
 
-            <TextField
-              errorMessage={this.state.passwordError}
-              label="Password"
-              secureTextEntry={true}
-              placeholder="• • • • • • • •"
-              onChangeText={(password) => {
-                this.setState({ password });
-                this.validatePassword(this.state.password);
-              }}
-            />
+              <TextField
+                errorMessage={this.state.passwordError}
+                label="Password"
+                secureTextEntry={true}
+                placeholder="• • • • • • • •"
+                onChangeText={(password) => {
+                  this.setState({ password });
+                  this.validatePassword(this.state.password);
+                }}
+              />
 
-            <TextField
-              errorMessage={this.state.confirmPasswordError}
-              label="Re-enter password"
-              secureTextEntry={true}
-              placeholder="• • • • • • • •"
-              onChangeText={(confirmPassword) => {
-                this.setState({ confirmPassword }, () => {
-                  if (
-                    !this.validateConfirmPassword(
-                      this.state.confirmPassword,
-                      this.state.password
-                    )
-                  ) {
-                    this.setState({
-                      confirmPasswordError: 'Password does not match',
-                    });
-                  } else {
-                    this.setState({ confirmPasswordError: '' });
-                  }
-                });
-              }}
-            />
-
+              <TextField
+                errorMessage={this.state.confirmPasswordError}
+                label="Re-enter password"
+                secureTextEntry={true}
+                placeholder="• • • • • • • •"
+                onChangeText={(confirmPassword) => {
+                  this.setState({ confirmPassword }, () => {
+                    if (
+                      !this.validateConfirmPassword(
+                        this.state.confirmPassword,
+                        this.state.password
+                      )
+                    ) {
+                      this.setState({
+                        confirmPasswordError: 'Password does not match',
+                      });
+                    } else {
+                      this.setState({ confirmPasswordError: '' });
+                    }
+                  });
+                }}
+              />
+            </View>
             <TouchableOpacity
               style={styles.signUpButton}
               onPress={() => this.handleSignUp()}
