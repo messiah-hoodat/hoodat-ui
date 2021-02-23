@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     backgroundColor: '#6EA8FF',
+    fontWeight: 'bold',
   },
   disabled: {
     backgroundColor: '#B8D4FF',

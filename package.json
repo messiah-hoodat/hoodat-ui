@@ -25,6 +25,7 @@
     "@react-navigation/stack": "^5.9.0",
     "@types/react-native-snap-carousel": "^3.8.2",
     "expo": "~37.0.3",
+    "expo-av": "~8.1.0",
     "expo-image-picker": "~8.1.0",
     "expo-secure-store": "~8.1.0",
     "react": "~16.9.0",
@@ -37,6 +38,7 @@
     "react-native-confetti-cannon": "^1.5.1",
     "react-native-countdown-circle": "^3.0.1",
     "react-native-countdown-circle-timer": "^2.3.9",
+    "react-native-dropdown-picker": "^4.0.2",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-loading-view": "^1.0.1",
@@ -52,8 +54,7 @@
     "react-navigation": "^1.6.1",
     "react-navigation-tabs": "^2.10.1",
     "react-navigator": "0.0.0-0",
-    "validate.js": "^0.13.1",
-    "expo-av": "~8.1.0"
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
