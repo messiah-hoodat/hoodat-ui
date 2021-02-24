@@ -50,18 +50,20 @@ export default function SignInScreen(props: Props) {
             source={require('../../assets/HoodatTextLogo.png')}
             resizeMode="contain"
           />
-          <Text style={styles.LoginText}>Log In</Text>
-          <TextField
-            label="Email"
-            onChangeText={(email) => setEmail(email)}
-            placeholder="example@gmail.com"
-          />
-          <TextField
-            label="Password"
-            onChangeText={(password) => setPassword(password)}
-            placeholder="• • • • • • • •"
-            secureTextEntry={true}
-          />
+          <View style={{ width: '75%' }}>
+            <Text style={styles.LoginText}>Log In</Text>
+            <TextField
+              label="Email"
+              onChangeText={(email) => setEmail(email.toLowerCase())}
+              placeholder="example@gmail.com"
+            />
+            <TextField
+              label="Password"
+              onChangeText={(password) => setPassword(password)}
+              placeholder="• • • • • • • •"
+              secureTextEntry={true}
+            />
+          </View>
 
           <TouchableOpacity
             style={styles.forgotPasswordButton}
