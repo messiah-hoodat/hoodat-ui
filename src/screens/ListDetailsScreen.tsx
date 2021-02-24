@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, ListDetailsContactCard, ScreenTitle } from '../components';
 import { UserContext } from '../contexts/UserContext';
-import HoodatService, { Contact } from '../services/HoodatService';
+import HoodatService, { Contact, User } from '../services/HoodatService';
 import { SearchBar } from '../components';
 import getListColors from '../lib/getListColors';
 
@@ -24,6 +24,7 @@ interface Props {
       listColor: number;
       listName: string;
       listId: string;
+      viewers: User[];
     };
   };
 }
@@ -147,6 +148,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
                     this.setState({ menuVisible: false });
                     this.props.navigation.navigate('Share List', {
                       listId: this.state.listId,
+                      viewers: this.props.route.params.viewers,
                     });
                   }}
                   title="Share"

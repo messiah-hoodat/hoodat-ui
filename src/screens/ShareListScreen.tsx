@@ -10,7 +10,7 @@ import {
 import { ScreenTitle, TextField, FAB } from '../components';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
-import HoodatService from '../services/HoodatService';
+import HoodatService, { User } from '../services/HoodatService';
 import { UserContext } from '../contexts/UserContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -19,35 +19,15 @@ interface Props {
   route: {
     params: {
       listId: string;
+      viewers: User[];
     };
   };
 }
-interface ContactProps {
-  title: string;
-  email: string;
-}
-interface ItemProps {
-  item: any;
-}
 
-const Sharees = [
-  {
-    email: 'bj1234@messiah.edu',
-    title: 'Belosan Jekale',
-  },
-  {
-    email: 'bp5678@messiah.edu',
-    title: 'Billy Park',
-  },
-  {
-    email: 'wc1182@messiah.edu',
-    title: 'Wesley Chong',
-  },
-];
-const Item = ({ title, email }: ContactProps) => (
+const Item = ({ name, email }: User) => (
   <View style={styles.shareeItem}>
     <View style={{ width: '60%' }}>
-      <Text style={styles.shareeTitle}>{title}</Text>
+      <Text style={styles.shareeTitle}>{name}</Text>
       <Text style={styles.shareeEmail}>{email}</Text>
     </View>
     <View style={{ width: '35%', marginLeft: '3%' }}>
@@ -85,9 +65,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [email, setEmail] = useState('');
 
-  const renderItem = ({ item }: ItemProps) => (
-    <Item title={item.title} email={item.email} />
-  );
+  const Sharees = route.params.viewers;
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -171,7 +149,9 @@ export default function ShareListScreen({ navigation, route }: Props) {
         <Text style={styles.label}>Sharees</Text>
         <FlatList
           data={Sharees}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <Item name={item.name} email={item.email} />
+          )}
           keyExtractor={(item) => item.email}
         />
       </View>
