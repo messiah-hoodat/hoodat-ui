@@ -8,6 +8,8 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import MyListsNoAcctScreen from '../screens/myListsNoAcctScreen';
+import QuizScreenNoAcctScreen from '../screens/QuizScreenNoAcctScreen';
+import QuizResultsScreenNoAcctScreen from '../screens/QuizResultsScreenNoAcctScreen';
 import ListDetailsNoAcctScreen from '../screens/ListDetailsNoAcctScreen';
 import AddContactNoAcctScreen from '../screens/AddContactNoAcctScreen';
 
@@ -30,6 +32,16 @@ export default function NoAcctStackNavigator() {
       <Stack.Screen
         name="My Lists No Account"
         component={MyListsNoAcctScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Quiz No Account"
+        component={QuizScreenNoAcctScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Quiz Results No Account"
+        component={QuizResultsScreenNoAcctScreen}
         options={sharedOptions}
       />
       <Stack.Screen
