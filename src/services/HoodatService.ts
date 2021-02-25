@@ -1,11 +1,17 @@
 import { API_ROOT } from '../lib/constants';
 
+export interface User {
+  name: string;
+  email: string;
+}
+
 export interface List {
   id: string;
   name: string;
-  owner: string;
+  owner: User;
   color: number;
   contacts: Contact[];
+  viewers: User[];
 }
 
 export interface Contact {

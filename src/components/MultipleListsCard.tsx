@@ -25,6 +25,7 @@ export default function MultipleListsCard({ list }: Props) {
           listColor,
           listName,
           listId,
+          viewers: list.viewers,
         })
       }
     >
