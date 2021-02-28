@@ -30,31 +30,11 @@ interface Props {
   };
 }
 
-// interface State {
-//     menuVisible: boolean;
-//     searchQuery: string;
-//     contacts: OfflineContact[];
-//     questionResults: QuestionResult[];
-//     QuizTitleListName: string;
-//     CurrentQuizQuestionNumber: number;
-//     loading: boolean;
-//     refreshing: boolean;
-//   }
-
 class QuizScreenNoAcctScreen extends React.Component<Props> {
   private timer: CircularTimer | null;
 
   constructor(props: Props) {
     super(props);
-    // this.state = {
-    //     menuVisible: false,
-    //     searchQuery: '',
-    //     //contacts: [],
-    //     questionResults: [],
-    //     QuizTitleListName: '',
-    //     loading: true,
-    //     refreshing: false,
-    //   };
     this.timer = null;
   }
 
