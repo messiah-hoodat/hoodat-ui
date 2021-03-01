@@ -153,20 +153,22 @@ class AddContactScreen extends React.Component<Props, State> {
                   borderRadius: 16,
                 }}
               >
-                <Image
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 16,
-                  }}
-                  source={
-                    image.data && image.fileType
-                      ? {
-                          uri: `data:${this.state.image.fileType};base64,${image.data}`,
-                        }
-                      : require('../../assets/QuizQuestionImagePlaceholder.png')
-                  }
-                />
+                <TouchableOpacity onPress={this.pickImage}>
+                  <Image
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 16,
+                    }}
+                    source={
+                      image.data && image.fileType
+                        ? {
+                            uri: `data:${this.state.image.fileType};base64,${image.data}`,
+                          }
+                        : require('../../assets/QuizQuestionImagePlaceholder.png')
+                    }
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
