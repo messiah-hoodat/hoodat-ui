@@ -100,10 +100,9 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
                   icon="plus"
                   onPress={() => {
                     this.setState({ menuVisible: false });
-                    this.props.navigation.navigate(
-                      'Add Contact No Account',
-                      {}
-                    );
+                    this.props.navigation.navigate('Add Contact No Account', {
+                      Contacts: this.state.contacts,
+                    });
                   }}
                   title="Add Contact"
                 />
@@ -147,10 +146,9 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
                   )}
                   <TouchableOpacity
                     onPress={() =>
-                      this.props.navigation.navigate(
-                        'Add Contact No Account',
-                        {}
-                      )
+                      this.props.navigation.navigate('Add Contact No Account', {
+                        Contacts: this.state.contacts,
+                      })
                     }
                     style={styles.addMorePeopleButton}
                   >
@@ -176,9 +174,16 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
           </LoadingView>
 
           <FAB
+            disabled={this.state.contacts.length < 5}
             icon="flash"
             label="Quiz Me"
-            //onPress= quiz me!
+            onPress={() =>
+              this.props.navigation.navigate('Quiz No Account', {
+                contacts: this.state.contacts,
+                QuizTitleListName: 'My HooDat List',
+                CurrentQuizQuestionNumber: 0,
+              })
+            }
           />
         </View>
       </Provider>
