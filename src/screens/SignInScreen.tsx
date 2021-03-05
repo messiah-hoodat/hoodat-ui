@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'center',
     //fontWeight: 'bold',
-    fontSize: RFValue(10),
+    fontSize: RFValue(15),
     overflow: 'hidden',
   },
 });
