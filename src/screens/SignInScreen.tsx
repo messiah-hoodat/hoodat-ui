@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     color: '#6EA8FF',
     marginTop: 15,
     textAlign: 'center',
-    //fontWeight: 'bold',
-    fontSize: RFValue(10),
+    fontWeight: 'bold',
+    fontSize: RFValue(12),
     overflow: 'hidden',
   },
 });
