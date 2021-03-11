@@ -1,6 +1,7 @@
 import { API_ROOT } from '../lib/constants';
 
 export interface User {
+  id: string;
   name: string;
   email: string;
 }
@@ -12,6 +13,7 @@ export interface List {
   color: number;
   contacts: Contact[];
   viewers: User[];
+  editors: User[];
 }
 
 export interface Contact {
@@ -22,6 +24,15 @@ export interface Contact {
     url: string;
   };
 }
+
+export interface ListSharees {
+  id: string;
+  owner: User;
+  viewers: User[];
+  editors: User[];
+}
+
+export type Role = 'viewer' | 'editor';
 
 interface TokenResponse {
   userId: string;
@@ -135,6 +146,7 @@ class HoodatService {
     return body;
   }
 
+  // TODO: remove in favor of addSharee()
   async addViewerToList(
     listId: string,
     email: string,
@@ -158,6 +170,105 @@ class HoodatService {
     }
 
     return body;
+  }
+
+  async getSharees(listId: string, token: string): Promise<ListSharees> {
+    const response = await fetch(`${this.BASE_URL}/lists/${listId}/sharees`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return body;
+  }
+
+  async addSharee(
+    listId: string,
+    email: string,
+    role: Role,
+    token: string
+  ): Promise<void> {
+    const response = await fetch(`${this.BASE_URL}/lists/${listId}/sharees`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        email,
+        role,
+      }),
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return;
+  }
+
+  async removeSharee(
+    listId: string,
+    userId: string,
+    token: string
+  ): Promise<void> {
+    const response = await fetch(
+      `${this.BASE_URL}/lists/${listId}/sharees/${userId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return;
+  }
+
+  async updateSharee(
+    listId: string,
+    userId: string,
+    role: Role,
+    token: string
+  ): Promise<void> {
+    const response = await fetch(
+      `${this.BASE_URL}/lists/${listId}/sharees/${userId}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          role,
+        }),
+      }
+    );
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return;
   }
 
   async removeContactFromList(
