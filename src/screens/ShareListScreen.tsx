@@ -115,7 +115,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
           <View style={{ width: '60%', borderWidth: 0 }}>
             <TextField
               label="Add Person"
-              onChangeText={(email: string) => setEmail(email)}
+              onChangeText={(email: string) => setEmail(email.toLowerCase())}
               placeholder="example@gmail.com"
             />
           </View>
