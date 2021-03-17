@@ -32,7 +32,11 @@ export interface ListSharees {
   editors: User[];
 }
 
-export type Role = 'viewer' | 'editor';
+export interface Sharee extends User {
+  role: Role;
+}
+
+export type Role = 'viewer' | 'editor' | 'owner';
 
 interface TokenResponse {
   userId: string;
@@ -172,7 +176,7 @@ class HoodatService {
     return body;
   }
 
-  async getSharees(listId: string, token: string): Promise<ListSharees> {
+  async getSharees(listId: string, token: string): Promise<Sharee[]> {
     const response = await fetch(`${this.BASE_URL}/lists/${listId}/sharees`, {
       method: 'GET',
       headers: {
@@ -187,7 +191,28 @@ class HoodatService {
       throw new Error(body.message ?? body.error ?? response.statusText);
     }
 
-    return body;
+    const owner = {
+      id: body.owner.id,
+      name: body.owner.name,
+      email: body.owner.email,
+      role: 'owner',
+    };
+
+    const editors = body.editors.map((user: User) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: 'editor',
+    }));
+
+    const viewers = body.viewers.map((user: User) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: 'viewer',
+    }));
+
+    return [owner, ...editors, ...viewers];
   }
 
   async addSharee(
