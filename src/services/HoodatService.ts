@@ -195,21 +195,21 @@ class HoodatService {
       id: body.owner.id,
       name: body.owner.name,
       email: body.owner.email,
-      role: 'Owner',
+      role: 'owner',
     };
 
     const editors = body.editors.map((user: User) => ({
       id: user.id,
       name: user.name,
       email: user.email,
-      role: 'Editor',
+      role: 'editor',
     }));
 
     const viewers = body.viewers.map((user: User) => ({
       id: user.id,
       name: user.name,
       email: user.email,
-      role: 'Viewer',
+      role: 'viewer',
     }));
 
     return [owner, ...editors, ...viewers];

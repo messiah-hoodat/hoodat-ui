@@ -39,17 +39,26 @@ const Item = ({ user, changeRole }: ItemProps) => {
         <Text style={styles.shareeTitle}>{user.name}</Text>
         <Text style={styles.shareeEmail}>{user.email}</Text>
       </View>
-      <View style={{ width: '35%', marginLeft: '3%' }}>
+      <View>
         <Menu
           visible={visible}
           onDismiss={() => setVisible(false)}
           anchor={
             <TouchableOpacity
               onPress={() => setVisible(true)}
-              style={{ flexDirection: 'row' }}
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                width: 75,
+              }}
+              disabled={user.role === 'owner'}
             >
-              <Text style={{ marginRight: 5 }}>{startCase(user.role)}</Text>
-              <Icon name="chevron-down" size={20} color="#636363" />
+              <Text style={{ marginRight: 5, color: '#727272' }}>
+                {startCase(user.role)}
+              </Text>
+              {user.role !== 'owner' && (
+                <Icon name="chevron-small-down" size={18} color="#727272" />
+              )}
             </TouchableOpacity>
           }
         >
@@ -89,16 +98,19 @@ export default function ShareListScreen({ navigation, route }: Props) {
   const [sharees, setSharees] = useState<Sharee[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState<Role>('viewer');
+  const [rolePickerVisible, setRolePickerVisible] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
+    setEmail('');
 
     const { token, userId } = context!.value;
 
     const listId = route.params.listId;
 
     try {
-      await HoodatService.addViewerToList(listId, email, token);
+      await HoodatService.addSharee(listId, email, role, token);
       fetchSharees();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
@@ -168,6 +180,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
             style={{
               flex: 1,
               flexDirection: 'row',
+              justifyContent: 'space-between',
               width: '100%',
               borderWidth: 0,
             }}
@@ -179,29 +192,47 @@ export default function ShareListScreen({ navigation, route }: Props) {
                 placeholder="example@gmail.com"
               />
             </View>
-            <View style={{ width: '35%', borderWidth: 0, marginLeft: '5%' }}>
-              {/* <DropDownPicker
-              items={[
-                {
-                  label: 'Viewer',
-                  value: 'viewer',
-                  icon: () => <Icon name="eye" size={15} color="#5F5F5F" />,
-                  selected: true,
-                },
-                {
-                  label: 'Editor',
-                  value: 'editor',
-                  icon: () => <Icon name="pencil" size={15} color="#5F5F5F" />,
-                },
-              ]}
-              containerStyle={{
-                height: 40,
-                marginTop: RFValue(45),
-                width: '100%',
+            <View
+              style={{
+                marginTop: 63,
               }}
-              labelStyle={{ fontSize: 14, color: '#5F5F5F' }}
-              onChangeItem={(item) => console.log(item.label, item.value)}
-            /> */}
+            >
+              <Menu
+                visible={rolePickerVisible}
+                onDismiss={() => setRolePickerVisible(false)}
+                anchor={
+                  <TouchableOpacity
+                    onPress={() => setRolePickerVisible(true)}
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                      width: 75,
+                    }}
+                  >
+                    <Text style={{ marginRight: 5, color: '#727272' }}>
+                      {startCase(role)}
+                    </Text>
+                    <Icon name="chevron-small-down" size={18} color="#727272" />
+                  </TouchableOpacity>
+                }
+              >
+                <Menu.Item
+                  icon="eye"
+                  onPress={async () => {
+                    setRolePickerVisible(false);
+                    setRole('viewer');
+                  }}
+                  title="Viewer"
+                />
+                <Menu.Item
+                  icon="pencil"
+                  onPress={async () => {
+                    setRolePickerVisible(false);
+                    setRole('editor');
+                  }}
+                  title="Editor"
+                />
+              </Menu>
             </View>
           </View>
         </View>
@@ -213,13 +244,6 @@ export default function ShareListScreen({ navigation, route }: Props) {
             renderItem={({ item }) => (
               <Item user={item} changeRole={changeRole} />
             )}
-            ListEmptyComponent={
-              <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: '#666' }}>
-                  This list is not shared with anybody.
-                </Text>
-              </View>
-            }
             onRefresh={() => fetchSharees()}
             refreshing={loading}
           />
@@ -247,7 +271,8 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14),
     fontWeight: '600',
     color: '#5F5F5F',
-    marginBottom: RFValue(8),
+    marginTop: 10,
+    marginBottom: 5,
   },
   shareeItem: {
     paddingVertical: 15,
@@ -259,13 +284,12 @@ const styles = StyleSheet.create({
   },
   shareeTitle: {
     fontSize: RFValue(13),
-    fontWeight: '500',
+    fontWeight: 'bold',
     color: '#494949',
   },
   shareeEmail: {
     fontSize: RFValue(11),
     fontWeight: '300',
     color: '#494949',
-    marginLeft: 2,
   },
 });
