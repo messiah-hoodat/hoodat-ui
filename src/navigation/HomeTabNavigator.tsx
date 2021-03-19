@@ -6,7 +6,7 @@ import MyListsScreen from '../screens/MyListsScreen';
 import SharedWithMeScreen from '../screens/SharedWithMeScreen';
 import QuizAllScreen from '../screens/QuizAllScreen';
 import GroupsScreen from '../screens/GroupsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import Account from '../screens/Account';
 
 const iconMap = {
   'My Lists': 'contacts',
@@ -38,7 +38,7 @@ export default function HomeTabNavigator() {
       <Tab.Screen name="Shared With Me" component={SharedWithMeScreen} />
       <Tab.Screen name="Quiz All" component={QuizAllScreen} />
       <Tab.Screen name="Groups" component={GroupsScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
 }
