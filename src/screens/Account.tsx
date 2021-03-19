@@ -18,7 +18,7 @@ interface Props {
   navigation: any;
 }
 
-class SettingsScreen extends React.Component<Props> {
+class Account extends React.Component<Props> {
   static contextType = UserContext;
 
   constructor(props: Props) {
