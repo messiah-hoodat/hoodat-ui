@@ -7,6 +7,7 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Menu, Provider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -88,15 +89,11 @@ class ListDetailsScreen extends React.Component<Props, State> {
     return (
       <Provider>
         <View style={styles.container}>
-          <View
-            style={[
-              styles.header,
-              {
-                backgroundColor: getListColors(
-                  this.props.route.params.listColor
-                )[0],
-              },
-            ]}
+          <LinearGradient
+            colors={getListColors(this.props.route.params.listColor)}
+            style={styles.header}
+            start={{ x: -0.2, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
           >
             <View
               style={{
@@ -162,8 +159,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
             </View>
 
             <ScreenTitle title={this.state.listName} />
-          </View>
-
+          </LinearGradient>
           <FlatList
             style={styles.PeopleListScrollView}
             data={this.state.contacts}

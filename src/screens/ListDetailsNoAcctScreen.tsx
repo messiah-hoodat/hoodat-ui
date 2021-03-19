@@ -9,6 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import { Menu, Provider } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { FAB, ScreenTitle } from '../components';
@@ -61,13 +62,11 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
     return (
       <Provider>
         <View style={styles.container}>
-          <View
-            style={[
-              styles.header,
-              {
-                backgroundColor: '#FFFFCC',
-              },
-            ]}
+          <LinearGradient
+            colors={['#FFFFCC', '#FFFF00']}
+            style={styles.header}
+            start={{ x: -0.2, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
           >
             <View
               style={{
@@ -121,7 +120,7 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
               onChangeText={(searchQuery) => this.setState({ searchQuery })}
               style={{ width: '100%' }}
             />
-          </View>
+          </LinearGradient>
           <LoadingView loading={this.state.loading}>
             <FlatList
               style={styles.PeopleListScrollView}

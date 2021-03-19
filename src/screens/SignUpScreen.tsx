@@ -57,7 +57,11 @@ class SignUpScreen extends React.Component<Props, State> {
     const { name, email, password } = this.state;
 
     try {
-      const res = await HoodatService.signUp(name, email, password);
+      const res = await HoodatService.signUp(
+        name,
+        email.toLowerCase(),
+        password
+      );
       SecureStoreService.storeCredentials(email, password);
       this.context.setValue({ token: res.token, userId: res.userId });
     } catch (error) {

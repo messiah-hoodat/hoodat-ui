@@ -148,7 +148,9 @@ class QuizScreen extends React.Component<Props> {
               }}
             />
             <Text style={styles.HooIsText}>Hoo is...</Text>
-            <Text style={styles.QuizPersonName}>{correctContact.name}</Text>
+            <Text numberOfLines={1} style={styles.QuizPersonName}>
+              {correctContact.name}
+            </Text>
           </View>
 
           <View style={{ flex: 5.5, width: '87%' }}>
