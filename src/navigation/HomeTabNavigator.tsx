@@ -11,7 +11,7 @@ const iconMap = {
   'Shared With Me': 'team',
   'Quiz All': 'bulb1',
   Groups: 'API',
-  Settings: 'ellipsis1',
+  Account: 'user',
 };
 
 const Tab = createBottomTabNavigator();
