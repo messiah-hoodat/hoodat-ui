@@ -4,14 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import MyListsScreen from '../screens/MyListsScreen';
 import SharedWithMeScreen from '../screens/SharedWithMeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import Account from '../screens/Account';
 
 const iconMap = {
   'My Lists': 'contacts',
   'Shared With Me': 'team',
   'Quiz All': 'bulb1',
   Groups: 'API',
-  Settings: 'ellipsis1',
+  Account: 'user',
 };
 
 const Tab = createBottomTabNavigator();
@@ -34,7 +34,7 @@ export default function HomeTabNavigator() {
     >
       <Tab.Screen name="My Lists" component={MyListsScreen} />
       <Tab.Screen name="Shared With Me" component={SharedWithMeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
 }

@@ -14,6 +14,7 @@ import QuizResultsScreen from '../screens/QuizResultsScreen';
 import MyListsScreen from '../screens/MyListsScreen';
 import TestScreen from '../screens/TestScreen';
 import ShareListScreen from '../screens/ShareListScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 const sharedOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: 'white' },
@@ -60,6 +61,11 @@ export default function SignedInStackNavigator() {
       <Stack.Screen
         name="Test Screen"
         component={TestScreen}
+        options={sharedOptions}
+      />
+      <Stack.Screen
+        name="Forgot Password"
+        component={ForgotPasswordScreen}
         options={sharedOptions}
       />
     </Stack.Navigator>

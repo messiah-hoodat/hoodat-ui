@@ -401,6 +401,24 @@ class HoodatService {
 
     return;
   }
+
+  async getInfo(userId: string, token: string): Promise<User> {
+    const response = await fetch(`${this.BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return body;
+  }
 }
 
 export default new HoodatService(API_ROOT);
