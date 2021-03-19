@@ -90,7 +90,7 @@ class Account extends React.Component<Props> {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.LogoutButton, { flex: 0, flexDirection: 'row' }]}
-          onPress={this.logout}
+          onPress={() => this.logout()}
         >
           <Text style={styles.LogoutText}>Log Out</Text>
         </TouchableOpacity>
