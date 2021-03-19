@@ -88,10 +88,8 @@ class ForgotPasswordScreen extends React.Component<Props, State> {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Sign In')}
-            >
-              <Text style={styles.backButton}>Back to Log In</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.backButton}>Go Back</Text>
             </TouchableOpacity>
           </View>
         )}
