@@ -119,7 +119,7 @@ class AddContactScreen extends React.Component<Props, State> {
 
     try {
       await HoodatService.addContact(listId, name, image, token);
-      this.props.navigation.pop(2);
+      this.props.navigation.goBack();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
     }

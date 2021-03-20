@@ -40,6 +40,7 @@ interface State {
 
 class ListDetailsScreen extends React.Component<Props, State> {
   static contextType = UserContext;
+  private _unsubscribe = () => {};
 
   constructor(props: Props) {
     super(props);
@@ -53,6 +54,20 @@ class ListDetailsScreen extends React.Component<Props, State> {
       menuVisible: false,
       searchQuery: '',
     };
+  }
+
+  async fetchList(): Promise<void> {
+    const { token, userId } = this.context.value;
+
+    try {
+      const list = await HoodatService.getList(
+        this.props.route.params.listId,
+        token
+      );
+      this.setState({ contacts: list.contacts });
+    } catch (error) {
+      Alert.alert('Uh oh!', error.toString());
+    }
   }
 
   async removeList(): Promise<void> {
@@ -83,6 +98,16 @@ class ListDetailsScreen extends React.Component<Props, State> {
     }
 
     return Promise.resolve();
+  }
+
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.fetchList();
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   render() {

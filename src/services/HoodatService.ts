@@ -111,6 +111,24 @@ class HoodatService {
     return;
   }
 
+  async getList(listId: string, token: string): Promise<List> {
+    const response = await fetch(`${this.BASE_URL}/lists/${listId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const body = await response.json();
+
+    if (!response.ok) {
+      throw new Error(body.message ?? body.error ?? response.statusText);
+    }
+
+    return body;
+  }
+
   async getLists(userId: string, token: string): Promise<List[]> {
     const response = await fetch(`${this.BASE_URL}/users/${userId}/lists`, {
       method: 'GET',
