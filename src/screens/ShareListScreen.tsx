@@ -251,7 +251,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
 
         <FAB
           disabled={loading}
-          icon="plus"
+          icon="share"
           label="Share list"
           loading={loading}
           onPress={() => handleSubmit()}
