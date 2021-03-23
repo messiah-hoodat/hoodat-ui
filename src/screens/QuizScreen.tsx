@@ -203,6 +203,7 @@ class QuizScreen extends React.Component<Props> {
                     source={{
                       uri: questionOptions[index].contact.image.url,
                     }}
+                    defaultSource={require('../../assets/GreyLoadingImage.png')}
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
