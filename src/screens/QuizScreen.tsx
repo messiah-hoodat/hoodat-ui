@@ -144,6 +144,15 @@ class QuizScreen extends React.Component<Props> {
                     questionResults,
                     CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                   });
+                } else {
+                  questionResults.push({
+                    contact: correctContact,
+                    correct: false,
+                  });
+                  this.props.navigation.navigate('Quiz Results', {
+                    questionResults,
+                    CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                  });
                 }
               }}
             />
@@ -203,6 +212,7 @@ class QuizScreen extends React.Component<Props> {
                     source={{
                       uri: questionOptions[index].contact.image.url,
                     }}
+                    defaultSource={require('../../assets/GreyLoadingImage.png')}
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
