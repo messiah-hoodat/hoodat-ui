@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   FlatList,
+  TextInput,
 } from 'react-native';
 import { ScreenTitle, TextField, FAB } from '../components';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -100,10 +101,10 @@ export default function ShareListScreen({ navigation, route }: Props) {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<Role>('viewer');
   const [rolePickerVisible, setRolePickerVisible] = useState(false);
+  const textInput = useRef<TextInput>(null);
 
   const handleSubmit = async () => {
     setLoading(true);
-    setEmail('');
 
     const { token, userId } = context!.value;
 
@@ -111,6 +112,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
 
     try {
       await HoodatService.addSharee(listId, email, role, token);
+      textInput.current?.clear();
       fetchSharees();
     } catch (error) {
       Alert.alert('Uh oh!', error.toString());
@@ -187,6 +189,8 @@ export default function ShareListScreen({ navigation, route }: Props) {
           >
             <View style={{ width: '60%', borderWidth: 0 }}>
               <TextField
+                keyboardType="email-address"
+                ref={textInput}
                 label="Add Person"
                 onChangeText={(email: string) => setEmail(email.toLowerCase())}
                 placeholder="example@gmail.com"

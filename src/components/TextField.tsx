@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   View,
   Text,
@@ -17,26 +17,24 @@ interface Props {
   secureTextEntry?: boolean;
 }
 
-export default function TextField(props: Props) {
-  const error: boolean = !!props.errorMessage;
-  return (
-    <View style={styles.container}>
-      <Text
-        style={[styles.label, !!props.errorMessage ? styles.errorMessage : {}]}
-      >
-        {!!props.errorMessage ? props.errorMessage : props.label}
-      </Text>
+export default forwardRef<TextInput, Props>((props, ref) => (
+  <View style={styles.container}>
+    <Text
+      style={[styles.label, !!props.errorMessage ? styles.errorMessage : {}]}
+    >
+      {!!props.errorMessage ? props.errorMessage : props.label}
+    </Text>
 
-      <TextInput
-        keyboardType={props.keyboardType}
-        onChangeText={props.onChangeText}
-        placeholder={props.placeholder}
-        secureTextEntry={props.secureTextEntry}
-        style={[styles.textInput, props.errorMessage ? styles.error : {}]}
-      />
-    </View>
-  );
-}
+    <TextInput
+      keyboardType={props.keyboardType}
+      onChangeText={props.onChangeText}
+      placeholder={props.placeholder}
+      ref={ref}
+      secureTextEntry={props.secureTextEntry}
+      style={[styles.textInput, props.errorMessage ? styles.error : {}]}
+    />
+  </View>
+));
 
 const styles = StyleSheet.create({
   container: {
