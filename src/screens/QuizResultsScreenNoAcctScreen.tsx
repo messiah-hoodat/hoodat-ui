@@ -121,18 +121,16 @@ class QuizResultsScreen extends React.Component<Props> {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.retakeQuizButton}>
-            <Text
-              onPress={() => {
-                this.props.navigation.navigate('Quiz No Account', {
-                  questionResults: [],
-                  CurrentQuizQuestionNumber: 0,
-                });
-              }}
-              style={styles.retakeQuizText}
-            >
-              Retake Quiz
-            </Text>
+          <TouchableOpacity
+            style={styles.retakeQuizButton}
+            onPress={() => {
+              this.props.navigation.navigate('Quiz No Account', {
+                questionResults: [],
+                CurrentQuizQuestionNumber: 0,
+              });
+            }}
+          >
+            <Text style={styles.retakeQuizText}>Retake Quiz</Text>
           </TouchableOpacity>
         </View>
       </View>
