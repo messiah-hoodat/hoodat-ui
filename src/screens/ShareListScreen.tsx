@@ -189,6 +189,7 @@ export default function ShareListScreen({ navigation, route }: Props) {
           >
             <View style={{ width: '60%', borderWidth: 0 }}>
               <TextField
+                keyboardType="email-address"
                 ref={textInput}
                 label="Add Person"
                 onChangeText={(email: string) => setEmail(email.toLowerCase())}
