@@ -96,7 +96,6 @@ class AddContactScreen extends React.Component<Props, State> {
         });
       }
     } catch (error) {
-      Alert.alert('Error picking image');
       console.log(error);
     }
   };
