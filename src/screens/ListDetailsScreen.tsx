@@ -16,6 +16,7 @@ import { UserContext } from '../contexts/UserContext';
 import HoodatService, { Contact, User } from '../services/HoodatService';
 import { SearchBar } from '../components';
 import getListColors from '../lib/getListColors';
+import { shuffle } from 'lodash';
 
 interface Props {
   navigation: any;
@@ -249,7 +250,7 @@ class ListDetailsScreen extends React.Component<Props, State> {
             label="Quiz Me"
             onPress={() =>
               this.props.navigation.navigate('Quiz', {
-                contacts: this.state.contacts,
+                contacts: shuffle(this.state.contacts),
                 QuizTitleListName: this.state.listName,
                 CurrentQuizQuestionNumber: 0,
               })
