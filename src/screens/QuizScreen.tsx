@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -30,12 +31,19 @@ interface Props {
   };
 }
 
-class QuizScreen extends React.Component<Props> {
+interface State {
+  quizCorrectColor: string;
+}
+
+class QuizScreen extends React.Component<Props, State> {
   private timer: CircularTimer | null;
 
   constructor(props: Props) {
     super(props);
     this.timer = null;
+    this.state = {
+      quizCorrectColor: '#6EA8FF',
+    };
   }
 
   restartTimer() {
@@ -60,7 +68,6 @@ class QuizScreen extends React.Component<Props> {
 
     const correctContactIndex = CurrentQuizQuestionNumber - 1;
     const correctContact = contacts[correctContactIndex];
-
     const getUniqueRandomOptions = (): QuestionOption[] => {
       let options: QuestionOption[] = [];
       let indeces: number[] = [];
@@ -181,6 +188,12 @@ class QuizScreen extends React.Component<Props> {
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
+                    if (questionOptions[index].isCorrect) {
+                      this.setState({ quizCorrectColor: 'green' });
+                    } else {
+                      this.setState({ quizCorrectColor: 'red' });
+                    }
+
                     questionResults.push({
                       contact: correctContact,
                       correct: questionOptions[index].isCorrect,
@@ -188,15 +201,21 @@ class QuizScreen extends React.Component<Props> {
                     if (
                       CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions
                     ) {
-                      this.props.navigation.navigate('Quiz', {
-                        questionResults,
-                        CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                      });
+                      setTimeout(() => {
+                        this.props.navigation.navigate('Quiz', {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                        this.setState({ quizCorrectColor: '#6EA8FF' });
+                      }, 180);
                     } else {
-                      this.props.navigation.navigate('Quiz Results', {
-                        questionResults,
-                        CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                      });
+                      setTimeout(() => {
+                        this.props.navigation.navigate('Quiz Results', {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                        this.setState({ quizCorrectColor: '#6EA8FF' });
+                      }, 180);
                     }
                   }}
                   style={{
@@ -263,11 +282,12 @@ class QuizScreen extends React.Component<Props> {
                 style={{
                   width: ProgressBarWidth,
                   flex: 1,
-                  backgroundColor: '#6EA8FF',
+                  //backgroundColor: '#6EA8FF',
+                  backgroundColor: this.state.quizCorrectColor,
                   borderBottomRightRadius: 50,
                   borderTopRightRadius: 50,
                 }}
-              />
+              ></View>
             </View>
           </View>
         </View>
