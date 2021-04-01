@@ -59,7 +59,10 @@ class AddContactScreen extends React.Component<Props, State> {
 
   getPermissionAsync = async () => {
     if (Platform.OS !== 'web') {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { status } = await Permissions.askAsync(
+        Permissions.CAMERA_ROLL,
+        Permissions.CAMERA
+      );
       if (status !== 'granted') {
         Alert.alert(
           'Sorry, we need camera roll permissions to make this work!'
@@ -71,6 +74,38 @@ class AddContactScreen extends React.Component<Props, State> {
   pickImage = async () => {
     try {
       const result: any = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+        base64: true,
+      });
+      const data = result.base64;
+      const name = result.uri;
+      const fileExtension = name.split('.').pop();
+      const fileType = this.mapFileExtensionToFileType(fileExtension);
+
+      if (!(data && name)) {
+        Alert.alert('Error picking image');
+      } else if (!fileType) {
+        Alert.alert('Unsupported file type. Please try a different image.');
+      } else {
+        this.setState({
+          image: {
+            data,
+            fileType,
+            name,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  cameraLaunch = async () => {
+    try {
+      const result: any = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
@@ -176,6 +211,12 @@ class AddContactScreen extends React.Component<Props, State> {
                 <Text style={styles.cameraRollbutton}>
                   Choose from camera roll
                 </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ width: '80%', marginTop: 15 }}>
+              <TouchableOpacity onPress={this.cameraLaunch}>
+                <Text style={styles.cameraRollbutton}>Take a picture</Text>
               </TouchableOpacity>
             </View>
 
