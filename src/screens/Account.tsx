@@ -89,10 +89,13 @@ class Account extends React.Component<Props> {
           <Text style={styles.changePasswordButton}>Change Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.LogoutButton, { flex: 0, flexDirection: 'row' }]}
+          style={[
+            styles.changePasswordButton,
+            { flex: 0, flexDirection: 'row' },
+          ]}
           onPress={() => this.logout()}
         >
-          <Text style={styles.LogoutText}>Log Out</Text>
+          <Text style={styles.changePasswordButton}>Log Out</Text>
         </TouchableOpacity>
       </View>
     );
