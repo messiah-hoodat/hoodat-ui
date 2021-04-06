@@ -105,13 +105,6 @@ class ListDetailsNoAcctScreen extends React.Component<Props, State> {
                   }}
                   title="Add Contact"
                 />
-                <Menu.Item
-                  icon="pencil"
-                  onPress={() => console.log('TODO')}
-                  title="Edit"
-                  disabled
-                />
-                <Menu.Item icon="delete" title="Remove" disabled />
               </Menu>
             </View>
 

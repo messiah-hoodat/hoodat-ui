@@ -44,12 +44,6 @@ export default function ListDetailsContactCard({
           }
         >
           <Menu.Item
-            icon="pencil"
-            onPress={() => console.log('TODO')}
-            title="Edit"
-            disabled
-          />
-          <Menu.Item
             icon="delete"
             onPress={handleRemoveContact}
             title="Remove"
