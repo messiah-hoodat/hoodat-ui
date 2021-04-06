@@ -32,7 +32,7 @@ interface Props {
 }
 
 interface State {
-  quizCorrectColor: string;
+  answeredCorrectly: boolean | null;
 }
 
 class QuizScreen extends React.Component<Props, State> {
@@ -42,7 +42,7 @@ class QuizScreen extends React.Component<Props, State> {
     super(props);
     this.timer = null;
     this.state = {
-      quizCorrectColor: '#6EA8FF',
+      answeredCorrectly: null,
     };
   }
 
@@ -188,11 +188,9 @@ class QuizScreen extends React.Component<Props, State> {
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
-                    if (questionOptions[index].isCorrect) {
-                      this.setState({ quizCorrectColor: 'green' });
-                    } else {
-                      this.setState({ quizCorrectColor: 'red' });
-                    }
+                    this.setState({
+                      answeredCorrectly: questionOptions[index].isCorrect,
+                    });
 
                     questionResults.push({
                       contact: correctContact,
@@ -206,16 +204,16 @@ class QuizScreen extends React.Component<Props, State> {
                           questionResults,
                           CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                         });
-                        this.setState({ quizCorrectColor: '#6EA8FF' });
-                      }, 180);
+                        this.setState({ answeredCorrectly: null });
+                      }, 500);
                     } else {
                       setTimeout(() => {
                         this.props.navigation.navigate('Quiz Results', {
                           questionResults,
                           CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                         });
-                        this.setState({ quizCorrectColor: '#6EA8FF' });
-                      }, 180);
+                        this.setState({ answeredCorrectly: null });
+                      }, 500);
                     }
                   }}
                   style={{
@@ -237,12 +235,32 @@ class QuizScreen extends React.Component<Props, State> {
                 </TouchableOpacity>
               );
 
-              return (
+              return this.state.answeredCorrectly === null ? (
                 <View>
                   {[
                     wrapper([option(0), option(1)], 0),
                     wrapper([option(2), option(3)], 1),
                   ]}
+                </View>
+              ) : this.state.answeredCorrectly ? (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Icon name="check" size={120} color="green" />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Icon name="cross" size={120} color="red" />
                 </View>
               );
             })()}
@@ -282,8 +300,7 @@ class QuizScreen extends React.Component<Props, State> {
                 style={{
                   width: ProgressBarWidth,
                   flex: 1,
-                  //backgroundColor: '#6EA8FF',
-                  backgroundColor: this.state.quizCorrectColor,
+                  backgroundColor: '#6EA8FF',
                   borderBottomRightRadius: 50,
                   borderTopRightRadius: 50,
                 }}
