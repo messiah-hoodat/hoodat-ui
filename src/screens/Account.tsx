@@ -86,13 +86,16 @@ class Account extends React.Component<Props> {
           style={styles.changePasswordButton}
           onPress={() => this.props.navigation.navigate('Forgot Password')}
         >
-          <Text style={styles.changePasswordText}>Change Password</Text>
+          <Text style={styles.changePasswordButton}>Change Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.LogoutButton, { flex: 0, flexDirection: 'row' }]}
+          style={[
+            styles.changePasswordButton,
+            { flex: 0, flexDirection: 'row' },
+          ]}
           onPress={() => this.logout()}
         >
-          <Text style={styles.LogoutText}>Log Out</Text>
+          <Text style={styles.changePasswordButton}>Log Out</Text>
         </TouchableOpacity>
       </View>
     );
@@ -123,14 +126,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
 
-  changePasswordText: {
-    marginTop: 15,
-    marginLeft: 12,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    fontSize: 18,
-  },
-
   name: {
     fontWeight: '500',
     fontSize: 25,
@@ -150,11 +145,12 @@ const styles = StyleSheet.create({
   },
 
   changePasswordButton: {
-    marginTop: 20,
-    backgroundColor: '#6EA8FF',
-    width: 170,
-    height: 60,
-    borderRadius: 43,
+    color: '#6EA8FF',
+    marginTop: RFValue(5),
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: RFValue(12),
+    overflow: 'hidden',
   },
 });
 
