@@ -205,7 +205,7 @@ class QuizScreen extends React.Component<Props, State> {
                           CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                         });
                         this.setState({ answeredCorrectly: null });
-                      }, 500);
+                      }, 250);
                     } else {
                       setTimeout(() => {
                         this.props.navigation.navigate('Quiz Results', {
@@ -213,7 +213,7 @@ class QuizScreen extends React.Component<Props, State> {
                           CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
                         });
                         this.setState({ answeredCorrectly: null });
-                      }, 500);
+                      }, 250);
                     }
                   }}
                   style={{
