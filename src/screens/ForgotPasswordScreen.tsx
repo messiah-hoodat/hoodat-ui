@@ -62,7 +62,7 @@ class ForgotPasswordScreen extends React.Component<Props, State> {
               No worries. Let's get that reset for you. We can send you an email
               with instructions to reset it.
             </Text>
-            <View style={{ width: '75%' }}>
+            <View style={{ width: '60%' }}>
               <TextField
                 label="Email"
                 placeholder="john.doe@gmail.com"
