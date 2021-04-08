@@ -31,7 +31,9 @@ export default function ListDetailsContactCard({
           }}
           resizeMode="cover"
         />
-        <Text style={styles.PeopleInListName}>{contact.name}</Text>
+        <Text numberOfLines={1} style={styles.PeopleInListName}>
+          {contact.name}
+        </Text>
       </View>
       <View style={styles.optionsContainer}>
         <Menu
@@ -89,5 +91,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     fontSize: 18,
     color: '#494949',
+    width: '75%',
   },
 });
