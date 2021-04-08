@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -30,12 +31,19 @@ interface Props {
   };
 }
 
-class QuizScreen extends React.Component<Props> {
+interface State {
+  answeredCorrectly: boolean | null;
+}
+
+class QuizScreen extends React.Component<Props, State> {
   private timer: CircularTimer | null;
 
   constructor(props: Props) {
     super(props);
     this.timer = null;
+    this.state = {
+      answeredCorrectly: null,
+    };
   }
 
   restartTimer() {
@@ -60,7 +68,6 @@ class QuizScreen extends React.Component<Props> {
 
     const correctContactIndex = CurrentQuizQuestionNumber - 1;
     const correctContact = contacts[correctContactIndex];
-
     const getUniqueRandomOptions = (): QuestionOption[] => {
       let options: QuestionOption[] = [];
       let indeces: number[] = [];
@@ -181,6 +188,10 @@ class QuizScreen extends React.Component<Props> {
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
+                    this.setState({
+                      answeredCorrectly: questionOptions[index].isCorrect,
+                    });
+
                     questionResults.push({
                       contact: correctContact,
                       correct: questionOptions[index].isCorrect,
@@ -188,15 +199,21 @@ class QuizScreen extends React.Component<Props> {
                     if (
                       CurrentQuizQuestionNumber < QuizTotalNumberOfQuestions
                     ) {
-                      this.props.navigation.navigate('Quiz', {
-                        questionResults,
-                        CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                      });
+                      setTimeout(() => {
+                        this.props.navigation.navigate('Quiz', {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                        this.setState({ answeredCorrectly: null });
+                      }, 250);
                     } else {
-                      this.props.navigation.navigate('Quiz Results', {
-                        questionResults,
-                        CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                      });
+                      setTimeout(() => {
+                        this.props.navigation.navigate('Quiz Results', {
+                          questionResults,
+                          CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                        });
+                        this.setState({ answeredCorrectly: null });
+                      }, 250);
                     }
                   }}
                   style={{
@@ -218,12 +235,32 @@ class QuizScreen extends React.Component<Props> {
                 </TouchableOpacity>
               );
 
-              return (
+              return this.state.answeredCorrectly === null ? (
                 <View>
                   {[
                     wrapper([option(0), option(1)], 0),
                     wrapper([option(2), option(3)], 1),
                   ]}
+                </View>
+              ) : this.state.answeredCorrectly ? (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Icon name="check" size={120} color="green" />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Icon name="cross" size={120} color="red" />
                 </View>
               );
             })()}
@@ -267,7 +304,7 @@ class QuizScreen extends React.Component<Props> {
                   borderBottomRightRadius: 50,
                   borderTopRightRadius: 50,
                 }}
-              />
+              ></View>
             </View>
           </View>
         </View>

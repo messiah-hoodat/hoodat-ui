@@ -119,7 +119,11 @@ class QuizResultsScreen extends React.Component<Props> {
           </View>
 
           <TouchableOpacity
-            style={styles.retakeQuizButton}
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
             onPress={() => {
               this.props.navigation.navigate('Quiz', {
                 questionResults: [],
@@ -127,7 +131,9 @@ class QuizResultsScreen extends React.Component<Props> {
               });
             }}
           >
-            <Text style={styles.retakeQuizText}>Retake Quiz</Text>
+            <View style={styles.retakeQuizButton}>
+              <Text style={styles.retakeQuizText}>Retake Quiz</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
