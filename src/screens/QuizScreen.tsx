@@ -142,24 +142,31 @@ class QuizScreen extends React.Component<Props, State> {
               borderBackgroundColor={'#FFB906'}
               borderColor={'#DDDDDD'}
               onTimeElapsed={() => {
+                this.setState({ answeredCorrectly: false });
                 if (CurrentQuizQuestionNumber != QuizTotalNumberOfQuestions) {
                   questionResults.push({
                     contact: correctContact,
                     correct: false,
                   });
-                  this.props.navigation.navigate('Quiz', {
-                    questionResults,
-                    CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                  });
+                  setTimeout(() => {
+                    this.props.navigation.navigate('Quiz', {
+                      questionResults,
+                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                    });
+                    this.setState({ answeredCorrectly: null });
+                  }, 250);
                 } else {
                   questionResults.push({
                     contact: correctContact,
                     correct: false,
                   });
-                  this.props.navigation.navigate('Quiz Results', {
-                    questionResults,
-                    CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
-                  });
+                  setTimeout(() => {
+                    this.props.navigation.navigate('Quiz Results', {
+                      questionResults,
+                      CurrentQuizQuestionNumber: CurrentQuizQuestionNumber,
+                    });
+                    this.setState({ answeredCorrectly: null });
+                  }, 250);
                 }
               }}
             />
