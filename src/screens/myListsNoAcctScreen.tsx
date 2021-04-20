@@ -102,19 +102,21 @@ class myListsNoAcctScreen extends React.Component<Props, State> {
                   <View style={styles.modalIndividualBodyInner}>
                     <Icon name="flash" size={70} color="#6EA8FF" />
                     <Text style={styles.modalIndividualBodyPrimaryText}>
-                      Quiz All Function
+                      Immediate Feedback
                     </Text>
                     <Text style={styles.modalIndividualBodySecondaryText}>
-                      Get quizzed on all contacts{'\n'}in all contact lists
+                      Keep track of how you are doing{'\n'}with immediate quiz
+                      feedback
                     </Text>
                   </View>
                   <View style={styles.modalIndividualBodyInner}>
-                    <Icon name="download" size={70} color="#6EA8FF" />
+                    <Icon name="man" size={70} color="#6EA8FF" />
                     <Text style={styles.modalIndividualBodyPrimaryText}>
-                      Import Contacts
+                      Shared List Roles
                     </Text>
                     <Text style={styles.modalIndividualBodySecondaryText}>
-                      Import your phone contacts directly into Hoodat
+                      Control who has access to edit{'\n'}or view your shared
+                      lists
                     </Text>
                   </View>
                 </View>
