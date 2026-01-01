@@ -67,7 +67,7 @@
     "@types/react-native-vector-icons": "^6.4.6",
     "babel-preset-expo": "^8.2.3",
     "husky": "^4.3.0",
-    "jest": "^25.5.1",
+    "jest": "^30.2.0",
     "prettier": "^2.2.0",
     "typescript": "~3.9.5"
   },
